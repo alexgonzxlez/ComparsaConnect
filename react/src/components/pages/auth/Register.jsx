@@ -1,23 +1,21 @@
 import React, { useState } from 'react'
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { doRegister } from '../../../slices/auth/thunks';
+import { useSelector, useDispatch } from "react-redux";
 
 const Register = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  // const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors, isSubmitting }, watch } = useForm();
   const navigate = useNavigate();
-  const [registerError, setRegisterError] = useState("");
+  const dispatch = useDispatch();
+  const { error } = useSelector((state) => state.auth);
 
   const onSubmit = (data) => {
-    if ((data.password === data.password2)) {
-      console.log("Nombre completo: " + data.name)
-      console.log("Nombre de usuario: " + data.username)
-      console.log("Email: " + data.mail)
-      console.log("Contraseña: " + data.password)
-      navigate("/");
-    } else {
-      setRegisterError("Las contraseñas no coinciden");
-    }
-  };
+    dispatch(doRegister({ name: data.name, email: data.email, username: data.username, password: data.password }));
+  }
+
+  const password = watch("password", "");
 
 
   return (
@@ -64,16 +62,16 @@ const Register = () => {
           <div className="form-group">
             <label>Correo electrónico</label>
             <input
-              id="mail"
-              className={`form-control ${errors.mail ? "border border-danger" : ""}`}
+              id="email"
+              className={`form-control ${errors.email ? "border border-danger" : ""}`}
               placeholder="Ej: maria.gonzalez@gmail.com"
               type="text"
-              {...register("mail", { required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ })}
+              {...register("email", { required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ })}
             />
-            {errors.mail && errors.mail.type === "required" && (
+            {errors.email && errors.email.type === "required" && (
               <span className="text-danger">Campo obligatorio</span>
             )}
-            {errors.mail && errors.mail.type === "pattern" && (
+            {errors.email && errors.email.type === "pattern" && (
               <span className="text-danger">Correo no valido</span>
             )}
           </div>
@@ -102,24 +100,27 @@ const Register = () => {
               className={`form-control ${errors.password2 ? "border border-danger" : ""}`}
               placeholder="Ej: maria1234"
               type="password"
-              {...register("password2", { required: true, minLength: 8 })}
+              {...register("password2", {
+                required: true,
+                minLength: 8,
+                validate: (value) => value === password || "Las contraseñas no coinciden"
+              })}
             />
             {errors.password2 && errors.password2.type === "required" && (
               <span className="text-danger">Campo obligatorio</span>
             )}
-            {errors.password && errors.password.type === "minLength" && (
+            {errors.password2 && errors.password2.type === "minLength" && (
               <span className="text-danger">Mínimo 8 caracteres</span>
+            )}
+            {errors.password2 && errors.password2.type === "validate" && (
+              <span className="text-danger">{errors.password2.message}</span>
             )}
           </div>
 
-          {registerError && (
-            <div className="text-danger mb-3">
-              <span>{registerError}</span>
-            </div>
-          )}
+          {error && <div className="text-danger">{error}</div>}
 
           <div className="form-group">
-            <button type="submit" className="btn btn-primary btn-lg btn-block">Registrarse</button>
+            <button type="submit" className="btn btn-primary btn-lg btn-block" disabled={isSubmitting}>Registrarse</button>
           </div>
 
           <div className="form-group">

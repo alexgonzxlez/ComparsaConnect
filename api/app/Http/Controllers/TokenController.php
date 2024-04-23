@@ -16,10 +16,11 @@ class TokenController extends Controller
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
+            'username' => $request->username,
             'password' => Hash::make($request->password),
         ]);
         $token = $user->createToken("token")->plainTextToken;
-
+    
         return response()->json([
             'success'   => true,
             'token'     => $token,
@@ -28,23 +29,30 @@ class TokenController extends Controller
     }
     public function login(LoginRequest $request)
     {
-        if (Auth::attempt($request->only('email', 'password'))) {
-            $user = User::where('email', $request->email)->firstOrFail();
-            $user->tokens()->delete();
-            $token = $user->createToken("token")->plainTextToken;
+        $credentials = $request->only('username', 'password');
     
-            return response()->json([
-                "success" => true,
-                "token" => $token,
-                "tokenType" => "Bearer"
-            ], 200);
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
         } else {
-            return response()->json([
-                "success" => false,
-                "message" => "Credenciales de inicio de sesión inválidas"
-            ], 401);
+            $user = User::where('email', $credentials['username'])->first();
+            if (!$user || !Hash::check($credentials['password'], $user->password)) {
+                return response()->json([
+                    "success" => false,
+                    "message" => "Credenciales de inicio de sesión inválidas"
+                ], 401);
+            }
         }
-    }    /**
+    
+        $user->tokens()->delete();
+        $token = $user->createToken("token")->plainTextToken;
+    
+        return response()->json([
+            "success" => true,
+            "token" => $token,
+            "tokenType" => "Bearer"
+        ], 200);
+    }
+    /**
      * Display a listing of the resource.
      */
     public function index()

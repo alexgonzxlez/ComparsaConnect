@@ -1,25 +1,23 @@
 import React, { useState } from 'react'
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { doLogin } from '../../slices/auth/thunks';
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
-  const [loginError, setLoginError] = useState("");
+  const dispatch = useDispatch();
+  const {error} = useSelector((state) => state.auth);
 
   const onSubmit = (data) => {
-    if ((data)) {
-      console.log("Usuario: " + data.username)
-      console.log("Contraseña: " + data.password)
-      navigate("/");
-    } else {
-      setLoginError("Credenciales incorrectas");
-    }
+    dispatch(doLogin({ username: data.username, password: data.password }));
   };
 
   return (
     <>
       <div className="container text-center mt-5">
+        {error && <div>{error}</div>}
         <form onSubmit={handleSubmit(onSubmit)}>
           <h3>Inicio de sesión</h3>
           <hr />
@@ -52,11 +50,11 @@ const Login = () => {
             )}
           </div>
 
-          {loginError && (
+          {/* {loginError && (
             <div className="text-danger mb-3">
               <span>{loginError}</span>
             </div>
-          )}
+          )} */}
 
           <div className="form-group">
             <button type="submit" className="btn btn-primary btn-lg btn-block">Iniciar sesión</button>

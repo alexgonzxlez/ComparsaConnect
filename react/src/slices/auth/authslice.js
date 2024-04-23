@@ -1,7 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { getSessionData } from '../../services/LocalStorage/SessionService';
+
+// Load data from LocalStorage
+
+function getTokenFromSessionStorage() {
+  const sessionData = getSessionData();
+  return sessionData;
+}
 
 const initialState = {
-  token: null,
+  token: getTokenFromSessionStorage(),
   userData: null,
   error: null,
   errs: [],

@@ -9,7 +9,7 @@ export function destroySession() {
 }
 
 export function getSessionData() {
-  return JSON.parse(sessionStorage.getItem(SESSION_KEY)) || {};
+  return JSON.parse(sessionStorage.getItem(SESSION_KEY)) || null;
 }
 
 export function isAuthenticated() {

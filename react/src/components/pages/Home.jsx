@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css'; // Importamos los estilos de Bootstrap
 
 const Home = () => {
   return (

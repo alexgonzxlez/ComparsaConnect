@@ -49,13 +49,6 @@ const Login = () => {
               <span className="text-danger">Campo obligatorio</span>
             )}
           </div>
-
-          {/* {loginError && (
-            <div className="text-danger mb-3">
-              <span>{loginError}</span>
-            </div>
-          )} */}
-
           <div className="form-group">
             <button type="submit" className="btn btn-primary btn-lg btn-block">Iniciar sesión</button>
           </div>

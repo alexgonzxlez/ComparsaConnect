@@ -1,25 +1,17 @@
-export default class SessionService {
+const SESSION_KEY = "react_session";
 
-    sessionKey
-  
-    constructor(key = "react_session") {
-      this.sessionKey = key
-    }
-  
-    createSession(data) {
-      sessionStorage.setItem(this.sessionKey, JSON.stringify(data))
-    }
-    
-    destroySession() {
-      sessionStorage.removeItem(this.sessionKey)
-    }
-  
-    getSessionData() {
-      return JSON.parse(sessionStorage.getItem(this.sessionKey)) || {}
-    }
-    
-    isAuthenticated() {
-      return !!this.getSessionData()
-    }
-  
-  }
+export function createSession(data) {
+  sessionStorage.setItem(SESSION_KEY, JSON.stringify(data));
+}
+
+export function destroySession() {
+  sessionStorage.removeItem(SESSION_KEY);
+}
+
+export function getSessionData() {
+  return JSON.parse(sessionStorage.getItem(SESSION_KEY)) || {};
+}
+
+export function isAuthenticated() {
+  return !!getSessionData();
+}

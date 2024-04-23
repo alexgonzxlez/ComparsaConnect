@@ -11,7 +11,7 @@ const Login = () => {
   const { error } = useSelector((state) => state.auth);
 
   const onSubmit = (data) => {
-    dispatch(doLogin({ username: data.username, password: data.password }));
+    dispatch(doLogin({ username: data.username, password: data.password, rememberMe: data.rememberMe }));
   };
 
   return (
@@ -55,6 +55,7 @@ const Login = () => {
               name="rememberMe"
               id="rememberMe"
               className="form-check-input"
+              {...register("rememberMe", { required: false})}
             />
             <label htmlFor="rememberMe" className="form-check-label">
               Remember Me

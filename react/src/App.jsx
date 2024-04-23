@@ -4,11 +4,17 @@ import Login from './components/pages/auth/Login';
 import Register from './components/pages/auth/Register';
 import Home from './components/pages/Home';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { verifyToken } from './slices/auth/thunks';
+import { destroySession } from './services/LocalStorage/SessionService';
 
 function App() {
 
+  const dispatch = useDispatch();
   const { token } = useSelector(state => state.auth);
+  if (token) {
+    dispatch(verifyToken(token));
+  }
 
   return (
     <>

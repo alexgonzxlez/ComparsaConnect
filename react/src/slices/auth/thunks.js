@@ -1,6 +1,6 @@
 import { setToken, setError, setErrors } from "./authslice";
 import { createSession } from "../../services/SessionStorage/SessionService";
-import { createLocalStorageSession } from "../../services/LocalStorage/SessionService";
+import { createLocalStorageSession, destroySession } from "../../services/LocalStorage/SessionService";
 
 export const doLogin = (dades) => {
     return async (dispatch) => {
@@ -52,3 +52,24 @@ export const doRegister = (dades) => {
         }
     };
 };
+
+export const verifyToken = (token) => {
+    return async (dispatch) => {
+        try {
+            const data = await fetch(process.env.API_URL + "verifytoken", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                method: "POST",
+            });
+            if (data.status === 401) {
+                dispatch(setToken(null))
+                destroySession();
+            }
+        } catch (error) {
+            dispatch(setError("Error de conexión"));
+        }
+    }
+}

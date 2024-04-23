@@ -6,6 +6,7 @@ use App\Http\Controllers\TokenController;
 
 Route::middleware('guest')->post('/register', [TokenController::class, 'register']);
 Route::middleware('guest')->post('/login', [TokenController::class, 'login']);
+Route::middleware('auth:sanctum')->post('/logout', [TokenController::class, 'logout']);
 
 Route::get('/user', function (Request $request) {
     return $request->user();

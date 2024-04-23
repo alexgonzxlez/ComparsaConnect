@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\LogoutRequest;
 
 class TokenController extends Controller
 {
@@ -50,6 +51,16 @@ class TokenController extends Controller
             "success" => true,
             "token" => $token,
             "tokenType" => "Bearer"
+        ], 200);
+    }
+
+    public function logout(LogoutRequest $request)
+    {
+        Auth::user()->tokens()->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'El usuario cerró sesión exitosamente',
         ], 200);
     }
     /**

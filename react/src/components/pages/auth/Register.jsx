@@ -1,22 +1,30 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { doRegister } from '../../../slices/auth/thunks';
 import { useSelector, useDispatch } from "react-redux";
 
 const Register = () => {
-  // const { register, handleSubmit, formState: { errors } } = useForm();
-  const { register, handleSubmit, formState: { errors, isSubmitting }, watch } = useForm();
+  const { register, handleSubmit, setError, formState: { errors, isSubmitting }, watch } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { error } = useSelector((state) => state.auth);
+  const { error, errs } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (errs) {
+      Object.entries(errs).forEach(([key, errArr]) => {
+        errArr.forEach(err => {
+          setError(key, { type: 'custom', message: err })
+        });
+      });
+    }
+  }, [errs]);
 
   const onSubmit = (data) => {
     dispatch(doRegister({ name: data.name, email: data.email, username: data.username, password: data.password }));
   }
 
   const password = watch("password", "");
-
 
   return (
     <>
@@ -60,6 +68,9 @@ const Register = () => {
             {errors.username && errors.username.type === "maxLength" && (
               <span className="text-danger">El campo puede contener un maximo de 20 letras</span>
             )}
+            {errors.username && errors.username.type === "custom" && (
+              <span className="text-danger">{errors.username.message}</span>
+            )}
           </div>
 
           <div className="form-group">
@@ -76,6 +87,9 @@ const Register = () => {
             )}
             {errors.email && errors.email.type === "pattern" && (
               <span className="text-danger">Correo no valido</span>
+            )}
+            {errors.email && errors.email.type === "custom" && (
+              <span className="text-danger">{errors.email.message}</span>
             )}
           </div>
 
@@ -119,8 +133,8 @@ const Register = () => {
               <span className="text-danger">{errors.password2.message}</span>
             )}
           </div>
-
-          {error && <div className="text-danger">{error}</div>}
+          
+          {error && <div>{error}</div>}
 
           <div className="form-group">
             <button type="submit" className="btn btn-primary btn-lg btn-block" disabled={isSubmitting}>Registrarse</button>

@@ -17,7 +17,6 @@ const Login = () => {
   return (
     <>
       <div className="container text-center mt-5">
-        {error && <div>{error}</div>}
         <form onSubmit={handleSubmit(onSubmit)}>
           <h3>Inicio de sesión</h3>
           <hr />
@@ -61,6 +60,9 @@ const Login = () => {
               Remember Me
             </label>
           </div>
+          
+          {error && <div>{error}</div>}
+
           <div className="form-group">
             <button type="submit" className="btn btn-primary btn-lg btn-block">Iniciar sesión</button>
           </div>

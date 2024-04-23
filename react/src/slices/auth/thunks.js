@@ -1,4 +1,4 @@
-import { setToken, setError } from "./authslice";
+import { setToken, setError, setErrors } from "./authslice";
 import { createSession } from "../../services/SessionStorage/SessionService";
 import { createLocalStorageSession } from "../../services/LocalStorage/SessionService";
 
@@ -44,9 +44,8 @@ export const doRegister = (dades) => {
                 body: JSON.stringify({ name: name, email: email, username: username, password: password }),
             });
             const resposta = await data.json();
-            console.group(resposta);
-            if (resposta.success == false) {
-                dispatch(setError(resposta.message));
+            if (resposta.errors) {
+                dispatch(setErrors(resposta.errors));
             }
         } catch (error) {
             dispatch(setError("Error de conexión"));

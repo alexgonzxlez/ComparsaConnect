@@ -4,6 +4,7 @@ const initialState = {
   token: null,
   userData: null,
   error: null,
+  errs: [],
 }
 export const authSlice = createSlice({
   name: 'auth',
@@ -15,9 +16,12 @@ export const authSlice = createSlice({
     },
     setError: (state, action) => {
       state.error = action.payload;
+    },
+    setErrors: (state, action) => {
+      state.errs = action.payload;
     }
   }
 })
 
-export const { setToken, setError } = authSlice.actions
+export const { setToken, setError, setErrors } = authSlice.actions
 export const authReducer = authSlice.reducer

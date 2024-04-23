@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\LogoutRequest;
+use App\Http\Requests\VerifyTokenRequest;
 
 class TokenController extends Controller
 {
@@ -61,6 +62,13 @@ class TokenController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'El usuario cerró sesión exitosamente',
+        ], 200);
+    }
+
+    public function verifyToken(VerifyTokenRequest $request)
+    {
+        return response()->json([
+            'success' => true,
         ], 200);
     }
     /**

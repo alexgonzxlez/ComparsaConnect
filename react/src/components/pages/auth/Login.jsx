@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { doLogin } from '../../slices/auth/thunks';
+import { doLogin } from '../../../slices/auth/thunks';
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {error} = useSelector((state) => state.auth);
+  const { error } = useSelector((state) => state.auth);
 
   const onSubmit = (data) => {
     dispatch(doLogin({ username: data.username, password: data.password }));
@@ -48,6 +48,17 @@ const Login = () => {
             {errors.password && errors.password.type === "required" && (
               <span className="text-danger">Campo obligatorio</span>
             )}
+          </div>
+          <div className='form-group'>
+            <input
+              type="checkbox"
+              name="rememberMe"
+              id="rememberMe"
+              className="form-check-input"
+            />
+            <label htmlFor="rememberMe" className="form-check-label">
+              Remember Me
+            </label>
           </div>
           <div className="form-group">
             <button type="submit" className="btn btn-primary btn-lg btn-block">Iniciar sesión</button>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Routes, Route } from "react-router-dom";
-import Login from './components/auth/Login';
-import Register from './components/auth/Register';
+import Login from './components/pages/auth/Login';
+import Register from './components/pages/auth/Register';
 import Home from './components/pages/Home';
 import 'bootstrap/dist/css/bootstrap.min.css';
 

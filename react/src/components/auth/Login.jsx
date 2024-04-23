@@ -9,7 +9,7 @@ const Login = () => {
 
   const onSubmit = (data) => {
     if ((data)) {
-      console.log("Usuario: " + data.user)
+      console.log("Usuario: " + data.username)
       console.log("Contraseña: " + data.password)
       navigate("/");
     } else {
@@ -27,13 +27,13 @@ const Login = () => {
           <div className="form-group">
             <label>Usuario o email</label>
             <input
-              id="user"
-              className={`form-control ${errors.user ? "border border-danger" : ""}`}
+              id="username"
+              className={`form-control ${errors.username ? "border border-danger" : ""}`}
               placeholder="Ingresa tu nombre de usuario o correo electrónico"
               type="text"
-              {...register("user", { required: true })}
+              {...register("username", { required: true })}
             />
-            {errors.user && errors.user.type === "required" && (
+            {errors.username && errors.username.type === "required" && (
               <span className="text-danger">Campo obligatorio</span>
             )}
           </div>

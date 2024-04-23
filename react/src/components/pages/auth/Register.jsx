@@ -49,13 +49,16 @@ const Register = () => {
               className={`form-control ${errors.username ? "border border-danger" : ""}`}
               placeholder="Ej: MaríaG"
               type="text"
-              {...register("username", { required: true, minLength: 2 })}
+              {...register("username", { required: true, minLength: 2, maxLength: 20 })}
             />
             {errors.username && errors.username.type === "required" && (
               <span className="text-danger">Campo obligatorio</span>
             )}
             {errors.username && errors.username.type === "minLength" && (
               <span className="text-danger">El campo debe contener minimo 2 letras</span>
+            )}
+            {errors.username && errors.username.type === "maxLength" && (
+              <span className="text-danger">El campo puede contener un maximo de 20 letras</span>
             )}
           </div>
 

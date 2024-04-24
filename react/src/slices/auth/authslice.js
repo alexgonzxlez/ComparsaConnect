@@ -13,6 +13,7 @@ const initialState = {
   userData: null,
   error: null,
   errs: [],
+  success: false,
 }
 export const authSlice = createSlice({
   name: 'auth',
@@ -20,7 +21,9 @@ export const authSlice = createSlice({
   reducers: {
     setToken: (state, action) => {
       state.token = action.payload;
-      state.isloading = false
+      state.isloading = false;
+      state.error = null;
+      state.successMessage = false;
     },
     setUserData: (state, action) => {
       state.userData = action.payload;
@@ -35,8 +38,11 @@ export const authSlice = createSlice({
       state.token = null;
       state.userData = null;
     },
+    setSuccess: (state) => { 
+      state.success = true;
+    },
   }
 })
 
-export const { setToken, setUserData, setError, setErrors, removeAuthToken } = authSlice.actions
+export const { setToken, setUserData, setError, setErrors, removeAuthToken, setSuccess } = authSlice.actions
 export const authReducer = authSlice.reducer

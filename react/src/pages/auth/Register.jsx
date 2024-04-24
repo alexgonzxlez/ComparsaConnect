@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { doRegister } from '../../slices/auth/thunks';
 
@@ -8,7 +8,7 @@ const Register = ({ setSwap }) => {
   const { register, handleSubmit, setError, formState: { errors, isSubmitting }, watch } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { error, errs } = useSelector((state) => state.auth);
+  const { error, errs, success } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (errs) {
@@ -23,7 +23,6 @@ const Register = ({ setSwap }) => {
   const onSubmit = (data) => {
     dispatch(doRegister({ name: data.name, email: data.email, username: data.username, password: data.password }));
   }
-
   const password = watch("password", "");
 
   return (
@@ -135,6 +134,11 @@ const Register = ({ setSwap }) => {
                     <span className="invalid-feedback">{errors.password2.message}</span>
                   )}
                 </div>
+                {success && (
+                  <div className="alert alert-success">
+                    ¡Registro exitoso! Ahora puedes <Link onClick={() => { setSwap(true) }} >iniciar sesión</Link>.
+                  </div>
+                )}
 
                 <div className="form-group text-center">
                   <button type="submit" className="btn btn-primary btn-block">Registrarse</button>

@@ -1,4 +1,4 @@
-import { setToken, setUserData, setError, setErrors, removeAuthToken } from "./authslice";
+import { setToken, setUserData, setError, setErrors, removeAuthToken, setSuccess } from "./authslice";
 import { createSession, destroySession } from "../../services/Cookies/SessionService";
 
 export const doLogin = (dades) => {
@@ -45,6 +45,10 @@ export const doRegister = (dades) => {
             const resposta = await data.json();
             if (resposta.errors) {
                 dispatch(setErrors(resposta.errors));
+            }
+            if (resposta.success) {
+                console.log("success")
+                dispatch(setSuccess())
             }
         } catch (error) {
             dispatch(setError("Error de conexión"));

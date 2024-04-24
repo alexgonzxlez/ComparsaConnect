@@ -6,7 +6,6 @@ import Home from './components/pages/Home';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { verifyToken } from './slices/auth/thunks';
-import { destroySession } from './services/LocalStorage/SessionService';
 
 function App() {
 

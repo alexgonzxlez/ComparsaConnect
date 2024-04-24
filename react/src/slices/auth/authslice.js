@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getSessionData } from '../../services/LocalStorage/SessionService';
+import { getSessionData } from '../../services/Cookies/SessionService';
 
 // Load data from LocalStorage
 

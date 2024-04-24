@@ -1,6 +1,5 @@
 import { setToken, setError, setErrors } from "./authslice";
-import { createSession } from "../../services/SessionStorage/SessionService";
-import { createLocalStorageSession, destroySession } from "../../services/LocalStorage/SessionService";
+import { createSession, destroySession } from "../../services/Cookies/SessionService";
 
 export const doLogin = (dades) => {
     return async (dispatch) => {
@@ -17,7 +16,7 @@ export const doLogin = (dades) => {
             const resposta = await data.json();
             if (resposta.success === true) {
                 if (rememberMe) {
-                    createLocalStorageSession(resposta.token)
+                    createSession(resposta.token, 14)
                 } else {
                     createSession(resposta.token)
                 }

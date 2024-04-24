@@ -6,6 +6,7 @@ import { verifyToken } from './slices/auth/thunks';
 import Home from './pages/Home';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
+import './App.scss';
 
 function App() {
 

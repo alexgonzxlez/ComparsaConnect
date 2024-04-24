@@ -1,4 +1,4 @@
-import { setToken,setUserData, setError, setErrors } from "./authslice";
+import { setToken, setUserData, setError, setErrors, removeAuthToken } from "./authslice";
 import { createSession, destroySession } from "../../services/Cookies/SessionService";
 
 export const doLogin = (dades) => {
@@ -67,11 +67,36 @@ export const verifyToken = (token) => {
             if (data.status === 401) {
                 dispatch(setToken(null))
                 destroySession();
-            }  else if (data.status === 200) {
+            } else if (data.status === 200) {
                 dispatch(setUserData(resposta.data))
             }
         } catch (error) {
             dispatch(setError("Error de conexión"));
+        }
+    }
+}
+export const doLogout = () => {
+    return async (dispatch, getState) => {
+        const { token } = getState().auth;
+        try {
+            const data = await fetch(process.env.API_URL + "logout", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                method: "POST",
+            });
+            const resposta = await data.json();
+            if (resposta.success === true) {
+                dispatch(removeAuthToken())
+                destroySession();
+            } else {
+                console.log(resposta.message);
+            }
+
+        } catch (error) {
+            console.error(error)
         }
     }
 }

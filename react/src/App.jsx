@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import './App.scss';
 import LoginRegister from './pages/auth/LoginRegister';
 import Profile from './pages/auth/Profile';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Bootstrap JS
 
 function App() {
 

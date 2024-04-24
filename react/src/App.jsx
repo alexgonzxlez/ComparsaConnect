@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import { Routes, Route } from "react-router-dom";
-import Login from './components/pages/auth/Login';
-import Register from './components/pages/auth/Register';
-import Home from './components/pages/Home';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { verifyToken } from './slices/auth/thunks';
+import Home from './pages/Home';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
 
 function App() {
 

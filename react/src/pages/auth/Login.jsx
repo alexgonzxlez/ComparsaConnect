@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { doLogin } from '../../../slices/auth/thunks';
+import { doLogin } from '../../slices/auth/thunks';
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();

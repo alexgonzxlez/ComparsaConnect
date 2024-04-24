@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link } from "react-router-dom";
+import Layout from '../components/Layout';
 
 const Home = () => {
   return (
-    <>
+    <Layout>
       <div className="container text-center mt-5">
         <h1 className="mb-4">¡Bienvenido a nuestra aplicación!</h1>
         <div className="row justify-content-center">
@@ -17,7 +18,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-    </>
+    </Layout>
   )
 }
 

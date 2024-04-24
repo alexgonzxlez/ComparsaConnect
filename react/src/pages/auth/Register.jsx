@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { doRegister } from '../../../slices/auth/thunks';
 import { useSelector, useDispatch } from "react-redux";
+import { doRegister } from '../../slices/auth/thunks';
+
 
 const Register = () => {
   const { register, handleSubmit, setError, formState: { errors, isSubmitting }, watch } = useForm();

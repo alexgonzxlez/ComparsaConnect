@@ -4,10 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { verifyToken } from './slices/auth/thunks';
 import Home from './pages/Home';
-import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
 import './App.scss';
 import LoginRegister from './pages/auth/LoginRegister';
+import Profile from './pages/auth/Profile';
 
 function App() {
 
@@ -25,6 +24,7 @@ function App() {
       {token ? (
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       ) : (
         <LoginRegister />

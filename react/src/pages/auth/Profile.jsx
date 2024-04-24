@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import Layout from '../../components/Layout';
 
 const Profile = () => {
     const { userData } = useSelector(state => state.auth);
@@ -10,33 +11,35 @@ const Profile = () => {
     };
 
     return (
-        <div>
-            <h2>Profile</h2>
-            {userData ? (
-                <table className="table">
-                    <tbody>
-                        <tr>
-                            <th>Nombre</th>
-                            <td>{userData.name}</td>
-                        </tr>
-                        <tr>
-                            <th>Nombre de usuario</th>
-                            <td>{userData.username}</td>
-                        </tr>
-                        <tr>
-                            <th>Correo electrónico</th>
-                            <td>{userData.email}</td>
-                        </tr>
-                        <tr>
-                            <th>Fecha de creación</th>
-                            <td>{formatDate(userData.created_at)}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            ) : (
-                <p>No hay datos disponibles</p>
-            )}
-        </div>
+        <Layout>
+            <div className=''>
+                <h2>Profile</h2>
+                {userData ? (
+                    <table className="table">
+                        <tbody>
+                            <tr>
+                                <th>Nombre</th>
+                                <td>{userData.name}</td>
+                            </tr>
+                            <tr>
+                                <th>Nombre de usuario</th>
+                                <td>{userData.username}</td>
+                            </tr>
+                            <tr>
+                                <th>Correo electrónico</th>
+                                <td>{userData.email}</td>
+                            </tr>
+                            <tr>
+                                <th>Fecha de creación</th>
+                                <td>{formatDate(userData.created_at)}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                ) : (
+                    <p>No hay datos disponibles</p>
+                )}
+            </div>
+        </Layout>
     );
 }
 

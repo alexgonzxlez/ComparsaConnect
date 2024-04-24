@@ -1,25 +1,26 @@
-import React from 'react'
-import { Link } from "react-router-dom";
+import React from 'react';
 import Layout from '../components/Layout';
+import Header from '../components/Header';
 
 const Home = () => {
   return (
-    <Layout>
-      <div className="container text-center mt-5">
-        <h1 className="mb-4">¡Bienvenido a nuestra aplicación!</h1>
-        <div className="row justify-content-center">
-          <div className="col-lg-6">
-            <Link to={"/login"} className="btn btn-primary btn-lg btn-block mb-3">Iniciar sesión</Link>
+    <>
+    <Header/>
+        <header className="masthead text-center text-white">
+          <div className="masthead-content">
+            <div className="container px-5">
+              <h1 className="masthead-heading mb-0">ComparsaConnect</h1>
+              <h2 className="masthead-subheading mb-0">Will Rock Your Socks Off</h2>
+              <a className="btn btn-primary btn-xl rounded-pill mt-5" href="#scroll">Comienza ya</a>
+            </div>
           </div>
-        </div>
-        <div className="row justify-content-center">
-          <div className="col-lg-6">
-            <Link to={"/register"} className="btn btn-secondary btn-lg btn-block">Registrarse</Link>
-          </div>
-        </div>
-      </div>
-    </Layout>
-  )
-}
+          <div className="bg-circle-1 bg-circle"></div>
+          <div className="bg-circle-2 bg-circle"></div>
+          <div className="bg-circle-3 bg-circle"></div>
+          <div className="bg-circle-4 bg-circle"></div>
+        </header>
+    </>
+  );
+};
 
 export default Home;

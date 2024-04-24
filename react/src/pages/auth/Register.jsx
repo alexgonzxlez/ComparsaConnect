@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { doRegister } from '../../slices/auth/thunks';
 
-
-const Register = () => {
+const Register = ({ setSwap }) => {
   const { register, handleSubmit, setError, formState: { errors, isSubmitting }, watch } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -134,18 +133,19 @@ const Register = () => {
               <span className="text-danger">{errors.password2.message}</span>
             )}
           </div>
-          
+
           {error && <div>{error}</div>}
 
           <div className="form-group">
             <button type="submit" className="btn btn-primary btn-lg btn-block" disabled={isSubmitting}>Registrarse</button>
           </div>
 
-          <div className="form-group">
-            <button onClick={() => { navigate("/login") }} className="btn btn-secondary btn-lg btn-block">¿Ya tienes una cuenta? Inicia sesión aquí</button>
-            <button onClick={() => { navigate("/") }} className="btn btn-secondary">Volver</button>
-          </div>
         </form>
+        <div className="form-group">
+          <button className="mt-3 bg-white border-0" onClick={() => { setSwap(true) }}>
+            <p className="text-primary">¿Ya tienes una cuenta? Inicia sesión aquí</p>
+          </button>
+        </div>
       </div>
     </>
   );

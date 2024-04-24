@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import './App.scss';
+import LoginRegister from './pages/auth/LoginRegister';
 
 function App() {
 
@@ -21,13 +22,13 @@ function App() {
 
   return (
     <>
-      <Routes>
-        {token &&
+      {token ? (
+        <Routes>
           <Route path="/" element={<Home />} />
-        }
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
+        </Routes>
+      ) : (
+        <LoginRegister />
+      )}
     </>
   )
 }

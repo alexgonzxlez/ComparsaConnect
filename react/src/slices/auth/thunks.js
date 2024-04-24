@@ -1,4 +1,4 @@
-import { setToken, setError, setErrors } from "./authslice";
+import { setToken,setUserData, setError, setErrors } from "./authslice";
 import { createSession, destroySession } from "../../services/Cookies/SessionService";
 
 export const doLogin = (dades) => {
@@ -61,11 +61,14 @@ export const verifyToken = (token) => {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`
                 },
-                method: "POST",
+                method: "GET",
             });
+            const resposta = await data.json();
             if (data.status === 401) {
                 dispatch(setToken(null))
                 destroySession();
+            }  else if (data.status === 200) {
+                dispatch(setUserData(resposta.data))
             }
         } catch (error) {
             dispatch(setError("Error de conexión"));

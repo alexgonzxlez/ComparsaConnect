@@ -67,8 +67,10 @@ class TokenController extends Controller
 
     public function verifyToken(VerifyTokenRequest $request)
     {
+        $user = $request->user();
         return response()->json([
             'success' => true,
+            'data' => $user
         ], 200);
     }
     /**

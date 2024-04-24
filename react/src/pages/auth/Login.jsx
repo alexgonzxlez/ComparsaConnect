@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { doLogin } from '../../slices/auth/thunks';
 
 const Login = ({ setSwap }) => {
@@ -15,66 +15,69 @@ const Login = ({ setSwap }) => {
   };
 
   return (
-    <>
-      <div className="container text-center mt-5">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <h3>Inicio de sesión</h3>
-          <hr />
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <div className="card">
+            <div className="card-body">
+              <h3 className="card-title text-center">Inicio de sesión</h3>
+              <hr />
 
-          <div className="form-group">
-            <label>Usuario o email</label>
-            <input
-              id="username"
-              className={`form-control ${errors.username ? "border border-danger" : ""}`}
-              placeholder="Ingresa tu nombre de usuario o correo electrónico"
-              type="text"
-              {...register("username", { required: true })}
-            />
-            {errors.username && errors.username.type === "required" && (
-              <span className="text-danger">Campo obligatorio</span>
-            )}
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="form-group mb-1">
+                  <label htmlFor="username">Usuario o email</label>
+                  <input
+                    id="username"
+                    className={`form-control ${errors.username ? "is-invalid" : ""}`}
+                    placeholder="Ingresa tu nombre de usuario o correo electrónico"
+                    type="text"
+                    {...register("username", { required: true })}
+                  />
+                  {errors.username && errors.username.type === "required" && (
+                    <span className="invalid-feedback">Campo obligatorio</span>
+                  )}
+                </div>
+
+                <div className="form-group mb-1">
+                  <label htmlFor="password">Contraseña</label>
+                  <input
+                    id="password"
+                    className={`form-control ${errors.password ? "is-invalid" : ""}`}
+                    placeholder="Ingresa tu contraseña"
+                    type="password"
+                    {...register("password", { required: true })}
+                  />
+                  {errors.password && errors.password.type === "required" && (
+                    <span className="invalid-feedback">Campo obligatorio</span>
+                  )}
+                </div>
+
+                <div className="form-group mb-1 form-check">
+                  <input
+                    type="checkbox"
+                    id="rememberMe"
+                    className="form-check-input"
+                    {...register("rememberMe")}
+                  />
+                  <label htmlFor="rememberMe" className="form-check-label">Recuérdame</label>
+                </div>
+
+                {error && <div className="alert alert-danger">{error}</div>}
+
+                <div className="form-group text-center">
+                  <button type="submit" className="btn btn-primary btn-block">Iniciar sesión</button>
+                </div>
+              </form>
+            </div>
           </div>
-
-          <div className="form-group">
-            <label>Contraseña</label>
-            <input
-              id="password"
-              className={`form-control ${errors.password ? "border border-danger" : ""}`}
-              placeholder="Ingresa tu contraseña"
-              type="password"
-              {...register("password", { required: true })}
-            />
-            {errors.password && errors.password.type === "required" && (
-              <span className="text-danger">Campo obligatorio</span>
-            )}
+          <div className="text-center mt-3">
+            <button className="btn btn-link text-primary" onClick={() => { setSwap(false) }}>
+              ¿No tienes una cuenta? Regístrate aquí
+            </button>
           </div>
-          <div className='form-group'>
-            <input
-              type="checkbox"
-              name="rememberMe"
-              id="rememberMe"
-              className="form-check-input"
-              {...register("rememberMe", { required: false })}
-            />
-            <label htmlFor="rememberMe" className="form-check-label">
-              Remember Me
-            </label>
-          </div>
-
-          {error && <div>{error}</div>}
-
-          <div className="form-group">
-            <button type="submit" className="btn btn-primary btn-lg btn-block">Iniciar sesión</button>
-          </div>
-
-        </form>
-        <div>
-          <button className="mt-3 bg-white border-0" onClick={() => { setSwap(false) }}>
-            <p className="text-primary">Not registered? Register here </p>
-          </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -10,7 +10,7 @@ const Home = () => {
           <div className="masthead-content">
             <div className="container px-5">
               <h1 className="masthead-heading mb-0">Comparsa Connect</h1>
-              <h2 className="masthead-subheading mb-0">Will Rock Your Socks Off</h2>
+              <h2 className="masthead-subheading mb-0">COMPARSAS 2024</h2>
               <a className="btn btn-primary btn-xl rounded-pill mt-5" href="#scroll">Comienza ya</a>
             </div>
           </div>

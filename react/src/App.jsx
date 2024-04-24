@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Routes, Route } from "react-router-dom";
 import Login from './components/pages/auth/Login';
 import Register from './components/pages/auth/Register';
@@ -12,15 +12,18 @@ function App() {
 
   const dispatch = useDispatch();
   const { token } = useSelector(state => state.auth);
-  if (token) {
-    dispatch(verifyToken(token));
-  }
+
+  useEffect(() => {
+    if (token) {
+      dispatch(verifyToken(token));
+    }
+  }, [token]);
 
   return (
     <>
       <Routes>
-        {token && 
-        <Route path="/" element={<Home />} />
+        {token &&
+          <Route path="/" element={<Home />} />
         }
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

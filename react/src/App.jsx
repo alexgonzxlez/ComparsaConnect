@@ -9,6 +9,7 @@ import LoginRegister from './pages/auth/LoginRegister';
 import Account from './pages/auth/Account';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Bootstrap JS
 import ProfileForm from './pages/comparsa/ProfileForm';
+import NotFound from './components/NotFound';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
     <>
       {token ? (
         <Routes>
+          <Route path="*" element={<NotFound />} />
           <Route path="/" element={<Home />} />
           <Route path="/account" element={<Account />} />
           <Route path="/profile" element={<ProfileForm />} />

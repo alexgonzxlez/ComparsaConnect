@@ -122,7 +122,7 @@ export const updateProfile = (dades) => {
             const resposta = await data.json();
             console.log(resposta)
             if (resposta.errors) {
-                dispatch(setError(resposta.errors));
+                dispatch(setErrors(resposta.errors));
             }
             if (resposta.success) {
                 console.log("success")

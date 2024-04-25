@@ -7,9 +7,9 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const Account = () => {
     const { userData } = useSelector(state => state.auth);
-    const { register, handleSubmit, formState: { errors }, setValue } = useForm();
+    const { register, handleSubmit, setError, formState: { errors }, setValue } = useForm();
     const dispatch = useDispatch();
-    const { error, success } = useSelector((state) => state.auth);
+    const { error, success, errs } = useSelector((state) => state.auth);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -20,6 +20,16 @@ const Account = () => {
         }
     }, [userData, setValue]);
 
+    useEffect(() => {
+        if (errs) {
+          Object.entries(errs).forEach(([key, errArr]) => {
+            errArr.forEach(err => {
+              setError(key, { type: 'custom', message: err })
+            });
+          });
+        }
+      }, [errs]);
+    
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const year = date.getFullYear();

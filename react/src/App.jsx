@@ -6,7 +6,7 @@ import { verifyToken } from './slices/auth/thunks';
 import Home from './pages/Home';
 import './App.scss';
 import LoginRegister from './pages/auth/LoginRegister';
-import Profile from './pages/auth/Profile';
+import Account from './pages/auth/Account';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Bootstrap JS
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
       {token ? (
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/account" element={<Account />} />
         </Routes>
       ) : (
         <LoginRegister />

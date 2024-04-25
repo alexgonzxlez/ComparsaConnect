@@ -11,7 +11,7 @@ class CreateProfileRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,13 +22,10 @@ class CreateProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'     => 'required|string',
-            'email'    => 'required|email',
-            'username' => 'required|string',
-            'gender'   => 'required|string',
-            'description' => 'nullable|string',
-            'birthdate' => 'nullable|date',
-            'gender_pref' => 'nullable|string',
+            'gender'        => 'required|integer',
+            'description'   => 'required|string|min:20|max:200',
+            'birthdate'     => 'required|date',
+            'gender_pref'   => 'required|integer',
         ];
     }
 }

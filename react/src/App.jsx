@@ -8,6 +8,7 @@ import './App.scss';
 import LoginRegister from './pages/auth/LoginRegister';
 import Profile from './pages/auth/Profile';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Bootstrap JS
+import NotFound from './components/NotFound';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
     <>
       {token ? (
         <Routes>
+          <Route path="*" element={<NotFound />} />
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>

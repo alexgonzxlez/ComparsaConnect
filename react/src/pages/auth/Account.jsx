@@ -35,7 +35,7 @@ const Account = () => {
     return (
         <Layout>
             <div className=''>
-                <h2>Profile</h2>
+                <h2>Cuenta</h2>
                 {userData ? (
                     <form className="table" onSubmit={handleSubmit(onSubmit)}>
                         <div className="table-row">
@@ -102,7 +102,7 @@ const Account = () => {
                                 Se han aplicado los cambios correctamente
                             </div>
                         )}
-                        <div className="form-group text-center">
+                        <div className="mt-3 text-center">
                             <button type="submit" className="btn btn-primary btn-block">Aplicar cambios</button>
                         </div>
                     </form>

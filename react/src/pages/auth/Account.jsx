@@ -102,6 +102,11 @@ const Account = () => {
                                 Se han aplicado los cambios correctamente
                             </div>
                         )}
+                        {error && (
+                            <div className="alert alert-danger">
+                                {error}
+                            </div>
+                        )}
                         <div className="mt-3 text-center">
                             <button type="submit" className="btn btn-primary btn-block">Aplicar cambios</button>
                         </div>

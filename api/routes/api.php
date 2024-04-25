@@ -12,6 +12,7 @@ Route::middleware('auth:sanctum')->post('/logout', [TokenController::class, 'log
 Route::middleware('auth:sanctum')->get('/verifytoken', [TokenController::class, 'verifyToken']);
 Route::middleware('auth:sanctum')->post('/account', [UserController::class, 'update']);
 Route::middleware('auth:sanctum')->get('/profile', [ProfileController::class, 'index']);
+Route::middleware('auth:sanctum')->post('/profile', [ProfileController::class, 'store']);
 
 Route::get('/user', function (Request $request) {
     return $request->user();

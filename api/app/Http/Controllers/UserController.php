@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\UpdateProfileRequest;
-use App\Http\Requests\CreateProfileRequest;
 
 use Illuminate\Http\Request;
 
@@ -53,28 +52,6 @@ class UserController extends Controller
             'data'    => $user
         ], 200);
     }    
-    public function profile(CreateProfileRequest $request)
-    {
-    
-        // Obtener el usuario autenticado
-        $user = Auth::user();
-    
-    
-        $profileData = [
-            'user_id'      => $user->id,
-            'gender'       => $request->gender,
-            'description'  => $request->description,
-            'birthdate'    => $request->birthdate,
-            'gender_pref'  =>  $request->gender_pref,
-        ];
-    
-        $profile = Profile::create($profileData);
-    
-        return response()->json([
-            'success' => true,
-            'data'    => $profile
-        ], 200);
-    }
     
     /**
      * Remove the specified resource from storage.

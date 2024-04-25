@@ -110,7 +110,7 @@ export const updateProfile = (dades) => {
         const { name, email, username } = dades;
         const { token } = getState().auth;
         try {
-            const data = await fetch(process.env.API_URL + "profile", {
+            const data = await fetch(process.env.API_URL + "account", {
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
@@ -118,6 +118,33 @@ export const updateProfile = (dades) => {
                 },
                 method: "POST",
                 body: JSON.stringify({ name: name, email: email, username: username }),
+            });
+            const resposta = await data.json();
+            if (resposta.errors) {
+                dispatch(setErrors(resposta.errors));
+            }
+            if (resposta.success) {
+                console.log("success")
+                dispatch(setSuccess())
+            }
+        } catch (error) {
+            dispatch(setError("Error de conexión"));
+        }
+    };
+};
+
+export const doProfileForm = (dades) => {
+    return async (dispatch) => {
+        const { gender, description, birthdate, gender_preference } = dades;
+        try {
+            const data = await fetch(process.env.API_URL + "/profile", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                method: "POST",
+                body: JSON.stringify({ gender: gender, description: description, birthdate: birthdate, gender_preference: gender_preference }),
             });
             const resposta = await data.json();
             if (resposta.errors) {

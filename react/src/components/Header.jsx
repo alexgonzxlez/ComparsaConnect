@@ -18,6 +18,9 @@ const Header = () => {
                     <Link to="/" className="navbar-brand">
                         ComparsaConnect
                     </Link>
+                    <Link to="/profile" className="navbar-brand">
+                        ComparsaConnect
+                    </Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
@@ -30,7 +33,7 @@ const Header = () => {
                             </li>
                             <li className="nav-item dropdown">
                                 <Link className="nav-link dropdown-toggle" to="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    { userData && userData.username}
+                                    {userData && userData.username}
                                 </Link>
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><Link className="dropdown-item" to="#">Perfil</Link></li>

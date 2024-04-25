@@ -33,7 +33,8 @@ const Header = () => {
                                     { userData && userData.username}
                                 </Link>
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><Link className="dropdown-item" to="/profile">Perfil</Link></li>
+                                    <li><Link className="dropdown-item" to="#">Perfil</Link></li>
+                                    <li><Link className="dropdown-item" to="/account">Cuenta</Link></li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
                                         <button className="dropdown-item d-flex align-items-center text-danger" onClick={handleLogout}>

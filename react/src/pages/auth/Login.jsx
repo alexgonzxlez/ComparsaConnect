@@ -1,14 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { doLogin } from '../../slices/auth/thunks';
 
 const Login = ({ setSwap }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, setError,setValue, formState: { errors } } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { error } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (error) {
+      setError('username');
+      setError('password');
+      setValue('username', '');
+      setValue('password', '');
+    }
+  }, [error, setValue, setError]);
 
   const onSubmit = (data) => {
     dispatch(doLogin({ username: data.username, password: data.password, rememberMe: data.rememberMe }));
@@ -76,8 +85,8 @@ const Login = ({ setSwap }) => {
             </button>
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
 

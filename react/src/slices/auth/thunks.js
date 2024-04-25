@@ -104,3 +104,31 @@ export const doLogout = () => {
         }
     }
 }
+
+export const updateProfile = (dades) => {
+    return async (dispatch, getState) => {
+        const { name, email, username } = dades;
+        const { token } = getState().auth;
+        try {
+            const data = await fetch(process.env.API_URL + "profile", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                method: "POST",
+                body: JSON.stringify({ name: name, email: email, username: username }),
+            });
+            const resposta = await data.json();
+            if (resposta.errors) {
+                dispatch(setErrors(resposta.errors));
+            }
+            if (resposta.success) {
+                console.log("success")
+                dispatch(setSuccess())
+            }
+        } catch (error) {
+            dispatch(setError("Error de conexión"));
+        }
+    };
+};

@@ -36,31 +36,22 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProfileRequest $request, string $id)
+    public function update(UpdateProfileRequest $request)
     {
-        $authenticatedUser = Auth::user();
+        $validatedData = $request->validated();
+        $user = Auth::user();
     
-        if ($authenticatedUser->id == $id) {
-            $user = User::find($id);
+        $user->update([
+            'name'     => $validatedData['name'],
+            'email'    => $validatedData['email'],
+            'username' => $validatedData['username'],
+        ]);
     
-            $user->update([
-                'name'     => $request->name,
-                'email'    => $request->email,
-                'username' => $request->username,
-            ]);
-    
-            return response()->json([
-                'success' => true,
-                'data'    => $user
-            ], 200);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'No tienes permiso para realizar esta acción.'
-            ], 403);
-        }
-    }
-
+        return response()->json([
+            'success' => true,
+            'data'    => $user
+        ], 200);
+    }    
     /**
      * Remove the specified resource from storage.
      */

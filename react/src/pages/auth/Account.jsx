@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { updateProfile } from '../../slices/auth/thunks';
 import { Link, useNavigate } from 'react-router-dom';
 
-const Profile = () => {
+const Account = () => {
     const { userData } = useSelector(state => state.auth);
     const { register, handleSubmit, formState: { errors }, setValue } = useForm();
     const dispatch = useDispatch();

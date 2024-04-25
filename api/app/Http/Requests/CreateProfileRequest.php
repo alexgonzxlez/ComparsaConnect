@@ -22,10 +22,12 @@ class CreateProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'gender'        => 'required|integer',
+            'gender'        => 'required|integer|exists:genders,id',
             'description'   => 'required|string|min:20|max:200',
             'birthdate'     => 'required|date',
-            'gender_pref'   => 'required|integer',
+            'gender_pref'   => 'required|integer|exists:genders,id',
+            'bandera'       => 'required|exists:banderas,id',
+            'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }

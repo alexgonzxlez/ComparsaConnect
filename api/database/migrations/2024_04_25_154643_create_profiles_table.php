@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->unique();
-            $table->string('gender')->nullable();
+            $table->unsignedBigInteger('gender')->nullable();
             $table->text('description')->nullable();
             $table->date('birthdate')->nullable();
-            $table->string('gender_pref')->nullable();
+            $table->unsignedBigInteger('gender_pref')->nullable();
             $table->unsignedBigInteger('file_id')->nullable();
             $table->unsignedBigInteger('bandera')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

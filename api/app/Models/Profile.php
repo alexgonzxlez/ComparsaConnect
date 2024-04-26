@@ -24,9 +24,9 @@ class Profile extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function photo()
+    public function file()
     {
-        return $this->hasOne(Photo::class);
+        return $this->belongsTo(File::class);
     }
 
 }

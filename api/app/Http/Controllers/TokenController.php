@@ -66,7 +66,7 @@ class TokenController extends Controller
 
     public function user(Request $request)
     {
-        $user = $request->user()->load('profile');
+        $user = $request->user()->load(['profile', 'profile.file']);
     
         return response()->json([
             'success' => true,
@@ -75,7 +75,7 @@ class TokenController extends Controller
             ]
         ], 200);
     }
-            /**
+    /**
      * Display a listing of the resource.
      */
     public function index()

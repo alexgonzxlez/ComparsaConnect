@@ -133,30 +133,3 @@ export const updateAccount = (dades) => {
     };
 };
 
-export const doProfileForm = (dades) => {
-    return async (dispatch, getState) => {
-        const { gender, description, birthdate, gender_pref } = dades;
-        const { token } = getState().auth;
-        try {
-            const data = await fetch(process.env.API_URL + "profile", {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
-                },
-                method: "POST",
-                body: JSON.stringify({ gender: gender, description: description, birthdate: birthdate, gender_pref: gender_pref }),
-            });
-            const resposta = await data.json();
-            if (resposta.success == false) {
-                dispatch(setError(resposta.message));
-            }
-            if (resposta.success) {
-                console.log("success")
-                dispatch(setSuccess())
-            }
-        } catch (error) {
-            dispatch(setError("Error de conexión"));
-        }
-    };
-};

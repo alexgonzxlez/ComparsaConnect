@@ -1,8 +1,8 @@
 import React from 'react';
 import Layout from '../../components/Layout';
 import { useForm } from 'react-hook-form';
-import { doProfileForm } from '../../slices/auth/thunks';
 import { useSelector, useDispatch } from 'react-redux';
+import { createProfile } from '../../slices/comparsa/thunks';
 
 const ProfileForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -10,14 +10,22 @@ const ProfileForm = () => {
     const dispatch = useDispatch();
 
     const onSubmit = (data) => {
-        dispatch(doProfileForm({ gender: data.gender, description: data.description, birthdate: data.birthdate, gender_pref: data.gender_pref }))
+        const formData = new FormData();
+        formData.append('gender', data.gender);
+        formData.append('description', data.description);
+        formData.append('birthdate', data.birthdate);
+        formData.append('gender_pref', data.gender_pref);
+        formData.append('bandera', data.bandera);
+        formData.append('upload', data.upload[0]);
+    
+        dispatch(createProfile(formData))
     };
 
     return (
         <Layout>
             <div className=''>
                 <h2>Más Info</h2>
-                <form className="table" onSubmit={handleSubmit(onSubmit)}>
+                <form className="table" onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
                     <div className="table-row">
                         <div className="table-cell">
                             <label htmlFor="gender">Sexo</label>
@@ -92,21 +100,21 @@ const ProfileForm = () => {
                             {...register("bandera")}
                         >
                             <option value=''>Selecciona una preferencia de Bandera</option>
-                            <option value='male'>Masculino</option>
-                            <option value='female'>Femenino</option>
-                            <option value='other'>Otro</option>
+                            <option value='1'>Masculino</option>
+                            <option value='2'>Femenino</option>
+                            <option value='3'>Otro</option>
                         </select>
                     </div>
 
                     <div className='form-group mb-3'>
-                        <label htmlFor='profile_picture'>Foto de perfil</label>
+                        <label htmlFor='upload'>Foto de perfil</label>
                         <input
                             type='file'
-                            id='profile_picture'
-                            className={`form-control ${errors.profile_picture ? "is-invalid" : ""}`}
-                            {...register("profile_picture")}
+                            id='upload'
+                            className={`form-control ${errors.upload ? "is-invalid" : ""}`}
+                            {...register("upload")}
                         />
-                        {errors.profile_picture && (
+                        {errors.upload && (
                             <span className="invalid-feedback">Por favor selecciona una imagen válida</span>
                         )}
                     </div>

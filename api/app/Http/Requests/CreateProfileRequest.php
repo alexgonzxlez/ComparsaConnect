@@ -27,7 +27,7 @@ class CreateProfileRequest extends FormRequest
             'birthdate'     => 'required|date',
             'gender_pref'   => 'required|integer|exists:genders,id',
             'bandera'       => 'required|exists:banderas,id',
-            'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'upload' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { user } from './slices/auth/thunks';
@@ -32,7 +32,10 @@ function App() {
           <Route path="/profile" element={<ProfileCheck />} />
         </Routes>
       ) : (
-        <LoginRegister />
+        <Routes>
+          <Route path="/" element={<LoginRegister />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
       )}
     </>
   )

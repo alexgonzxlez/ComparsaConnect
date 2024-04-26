@@ -13,4 +13,4 @@ Route::middleware('auth:sanctum')->get('/user', [TokenController::class, 'user']
 Route::middleware('auth:sanctum')->post('/account', [UserController::class, 'update']);
 Route::middleware('auth:sanctum')->get('/profile', [ProfileController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/profile', [ProfileController::class, 'store']);
-
+Route::middleware('auth:sanctum')->put('/profile', [ProfileController::class, 'update']);

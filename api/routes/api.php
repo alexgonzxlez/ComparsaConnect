@@ -14,3 +14,4 @@ Route::middleware('auth:sanctum')->post('/account', [UserController::class, 'upd
 Route::middleware('auth:sanctum')->get('/profile-form', [ProfileController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/profile', [ProfileController::class, 'store']);
 Route::middleware('auth:sanctum')->put('/profile', [ProfileController::class, 'update']);
+Route::middleware('auth:sanctum')->delete('/profile', [ProfileController::class, 'destroy']);

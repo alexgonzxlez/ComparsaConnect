@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Layout from '../../../components/Layout';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateProfile, profileForm } from '../../../slices/comparsa/thunks';
+import { updateProfile, delProfile, profileForm } from '../../../slices/comparsa/thunks';
 
 const Profile = ({ userData, form }) => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
@@ -33,6 +33,9 @@ const Profile = ({ userData, form }) => {
         console.log(jsonData)
         dispatch(updateProfile(jsonData));
     };
+    const handleDelProfile = () => {
+        dispatch(delProfile())
+    }
 
     return (
         <Layout>
@@ -129,8 +132,9 @@ const Profile = ({ userData, form }) => {
                             <span className="invalid-feedback">Por favor selecciona una imagen válida</span>
                         )}
                     </div>
-                    <div className='form-group text-center'>
-                        <button type='submit' className='btn btn-primary btn-block'>Aplicar cambios</button>
+                    <div className='text-center '>
+                        <button type='submit' className='btn btn-secondary me-2'>Aplicar cambios</button>
+                        <button className='btn btn-danger me-2' onClick={handleDelProfile}>Eliminar perfil</button>
                     </div>
                 </form>
             </div>

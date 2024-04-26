@@ -9,11 +9,12 @@ const ProfileCheck = () => {
     const dispatch = useDispatch();
     const { token, userData } = useSelector(state => state.auth);
     const { form } = useSelector(state => state.comparsa);
+    const { refresh } = useSelector(state => state.profile);
 
     useEffect(() => {
         dispatch(user(token));
         dispatch(profileForm())
-    }, []);
+    }, [refresh]);
     return (
         <div>
             {userData && userData.profile ? <Profile userData={userData} form={form} /> : <ProfileForm form={form} />}

@@ -166,8 +166,29 @@ class ProfileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy()
     {
-        //
-    }
+        $user = Auth::user();
+        $profile = $user->profile;
+    
+        if (!$profile) {
+            return response()->json([
+                'success' => false,
+                'message' => 'El usuario no tiene un perfil.'
+            ], 404);
+        }
+    
+        if ($profile->file_id) {
+            $file = File::findOrFail($profile->file_id);
+            Storage::disk('public')->delete($file->filepath);
+            $file->delete();
+        }
+    
+        $profile->delete();
+    
+        return response()->json([
+            'success' => true,
+            'message' => 'Perfil eliminado exitosamente.'
+        ], 200);
+        }
 }

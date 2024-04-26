@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Layout from '../../../components/Layout';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { createProfile, profileForm } from '../../../slices/comparsa/thunks';
+import { createProfile, delProfile, profileForm } from '../../../slices/comparsa/thunks';
 
 const Profile = ({ userData, form }) => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
@@ -32,6 +32,9 @@ const Profile = ({ userData, form }) => {
 
         dispatch(createProfile(formData))
     };
+    const handleDelProfile = () => {
+        dispatch(delProfile())
+    }
 
     return (
         <Layout>
@@ -107,7 +110,7 @@ const Profile = ({ userData, form }) => {
                         <select
                             id='bandera'
                             className={`form-control ${errors.birthdate ? "is-invalid" : ""}`}
-                            {...register("bandera", { required: true})}
+                            {...register("bandera", { required: true })}
                         >
                             <option value=''>Selecciona una preferencia de Bandera</option>
                             {form.banderas.map(bandera => (
@@ -128,8 +131,9 @@ const Profile = ({ userData, form }) => {
                             <span className="invalid-feedback">Por favor selecciona una imagen válida</span>
                         )}
                     </div>
-                    <div className='form-group text-center'>
-                        <button type='submit' className='btn btn-primary btn-block'>Aplicar cambios</button>
+                    <div className='text-center '>
+                        <button type='submit' className='btn btn-secondary me-2'>Aplicar cambios</button>
+                        <button className='btn btn-danger me-2' onClick={handleDelProfile}>Eliminar perfil</button>
                     </div>
                 </form>
             </div>

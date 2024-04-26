@@ -13,6 +13,8 @@ class Profile extends Model
         'description',
         'birthdate',
         'gender_pref',
+        'bandera',
+        'file_id'
     ];
 
     use HasFactory;

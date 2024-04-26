@@ -56,10 +56,10 @@ export const doRegister = (dades) => {
     };
 };
 
-export const verifyToken = (token) => {
+export const user = (token) => {
     return async (dispatch) => {
         try {
-            const data = await fetch(process.env.API_URL + "verifytoken", {
+            const data = await fetch(process.env.API_URL + "user", {
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
@@ -72,7 +72,7 @@ export const verifyToken = (token) => {
                 dispatch(setToken(null))
                 destroySession();
             } else if (data.status === 200) {
-                dispatch(setUserData(resposta.data))
+                dispatch(setUserData(resposta.data.user))
             }
         } catch (error) {
             dispatch(setError("Error de conexión"));
@@ -105,7 +105,7 @@ export const doLogout = () => {
     }
 }
 
-export const updateProfile = (dades) => {
+export const updateAccount = (dades) => {
     return async (dispatch, getState) => {
         const { name, email, username } = dades;
         const { token } = getState().auth;
@@ -120,13 +120,12 @@ export const updateProfile = (dades) => {
                 body: JSON.stringify({ name: name, email: email, username: username }),
             });
             const resposta = await data.json();
-            console.log(resposta)
             if (resposta.errors) {
                 dispatch(setErrors(resposta.errors));
             }
             if (resposta.success) {
-                console.log("success")
                 dispatch(setSuccess())
+                dispatch(setUserData(resposta.data))
             }
         } catch (error) {
             dispatch(setError("Error de conexión"));

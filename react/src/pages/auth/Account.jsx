@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Layout from '../../components/Layout';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { updateProfile } from '../../slices/auth/thunks';
+import { updateAccount } from '../../slices/auth/thunks';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Account = () => {
@@ -40,7 +40,7 @@ const Account = () => {
 
     const onSubmit = (data) => {
         console.log(data);
-        dispatch(updateProfile({ name: data.name, email: data.email, username: data.username }));
+        dispatch(updateAccount({ name: data.name, email: data.email, username: data.username }));
     };
     return (
         <Layout>

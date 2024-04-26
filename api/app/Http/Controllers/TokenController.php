@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\LogoutRequest;
-use App\Http\Requests\VerifyTokenRequest;
 
 class TokenController extends Controller
 {
@@ -65,15 +64,20 @@ class TokenController extends Controller
         ], 200);
     }
 
-    public function verifyToken(VerifyTokenRequest $request)
+    public function user(Request $request)
     {
         $user = $request->user();
+        $profile = $user->profile;
+    
         return response()->json([
             'success' => true,
-            'data' => $user
+            'data' => [
+                'user' => $user,
+                'profile' => $profile
+            ]
         ], 200);
     }
-    /**
+        /**
      * Display a listing of the resource.
      */
     public function index()

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\UpdateProfileRequest;
+use App\Http\Requests\UpdateAccountRequest;
 
 use Illuminate\Http\Request;
 
@@ -37,7 +37,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProfileRequest $request)
+    public function update(UpdateAccountRequest $request)
     {
         $validatedData = $request->validated();
         $user = Auth::user();

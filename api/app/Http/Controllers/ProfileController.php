@@ -7,7 +7,7 @@ use App\Models\Gender;
 use App\Models\Bandera;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\CreateProfileRequest;
+use App\Http\Requests\ProfileRequest;
 use App\Models\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -35,12 +35,10 @@ class ProfileController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreateProfileRequest $request)
+    public function store(ProfileRequest $request)
     {
-        // Obtener el usuario autenticado
         $user = Auth::user();
 
-        // Verificar si el usuario ya tiene un perfil
         if ($user->profile()->exists()) {
             return response()->json([
             'success' => false,
@@ -52,7 +50,6 @@ class ProfileController extends Controller
         $fileName = $upload->getClientOriginalName();
         $fileSize = $upload->getSize();
 
-        // Almacenamiento del archivo en el sistema de archivos y la base de datos.
         $uploadName = time() . '_' . $fileName;
         $filePath = $upload->storeAs(
             'uploads',
@@ -64,13 +61,11 @@ class ProfileController extends Controller
 
             $fullPath = Storage::disk('public')->path($filePath);
 
-            // Creación de la entrada del archivo en la base de datos.
             $file = File::create([
                 'filepath' => $filePath,
                 'filesize' => $fileSize,
             ]);
 
-            // Creación de la publicación en la base de datos.
             $profileData = [
                 'user_id' => $user->id,
                 'gender' => $request->gender,
@@ -91,7 +86,7 @@ class ProfileController extends Controller
         } else {
             return response()->json([
                 'success'  => false,
-                'message' => 'Error uploading post'
+                'message' => 'Error al crear el perfil'
             ], 500);
         }
     }
@@ -107,9 +102,65 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ProfileRequest $request)
     {
-        //
+        $user = Auth::user();
+        $profile = $user->profile;
+
+        if (!$profile) {
+            return response()->json([
+                'success' => false,
+                'message' => 'El usuario no tiene un perfil.'
+            ], 404);
+        }
+
+        if ($profile->user_id !== $user->id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No tienes permiso para actualizar este perfil.'
+            ], 403);
+        }
+
+        $profile->gender = $request->gender;
+        $profile->description = $request->description;
+        $profile->birthdate = $request->birthdate;
+        $profile->gender_pref = $request->gender_pref;
+        $profile->bandera = $request->bandera;
+
+        if ($request->hasFile('upload')) {
+            $upload = $request->file('upload');
+            $fileName = $upload->getClientOriginalName();
+            $fileSize = $upload->getSize();
+
+            $uploadName = time() . '_' . $fileName;
+            $filePath = $upload->storeAs(
+                'uploads',
+                $uploadName,
+                'public'
+            );
+
+            if (Storage::disk('public')->exists($filePath)) {
+                if ($profile->file_id) {
+                    $previousFile = File::findOrFail($profile->file_id);
+                    Storage::disk('public')->delete($previousFile->filepath);
+                    $previousFile->delete();
+                }
+
+                $file = File::create([
+                    'filepath' => $filePath,
+                    'filesize' => $fileSize,
+                ]);
+
+                $profile->file_id = $file->id;
+            }
+        }
+
+        $profile->save();
+
+        return response()->json([
+            'success' => true,
+            'data' => $profile
+        ], 200);
     }
 
     /**

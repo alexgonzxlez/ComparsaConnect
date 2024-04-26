@@ -66,18 +66,16 @@ class TokenController extends Controller
 
     public function user(Request $request)
     {
-        $user = $request->user();
-        $profile = $user->profile;
+        $user = $request->user()->load('profile');
     
         return response()->json([
             'success' => true,
             'data' => [
                 'user' => $user,
-                'profile' => $profile
             ]
         ], 200);
     }
-        /**
+            /**
      * Display a listing of the resource.
      */
     public function index()

@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
-import Layout from '../../components/Layout';
+import Layout from '../../../components/Layout';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { createProfile, profileForm } from '../../slices/comparsa/thunks';
+import { createProfile, profileForm } from '../../../slices/comparsa/thunks';
 
-const ProfileForm = () => {
+const ProfileForm = ({form}) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { error, success } = useSelector((state) => state.auth);
-    const { form } = useSelector(state => state.comparsa);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -35,7 +34,7 @@ const ProfileForm = () => {
                         <div className="table-cell">
                             <label htmlFor="gender">Sexo</label>
                         </div>
-                        <div className="table-cell">
+                        <div className="table-cell mb-3">
                             <select id="gender" className={`form-control ${errors.gender ? "is-invalid" : ""}`} {...register("gender", { required: true })}>
                                 <option value="">Selecciona un género</option>
                                 {form.genders.map(gender => (
@@ -79,7 +78,7 @@ const ProfileForm = () => {
                         )}
                     </div>
 
-                    <div className="table-row">
+                    <div className="table-row mb-3">
                         <div className="table-cell">
                             <label htmlFor="gender_pref">Preferencia de género</label>
                         </div>
@@ -132,7 +131,7 @@ const ProfileForm = () => {
                         </div>
                     )}
                     <div className='form-group text-center'>
-                        <button type='submit' className='btn btn-primary btn-block'>Aplicar cambios</button>
+                        <button type='submit' className='btn btn-primary btn-block'>Crear perfil</button>
                     </div>
                 </form>
             </div>

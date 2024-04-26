@@ -23,7 +23,7 @@ class CreateProfileRequest extends FormRequest
     {
         return [
             'gender'        => 'required|integer|exists:genders,id',
-            'description'   => 'required|string|min:20|max:200',
+            'description'   => 'required|string|max:200',
             'birthdate'     => 'required|date',
             'gender_pref'   => 'required|integer|exists:genders,id',
             'bandera'       => 'required|exists:banderas,id',

@@ -19,8 +19,10 @@ return new class extends Migration
             $table->date('birthdate')->nullable();
             $table->string('gender_pref')->nullable();
             $table->unsignedBigInteger('file_id')->nullable();
+            $table->unsignedBigInteger('bandera')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('file_id')->references('id')->on('files')->onDelete('set null');
+            $table->foreign('bandera')->references('id')->on('banderas')->onDelete('set null');
             $table->timestamps();
         });
     }

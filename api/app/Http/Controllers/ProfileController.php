@@ -8,8 +8,9 @@ use App\Models\Bandera;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateProfileRequest;
+use App\Models\File;
+use Illuminate\Support\Facades\Storage;
 
-    
 
 class ProfileController extends Controller
 {
@@ -47,21 +48,52 @@ class ProfileController extends Controller
             ], 400);
         }
 
-        // Crear el perfil si el usuario no tiene uno
-        $profileData = [
-            'user_id' => $user->id,
-            'gender' => $request->gender,
-            'description' => $request->description,
-            'birthdate' => $request->birthdate,
-            'gender_pref' => $request->gender_pref,
-        ];
+        $upload = $request->file('upload');
+        $fileName = $upload->getClientOriginalName();
+        $fileSize = $upload->getSize();
 
-        $profile = Profile::create($profileData);
+        // Almacenamiento del archivo en el sistema de archivos y la base de datos.
+        $uploadName = time() . '_' . $fileName;
+        $filePath = $upload->storeAs(
+            'uploads',
+            $uploadName,
+            'public'
+        );
 
-        return response()->json([
-            'success' => true,
-            'data' => $profile
-        ], 200);
+        if (Storage::disk('public')->exists($filePath)) {
+
+            $fullPath = Storage::disk('public')->path($filePath);
+
+            // Creación de la entrada del archivo en la base de datos.
+            $file = File::create([
+                'filepath' => $filePath,
+                'filesize' => $fileSize,
+            ]);
+
+            // Creación de la publicación en la base de datos.
+            $profileData = [
+                'user_id' => $user->id,
+                'gender' => $request->gender,
+                'description' => $request->description,
+                'birthdate' => $request->birthdate,
+                'gender_pref' => $request->gender_pref,
+                'bandera' => $request->bandera,
+                'file_id'=> $file->id,
+            ];
+    
+            $profile = Profile::create($profileData);
+            
+            return response()->json([
+                'success' => true,
+                'data' => $profile
+            ], 200);
+
+        } else {
+            return response()->json([
+                'success'  => false,
+                'message' => 'Error uploading post'
+            ], 500);
+        }
     }
 
     /**

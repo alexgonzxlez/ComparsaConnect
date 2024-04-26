@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Layout from '../../../components/Layout';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateProfile, delProfile, profileForm } from '../../../slices/comparsa/thunks';
+import { updateProfile, delProfile, profileForm } from '../../../slices/profile/thunks';
 
 const Profile = ({ userData, form }) => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();

@@ -1,4 +1,4 @@
-import { setToken, setUserData, setError, setErrors, removeAuthToken, setSuccess } from "./authslice";
+import { setToken, setUserData, setError, setErrors, removeAuthToken, setSuccess } from "./authSlice";
 import { createSession, destroySession } from "../../services/Cookies/SessionService";
 
 export const doLogin = (dades) => {

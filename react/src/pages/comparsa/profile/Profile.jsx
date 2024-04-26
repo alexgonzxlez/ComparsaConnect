@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Layout from '../../../components/Layout';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { createProfile, profileForm } from '../../../slices/comparsa/thunks';
+import { updateProfile, profileForm } from '../../../slices/comparsa/thunks';
 
 const Profile = ({ userData, form }) => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
@@ -22,15 +22,16 @@ const Profile = ({ userData, form }) => {
     }, []);
 
     const onSubmit = (data) => {
-        const formData = new FormData();
-        formData.append('gender', data.gender);
-        formData.append('description', data.description);
-        formData.append('birthdate', data.birthdate);
-        formData.append('gender_pref', data.gender_pref);
-        formData.append('bandera', data.bandera);
-        formData.append('upload', data.upload[0]);
-
-        dispatch(createProfile(formData))
+        const jsonData = {
+            gender: data.gender,
+            description: data.description,
+            birthdate: data.birthdate,
+            gender_pref: data.gender_pref,
+            bandera: data.bandera,
+            upload: data.upload[0]
+        };
+        console.log(jsonData)
+        dispatch(updateProfile(jsonData));
     };
 
     return (
@@ -107,7 +108,7 @@ const Profile = ({ userData, form }) => {
                         <select
                             id='bandera'
                             className={`form-control ${errors.birthdate ? "is-invalid" : ""}`}
-                            {...register("bandera", { required: true})}
+                            {...register("bandera", { required: true })}
                         >
                             <option value=''>Selecciona una preferencia de Bandera</option>
                             {form.banderas.map(bandera => (

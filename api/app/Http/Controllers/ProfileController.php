@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ProfileRequest;
 use App\Models\File;
 use Illuminate\Support\Facades\Storage;
-
+use App\Http\Requests\UpdateProfileRequest;
 
 class ProfileController extends Controller
 {
@@ -102,7 +102,7 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProfileRequest $request)
+    public function update(UpdateProfileRequest $request)
     {
         $user = Auth::user();
         $profile = $user->profile;
@@ -128,38 +128,33 @@ class ProfileController extends Controller
         $profile->bandera = $request->bandera;
 
         if ($request->hasFile('upload')) {
-            $upload = $request->file('upload');
-            $fileName = $upload->getClientOriginalName();
-            $fileSize = $upload->getSize();
-
-            $uploadName = time() . '_' . $fileName;
-            $filePath = $upload->storeAs(
-                'uploads',
-                $uploadName,
-                'public'
-            );
-
-            if (Storage::disk('public')->exists($filePath)) {
-                if ($profile->file_id) {
-                    $previousFile = File::findOrFail($profile->file_id);
-                    Storage::disk('public')->delete($previousFile->filepath);
-                    $previousFile->delete();
+            foreach ($request->file('upload') as $upload) {
+                $fileName = $upload->getClientOriginalName();
+                $fileSize = $upload->getSize();
+        
+                $uploadName = time() . '_' . $fileName;
+                $filePath = $upload->storeAs(
+                    'uploads',
+                    $uploadName,
+                    'public'
+                );
+        
+                if (Storage::disk('public')->exists($filePath)) {
+                    $file = File::create([
+                        'filepath' => $filePath,
+                        'filesize' => $fileSize,
+                    ]);
+        
+                    $profile->files()->attach($file->id);
                 }
-
-                $file = File::create([
-                    'filepath' => $filePath,
-                    'filesize' => $fileSize,
-                ]);
-
-                $profile->file_id = $file->id;
             }
-        }
+        }        
 
         $profile->save();
 
         return response()->json([
             'success' => true,
-            'data' => $profile
+            'data' => $profile,
         ], 200);
     }
 

@@ -10,7 +10,6 @@ const Profile = ({ userData }) => {
     const {form, status } = useSelector(state => state.profile);
     console.log(form)
     useEffect(() => {
-        dispatch(profileForm())
         if (userData.profile) {
             setValue('gender', userData.profile.gender);
             setValue('description', userData.profile.description);
@@ -20,12 +19,7 @@ const Profile = ({ userData }) => {
             // setValue('upload', userData.profile.upload);
         }
 
-    }, []);
-    useEffect(() => {
-        if (status === 'idle') {
-            dispatch(profileForm())
-        }      
-    }, [status, dispatch]);
+    }, [userData]);
 
     const onSubmit = (data) => {
         const jsonData = {

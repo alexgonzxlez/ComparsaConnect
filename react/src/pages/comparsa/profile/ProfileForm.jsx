@@ -3,7 +3,7 @@ import Layout from '../../../components/Layout';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { createProfile } from '../../../slices/profile/thunks';
-import { profileForm } from '../../../slices/profile/profileSlice';
+import { fetchProfileForm } from '../../../slices/profile/thunks';
 
 const ProfileForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -13,7 +13,7 @@ const ProfileForm = () => {
 
     useEffect(() => {
         if (status === 'idle') {
-            dispatch(profileForm())
+            dispatch(fetchProfileForm())
         }      
     }, []);
 

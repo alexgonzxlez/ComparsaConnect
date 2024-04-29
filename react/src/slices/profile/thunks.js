@@ -1,4 +1,4 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import { refresh, setform } from "./profileSlice";
 import axios from 'axios';
 
@@ -74,33 +74,32 @@ export const updateProfile = (formData) => {
     };
 };
 
-export const delProfile = () => {
-    return async (dispatch, getState) => {
-        const { token } = getState().auth;
-        try {
-            const data = await fetch(process.env.API_URL + "profile", {
-                headers: {
-                    Accept: "application/json",
-                    Authorization: `Bearer ${token}`
-                },
-                method: "DELETE",
-            });
-            const resposta = await data.json();
-            console.log(resposta)
-            if (resposta.success) {
-                dispatch(refresh())
-            }
-        } catch (error) {
-            // dispatch(setError("Error de conexión"));
-            console.error(error)
-        }
-    };
-};
-export const fetchProfileForm = async () => {
-        const response = await axios.get(process.env.API_URL + "profile-form", {
-            headers: {
-                Accept: "application/json",
-            }
+export const delProfile = createAsyncThunk(
+    'profile/deleteProfile',
+    async (_, { getState }) => {
+      const { token } = getState().auth;
+        const response = await axios.delete(process.env.API_URL + "profile", {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`
+          }
         });
-        return response.data.data;
-};
+        const data = await response.data;
+        return data;
+    }
+  );
+  
+export const fetchProfileForm = createAsyncThunk(
+    'profile/fetchProfileForm',
+    async (_, { getState }) => {
+        const { token } = getState().auth;
+      const response = await axios.get(process.env.API_URL + "profile-form", {
+        headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`
+        }
+      });
+      return response.data.data;
+    }
+  );
+  

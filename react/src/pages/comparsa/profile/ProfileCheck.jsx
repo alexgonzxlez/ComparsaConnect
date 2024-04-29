@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { user } from '../../../slices/auth/thunks';
 import Profile from './Profile';
-import { profileForm } from '../../../slices/profile/profileSlice';
+import { fetchProfileForm } from '../../../slices/profile/thunks';
 import ProfileForm from './Profile';
 
 const ProfileCheck = () => {
@@ -12,7 +12,7 @@ const ProfileCheck = () => {
 
     useEffect(() => {
         if (status === 'idle') {
-            dispatch(profileForm())
+            dispatch(fetchProfileForm())
         }      
     }, [status, dispatch]);
     console.log(status)

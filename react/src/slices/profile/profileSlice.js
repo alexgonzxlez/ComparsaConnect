@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
-import { fetchProfileForm } from './thunks';
+import { fetchProfileForm, delProfile } from './thunks';
 
 const initialState = {
     form: { genders: [], banderas: [] },
@@ -9,9 +9,6 @@ const initialState = {
     error: null  
 };
 
-export const profileForm = createAsyncThunk('profile/profileForm', async () => {
-    return await fetchProfileForm();
-})
   
 
 export const profileSlice = createSlice({
@@ -28,20 +25,36 @@ export const profileSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(profileForm.pending, (state) => {
+            .addCase(fetchProfileForm.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(profileForm.fulfilled, (state, action) => {
+            .addCase(fetchProfileForm.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 console.log(action.payload)
                 state.form = action.payload;
                 console.log(state.form)
             })
-            .addCase(profileForm.rejected, (state, action) => {
+            .addCase(fetchProfileForm.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
                 console.log("error")
-            });
+                console.log(state.error)
+            })
+            .addCase(delProfile.pending, (state) => {
+                state.status = 'loading';
+                console.log("loading")
+              })
+              .addCase(delProfile.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                  state.refresh = !state.refresh; 
+                  console.log(action.payload)
+              })
+              .addCase(delProfile.rejected, (state, action) => {
+                state.status = 'failed';
+                  state.error = action.error.message;
+                  console.log(state.error)
+              });
+        
     },
 
 })

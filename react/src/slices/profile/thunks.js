@@ -1,4 +1,6 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { refresh, setform } from "./profileSlice";
+import axios from 'axios';
 
 export const createProfile = (formData) => {
     return async (dispatch, getState) => {
@@ -23,27 +25,27 @@ export const createProfile = (formData) => {
         }
     };
 };
-export const profileForm = () => {
-    return async (dispatch, getState) => {
-        const { token } = getState().auth;
-        try {
-            const data = await fetch(process.env.API_URL + "profile-form", {
-                headers: {
-                    Accept: "application/json",
-                    Authorization: `Bearer ${token}`
-                },
-                method: "GET",
-            });
-            const resposta = await data.json();
-            if (resposta.success) {
-                dispatch(setform(resposta.data))
-            }
-        } catch (error) {
-            // dispatch(setError("Error de conexión"));
-            console.error(error)
-        }
-    };
-};
+// export const profileForm = () => {
+//     return async (dispatch, getState) => {
+//         const { token } = getState().auth;
+//         try {
+//             const data = await fetch(process.env.API_URL + "profile-form", {
+//                 headers: {
+//                     Accept: "application/json",
+//                     Authorization: `Bearer ${token}`
+//                 },
+//                 method: "GET",
+//             });
+//             const resposta = await data.json();
+//             if (resposta.success) {
+//                 dispatch(setform(resposta.data))
+//             }
+//         } catch (error) {
+//             // dispatch(setError("Error de conexión"));
+//             console.error(error)
+//         }
+//     };
+// };
 
 export const updateProfile = (formData) => {
     return async (dispatch, getState) => {
@@ -93,4 +95,12 @@ export const delProfile = () => {
             console.error(error)
         }
     };
+};
+export const fetchProfileForm = async () => {
+        const response = await axios.get(process.env.API_URL + "profile-form", {
+            headers: {
+                Accept: "application/json",
+            }
+        });
+        return response.data.data;
 };

@@ -2,18 +2,20 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { user } from '../../../slices/auth/thunks';
 import Profile from './Profile';
-import ProfileForm from './ProfileForm';
-import { profileForm } from '../../../slices/profile/thunks';
+import { profileForm } from '../../../slices/profile/profileSlice';
+import ProfileForm from './Profile';
 
 const ProfileCheck = () => {
     const dispatch = useDispatch();
     const { token, userData } = useSelector(state => state.auth);
-    const { form, refresh } = useSelector(state => state.profile);
+    const { form, refresh, status } = useSelector(state => state.profile);
 
     useEffect(() => {
-        dispatch(user(token));
-        dispatch(profileForm())
-    }, [refresh]);
+        if (status === 'idle') {
+            dispatch(profileForm())
+        }      
+    }, [status, dispatch]);
+    console.log(status)
     return (
         <div>
             {userData && userData.profile ? <Profile userData={userData} form={form} /> : <ProfileForm form={form} />}

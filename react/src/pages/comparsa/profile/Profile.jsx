@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import Layout from '../../../components/Layout';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateProfile, delProfile, profileForm } from '../../../slices/profile/thunks';
+import { updateProfile, delProfile } from '../../../slices/profile/thunks';
 
-const Profile = ({ userData, form }) => {
+const Profile = ({ userData }) => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const dispatch = useDispatch();
-
+    const {form, status } = useSelector(state => state.profile);
+    console.log(form)
     useEffect(() => {
         dispatch(profileForm())
         if (userData.profile) {
@@ -20,6 +21,11 @@ const Profile = ({ userData, form }) => {
         }
 
     }, []);
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(profileForm())
+        }      
+    }, [status, dispatch]);
 
     const onSubmit = (data) => {
         const jsonData = {
@@ -49,9 +55,9 @@ const Profile = ({ userData, form }) => {
                         <div className="table-cell mb-3">
                             <select id="gender" className={`form-control ${errors.gender ? "is-invalid" : ""}`} {...register("gender", { required: true })}>
                                 <option value="">Selecciona un género</option>
-                                {form.genders.map(gender => (
-                                    <option key={gender.id} value={gender.id}>{gender.name}</option>
-                                ))}
+                                {form && form.genders && form.genders.map(gender => (
+    <option key={gender.id} value={gender.id}>{gender.name}</option>
+))}
                             </select>
                             {errors.gender && errors.gender.type === "required" && (
                                 <span className="invalid-feedback">Campo obligatorio</span>
@@ -99,9 +105,9 @@ const Profile = ({ userData, form }) => {
                             <select id="gender_pref" className={`form-control ${errors.birthdate ? "is-invalid" : ""}`}
                                 {...register("gender_pref", { required: true })}>
                                 <option value="">Selecciona una preferencia de género</option>
-                                {form.genders.map(gender => (
-                                    <option key={gender.id} value={gender.id}>{gender.name}</option>
-                                ))}
+                                {form && form.genders && form.genders.map(gender => (
+    <option key={gender.id} value={gender.id}>{gender.name}</option>
+))}
                             </select>
                         </div>
                     </div>
@@ -114,9 +120,9 @@ const Profile = ({ userData, form }) => {
                             {...register("bandera", { required: true })}
                         >
                             <option value=''>Selecciona una preferencia de Bandera</option>
-                            {form.banderas.map(bandera => (
-                                <option key={bandera.id} value={bandera.id}>{bandera.name}</option>
-                            ))}
+                            {form && form.banderas && form.banderas.map(bandera => (
+    <option key={bandera.id} value={bandera.id}>{bandera.name}</option>
+))}
                         </select>
                     </div>
 

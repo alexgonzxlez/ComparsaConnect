@@ -2,15 +2,19 @@ import React, { useEffect } from 'react';
 import Layout from '../../../components/Layout';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { createProfile, profileForm } from '../../../slices/profile/thunks';
+import { createProfile } from '../../../slices/profile/thunks';
+import { profileForm } from '../../../slices/profile/profileSlice';
 
-const ProfileForm = ({form}) => {
+const ProfileForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { error, success } = useSelector((state) => state.auth);
+    const { status, form } = useSelector((state) => state.profile);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(profileForm())
+        if (status === 'idle') {
+            dispatch(profileForm())
+        }      
     }, []);
 
     const onSubmit = (data) => {

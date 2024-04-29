@@ -10,7 +10,7 @@ function getTokenFromSessionStorage() {
 
 const initialState = {
   token: getTokenFromSessionStorage(),
-  userData: null,
+  userData: { profile: {}},
   error: null,
   errs: [],
   success: false,

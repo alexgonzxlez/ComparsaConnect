@@ -1,15 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
-import { fetchProfileForm, delProfile } from './thunks';
+import { fetchProfileForm, delProfile, createProfile } from './thunks';
 
 const initialState = {
+    profile: null,
     form: { genders: [], banderas: [] },
     refresh: false,
     status: 'idle',
-    error: null  
+    error: null
 };
 
-  
+
 
 export const profileSlice = createSlice({
     name: 'profile',
@@ -29,32 +30,42 @@ export const profileSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(fetchProfileForm.fulfilled, (state, action) => {
-                state.status = 'succeeded';
-                console.log(action.payload)
+                state.status = 'success';
                 state.form = action.payload;
-                console.log(state.form)
             })
             .addCase(fetchProfileForm.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
-                console.log("error")
-                console.log(state.error)
             })
             .addCase(delProfile.pending, (state) => {
                 state.status = 'loading';
                 console.log("loading")
-              })
-              .addCase(delProfile.fulfilled, (state, action) => {
-                state.status = 'succeeded';
-                  state.refresh = !state.refresh; 
-                  console.log(action.payload)
-              })
-              .addCase(delProfile.rejected, (state, action) => {
+            })
+            .addCase(delProfile.fulfilled, (state, action) => {
+                state.status = 'success';
+                state.refresh = !state.refresh;
+                console.log(action.payload)
+            })
+            .addCase(delProfile.rejected, (state, action) => {
                 state.status = 'failed';
-                  state.error = action.error.message;
-                  console.log(state.error)
-              });
+                state.error = action.error.message;
+                console.log(state.error)
+            })
+            .addCase(createProfile.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(createProfile.fulfilled, (state, action) => {
+                state.status = 'success';
+                state.refresh = !state.refresh;
+                console.log(action.payload);
+            })
+            .addCase(createProfile.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+                console.error(action.payload);
+            });
         
+
     },
 
 })

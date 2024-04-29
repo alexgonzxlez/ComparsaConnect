@@ -2,50 +2,22 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { refresh, setform } from "./profileSlice";
 import axios from 'axios';
 
-export const createProfile = (formData) => {
-    return async (dispatch, getState) => {
+export const createProfile = createAsyncThunk(
+    'profile/createProfile',
+    async (formData, { getState }) => {
+        
         const { token } = getState().auth;
-        try {
-            const data = await fetch(process.env.API_URL + "profile", {
-                headers: {
-                    Accept: "application/json",
-                    Authorization: `Bearer ${token}`
-                },
-                method: "POST",
-                body: formData
-            });
-            const resposta = await data.json();
-            if (resposta.success) {
-                dispatch(refresh())
+        const response = await axios.post(process.env.API_URL + "profile", formData, {
+            headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`
             }
-            console.log(resposta)
-        } catch (error) {
-            // dispatch(setError("Error de conexión"));
-            console.error(error)
-        }
-    };
-};
-// export const profileForm = () => {
-//     return async (dispatch, getState) => {
-//         const { token } = getState().auth;
-//         try {
-//             const data = await fetch(process.env.API_URL + "profile-form", {
-//                 headers: {
-//                     Accept: "application/json",
-//                     Authorization: `Bearer ${token}`
-//                 },
-//                 method: "GET",
-//             });
-//             const resposta = await data.json();
-//             if (resposta.success) {
-//                 dispatch(setform(resposta.data))
-//             }
-//         } catch (error) {
-//             // dispatch(setError("Error de conexión"));
-//             console.error(error)
-//         }
-//     };
-// };
+        });
+        console.log(response)
+        return response.data.data;
+    }
+);
+
 
 export const updateProfile = (formData) => {
     return async (dispatch, getState) => {
@@ -77,29 +49,27 @@ export const updateProfile = (formData) => {
 export const delProfile = createAsyncThunk(
     'profile/deleteProfile',
     async (_, { getState }) => {
-      const { token } = getState().auth;
+        const { token } = getState().auth;
         const response = await axios.delete(process.env.API_URL + "profile", {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`
-          }
+            headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`
+            }
         });
-        const data = await response.data;
-        return data;
+        return response.data;
     }
-  );
-  
+);
+
 export const fetchProfileForm = createAsyncThunk(
     'profile/fetchProfileForm',
     async (_, { getState }) => {
         const { token } = getState().auth;
-      const response = await axios.get(process.env.API_URL + "profile-form", {
-        headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${token}`
-        }
-      });
-      return response.data.data;
+        const response = await axios.get(process.env.API_URL + "profile-form", {
+            headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response.data.data;
     }
-  );
-  
+);

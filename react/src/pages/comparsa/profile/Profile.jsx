@@ -7,10 +7,9 @@ import { updateProfile, delProfile } from '../../../slices/profile/thunks';
 const Profile = ({ userData }) => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const dispatch = useDispatch();
-    const {form, status } = useSelector(state => state.profile);
-    console.log(form)
+    const { form, status, error } = useSelector(state => state.profile);
     useEffect(() => {
-        if (userData.profile) {
+        if (userData && userData.profile) {
             setValue('gender', userData.profile.gender);
             setValue('description', userData.profile.description);
             setValue('birthdate', userData.profile.birthdate);
@@ -50,8 +49,8 @@ const Profile = ({ userData }) => {
                             <select id="gender" className={`form-control ${errors.gender ? "is-invalid" : ""}`} {...register("gender", { required: true })}>
                                 <option value="">Selecciona un género</option>
                                 {form && form.genders && form.genders.map(gender => (
-    <option key={gender.id} value={gender.id}>{gender.name}</option>
-))}
+                                    <option key={gender.id} value={gender.id}>{gender.name}</option>
+                                ))}
                             </select>
                             {errors.gender && errors.gender.type === "required" && (
                                 <span className="invalid-feedback">Campo obligatorio</span>
@@ -100,8 +99,8 @@ const Profile = ({ userData }) => {
                                 {...register("gender_pref", { required: true })}>
                                 <option value="">Selecciona una preferencia de género</option>
                                 {form && form.genders && form.genders.map(gender => (
-    <option key={gender.id} value={gender.id}>{gender.name}</option>
-))}
+                                    <option key={gender.id} value={gender.id}>{gender.name}</option>
+                                ))}
                             </select>
                         </div>
                     </div>
@@ -115,8 +114,8 @@ const Profile = ({ userData }) => {
                         >
                             <option value=''>Selecciona una preferencia de Bandera</option>
                             {form && form.banderas && form.banderas.map(bandera => (
-    <option key={bandera.id} value={bandera.id}>{bandera.name}</option>
-))}
+                                <option key={bandera.id} value={bandera.id}>{bandera.name}</option>
+                            ))}
                         </select>
                     </div>
 
@@ -134,9 +133,14 @@ const Profile = ({ userData }) => {
                     </div>
                     <div className='text-center '>
                         <button type='submit' className='btn btn-secondary me-2'>Aplicar cambios</button>
-                        <button className='btn btn-danger me-2' onClick={handleDelProfile}>Eliminar perfil</button>
                     </div>
                 </form>
+                <div className='text-center'>
+                    <button className='btn btn-danger me-2' onClick={handleDelProfile}>Eliminar perfil</button>
+                </div>
+
+                {status === 'failed' && <div className="alert alert-danger">{error}</div>}
+
             </div>
         </Layout>
     );

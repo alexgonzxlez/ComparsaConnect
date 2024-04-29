@@ -3,19 +3,12 @@ import Layout from '../../../components/Layout';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { createProfile } from '../../../slices/profile/thunks';
-import { fetchProfileForm } from '../../../slices/profile/thunks';
 
 const ProfileForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const { error, success } = useSelector((state) => state.auth);
-    const { status, form } = useSelector((state) => state.profile);
+    const { status,error, form } = useSelector((state) => state.profile);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (status === 'idle') {
-            dispatch(fetchProfileForm())
-        }      
-    }, []);
 
     const onSubmit = (data) => {
         const formData = new FormData();
@@ -28,7 +21,6 @@ const ProfileForm = () => {
 
         dispatch(createProfile(formData))
     };
-
     return (
         <Layout>
             <div className=''>
@@ -124,20 +116,13 @@ const ProfileForm = () => {
                         )}
                     </div>
 
-                    {success && (
-                        <div className='alert alert-success'>
-                            Se han aplicado los cambios correctamente
-                        </div>
-                    )}
-                    {error && (
-                        <div className="alert alert-danger">
-                            {error}
-                        </div>
-                    )}
+
                     <div className='form-group text-center'>
                         <button type='submit' className='btn btn-primary btn-block'>Crear perfil</button>
                     </div>
                 </form>
+                {status === 'failed' && <div className="alert alert-danger">{error}</div>}
+
             </div>
         </Layout>
     );

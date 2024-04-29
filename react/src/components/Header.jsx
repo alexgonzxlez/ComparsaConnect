@@ -28,6 +28,12 @@ const Header = () => {
                                     Home
                                 </NavLink>
                             </li>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/contacts" >
+                                    Contactos
+                                </NavLink>
+                            </li>
+
                             <li className="nav-item dropdown">
                                 <Link className="nav-link dropdown-toggle" to="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     {userData && userData.username}

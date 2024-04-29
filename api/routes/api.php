@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TokenController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\ProfileController; 
 
 Route::middleware('guest')->post('/register', [TokenController::class, 'register']);
@@ -15,3 +15,6 @@ Route::middleware('auth:sanctum')->get('/profile-form', [ProfileController::clas
 Route::middleware('auth:sanctum')->post('/profile', [ProfileController::class, 'store']);
 Route::middleware('auth:sanctum')->put('/profile', [ProfileController::class, 'update']);
 Route::middleware('auth:sanctum')->delete('/profile', [ProfileController::class, 'destroy']);
+Route::middleware('auth:sanctum')->get('/users/search', [FriendshipController::class, 'search']);
+Route::middleware('auth:sanctum')->post('/users/{recipient}/friend-request', [FriendshipController::class, 'sendFriendRequest']);
+Route::middleware('auth:sanctum')->put('/friend-requests/{friendship}/accept', [FriendshipController::class, 'acceptFriendRequest']);

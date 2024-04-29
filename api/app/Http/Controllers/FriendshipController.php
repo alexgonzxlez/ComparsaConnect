@@ -1,0 +1,84 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use App\Models\Friendship;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class FriendshipController extends Controller
+{
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $userId = Auth::id();
+    
+        $users = User::where('id', '!=', $userId)
+                     ->where(function ($queryBuilder) use ($query) {
+                         $queryBuilder->where('name', 'like', "%{$query}%")
+                                      ->orWhere('username', 'like', "%{$query}%");
+                     })
+                     ->select('id', 'name', 'username', 'created_at')
+                     ->get();
+    
+        // Añade si es amigo o no
+        $usersmod = $users->map(function ($user) use ($userId) {
+            $isFriend = Friendship::where(function ($query) use ($user, $userId) {
+                $query->where('user_id', $userId)
+                      ->where('friend_id', $user->id)
+                      ->where('status', 'accepted');
+            })->orWhere(function ($query) use ($user, $userId) {
+                $query->where('user_id', $user->id)
+                      ->where('friend_id', $userId)
+                      ->where('status', 'accepted');
+            })->exists();
+    
+            $user->is_friend = $isFriend;
+    
+            return $user;
+        });
+    
+        return response()->json([
+            'success' => true,
+            'data'    => $usersmod,
+        ], 200);
+    }
+    
+    
+    public function sendFriendRequest(User $recipient)
+    {
+        if ($recipient->id === auth()->id()) {
+            return response()->json(['error' => 'No puedes enviarte una solicitud de amistad a ti mismo.'], 400);
+        }
+    
+        $existingRequest = $recipient->friendships()->where('friend_id', auth()->id())->first();
+        if ($existingRequest) {
+            return response()->json(['error' => 'Ya tienes una solicitud de amistad pendiente de este usuario.'], 400);
+        }
+    
+        // Crear la solicitud de amistad
+        auth()->user()->friendships()->create([
+            'friend_id' => $recipient->id,
+            'status' => 'pending',
+        ]);
+    
+        return response()->json(['success' => true, 'message' => 'Solicitud de amistad enviada.'], 201);
+    }
+    
+    public function acceptFriendRequest(Friendship $friendship)
+    {
+        if ($friendship->friend_id !== auth()->id()) {
+            return response()->json(['error' => 'No tienes permiso para aceptar esta solicitud de amistad.'], 403);
+        }
+    
+        if ($friendship->status === 'accepted') {
+            return response()->json(['error' => 'Esta solicitud de amistad ya ha sido aceptada.'], 400);
+        }
+    
+        // Actualizar el estado de la solicitud de amistad a "aceptado"
+        $friendship->update(['status' => 'accepted']);
+    
+        return response()->json(['success' => true, 'message' => 'Solicitud de amistad aceptada.'], 200);
+    }
+}

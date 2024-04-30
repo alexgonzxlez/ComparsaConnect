@@ -131,7 +131,6 @@ const Profile = ({ profile, form }) => {
                         <input
                             type='file'
                             id='upload'
-                            // onChange={uploadChange}
                             className={`form-control ${errors.upload ? "is-invalid" : ""}`}
                             {...register("upload")}
                         />
@@ -140,12 +139,11 @@ const Profile = ({ profile, form }) => {
                         )}
                     </div>
                     <div className='form-group mb-3'>
-                        <p>Imagen actual</p>
                         {currentImage ? (
-                            <img src={URL.createObjectURL(currentImage)} alt="Imagen actual" />
+                            <img src={URL.createObjectURL(currentImage)} alt="Imagen actual" style={{ maxHeight: '400px', maxWidth: '400px', width: 'auto', height: 'auto' }} />
                         ) : (
                             profile.file && profile.file.filepath && (
-                                <img src={process.env.API_STORAGE + profile.file.filepath} alt="Imagen actual" />
+                                <img src={process.env.API_STORAGE + profile.file.filepath} alt="Imagen actual" style={{ maxHeight: '400px', maxWidth: '400px', width: 'auto', height: 'auto' }} />
                             )
                         )}
                     </div>

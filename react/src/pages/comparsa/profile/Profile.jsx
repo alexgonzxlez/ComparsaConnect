@@ -2,21 +2,20 @@ import React, { useEffect } from 'react';
 import Layout from '../../../components/Layout';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateProfile, delProfile, profileForm } from '../../../slices/profile/thunks';
+import { updateProfile, delProfile } from '../../../slices/profile/thunks';
 
-const Profile = ({ userData, form }) => {
+const Profile = ({ profile, form }) => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(profileForm())
-        if (userData.profile) {
-            setValue('gender', userData.profile.gender);
-            setValue('description', userData.profile.description);
-            setValue('birthdate', userData.profile.birthdate);
-            setValue('gender_pref', userData.profile.gender_pref);
-            setValue('bandera', userData.profile.bandera);
-            // setValue('upload', userData.profile.upload);
+        if (profile) {
+            setValue('gender', profile.gender);
+            setValue('description', profile.description);
+            setValue('birthdate', profile.birthdate);
+            setValue('gender_pref', profile.gender_pref);
+            setValue('bandera', profile.bandera);
+            // setValue('upload', profile.upload);
         }
 
     }, []);

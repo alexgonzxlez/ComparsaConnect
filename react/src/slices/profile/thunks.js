@@ -1,4 +1,4 @@
-import { refresh, setform } from "./profileSlice";
+import { refresh, setProfile, setform, startLoading } from "./profileSlice";
 
 export const createProfile = (formData) => {
     return async (dispatch, getState) => {
@@ -23,11 +23,12 @@ export const createProfile = (formData) => {
         }
     };
 };
-export const profileForm = () => {
+export const getProfile = () => {
     return async (dispatch, getState) => {
         const { token } = getState().auth;
+        dispatch(startLoading())
         try {
-            const data = await fetch(process.env.API_URL + "profile-form", {
+            const data = await fetch(process.env.API_URL + "profile", {
                 headers: {
                     Accept: "application/json",
                     Authorization: `Bearer ${token}`
@@ -37,6 +38,7 @@ export const profileForm = () => {
             const resposta = await data.json();
             if (resposta.success) {
                 dispatch(setform(resposta.data))
+                dispatch(setProfile(resposta.profile))
             }
         } catch (error) {
             // dispatch(setError("Error de conexión"));

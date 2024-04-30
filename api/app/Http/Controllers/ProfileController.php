@@ -19,16 +19,19 @@ class ProfileController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
         $genders = Gender::all();
         $banderas = Bandera::all();
         $data = [
             'genders' => $genders,
             'banderas' => $banderas,
         ];
-        
+        $profile = $user->profile()->with('file')->first();
+
         return response()->json([
             'success' => true,
-            'data' => $data
+            'data' => $data,
+            'profile' => $profile
         ]);
     }
     

@@ -51,20 +51,16 @@ const Profile = ({ profile, form }) => {
             <div className=''>
                 <h2>Perfil</h2>
                 <form className="table" onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
-                    <div className="table-row">
-                        <div className="table-cell">
-                            <label htmlFor="gender">Identidad de genero</label>
-                        </div>
-                        <div className="table-cell mb-3">
-                            <select id="gender" className={`form-control ${errors.gender ? "is-invalid" : ""}`} {...register("gender", { required: true })}>
-                                {form.genders.map(gender => (
-                                    <option key={gender.id} value={gender.id}>{gender.name}</option>
-                                ))}
-                            </select>
-                            {errors.gender && errors.gender.type === "required" && (
-                                <span className="invalid-feedback">Campo obligatorio</span>
-                            )}
-                        </div>
+                    <div className="form-group mb-3">
+                        <label htmlFor="gender">Identidad de genero</label>
+                        <select id="gender" className={`form-control ${errors.gender ? "is-invalid" : ""}`} {...register("gender", { required: true })}>
+                            {form.genders.map(gender => (
+                                <option key={gender.id} value={gender.id}>{gender.name}</option>
+                            ))}
+                        </select>
+                        {errors.gender && errors.gender.type === "required" && (
+                            <span className="invalid-feedback">Campo obligatorio</span>
+                        )}
                     </div>
 
                     <div className='form-group mb-3'>
@@ -99,18 +95,14 @@ const Profile = ({ profile, form }) => {
                         )}
                     </div>
 
-                    <div className="table-row mb-3">
-                        <div className="table-cell">
-                            <label htmlFor="gender_pref">Preferencia en cuanto a género</label>
-                        </div>
-                        <div className="table-cell">
-                            <select id="gender_pref" className={`form-control ${errors.birthdate ? "is-invalid" : ""}`}
-                                {...register("gender_pref", { required: true })}>
-                                {form.genders.map(gender => (
-                                    <option key={gender.id} value={gender.id}>{gender.name}</option>
-                                ))}
-                            </select>
-                        </div>
+                    <div className="form-group mb-3">
+                        <label htmlFor="gender_pref">Preferencia en cuanto a género</label>
+                        <select id="gender_pref" className={`form-control ${errors.birthdate ? "is-invalid" : ""}`}
+                            {...register("gender_pref", { required: true })}>
+                            {form.genders.map(gender => (
+                                <option key={gender.id} value={gender.id}>{gender.name}</option>
+                            ))}
+                        </select>
                     </div>
 
                     <div className='form-group mb-3'>
@@ -131,6 +123,7 @@ const Profile = ({ profile, form }) => {
                         <input
                             type='file'
                             id='upload'
+                            // onChange={uploadChange}
                             className={`form-control ${errors.upload ? "is-invalid" : ""}`}
                             {...register("upload")}
                         />
@@ -139,11 +132,12 @@ const Profile = ({ profile, form }) => {
                         )}
                     </div>
                     <div className='form-group mb-3'>
+                        <p>Imagen actual</p>
                         {currentImage ? (
-                            <img src={URL.createObjectURL(currentImage)} alt="Imagen actual" style={{ maxHeight: '400px', maxWidth: '400px', width: 'auto', height: 'auto' }} />
+                            <img src={URL.createObjectURL(currentImage)} alt="Imagen actual" />
                         ) : (
                             profile.file && profile.file.filepath && (
-                                <img src={process.env.API_STORAGE + profile.file.filepath} alt="Imagen actual" style={{ maxHeight: '400px', maxWidth: '400px', width: 'auto', height: 'auto' }} />
+                                <img src={process.env.API_STORAGE + profile.file.filepath} alt="Imagen actual" />
                             )
                         )}
                     </div>

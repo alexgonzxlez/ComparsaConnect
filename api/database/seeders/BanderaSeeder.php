@@ -13,6 +13,7 @@ class BanderaSeeder extends Seeder
      */
     public function run(): void
     {
+        Bandera::create(['name' => 'Me es indiferente']); 
         Bandera::create(['name' => 'La grupa']); 
         Bandera::create(['name' => 'Falcons']);
         Bandera::create(['name' => 'Dansaires']);

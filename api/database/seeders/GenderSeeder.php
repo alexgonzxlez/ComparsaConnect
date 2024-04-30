@@ -13,8 +13,8 @@ class GenderSeeder extends Seeder
      */
     public function run(): void
     {
+        Gender::create(['name' => 'Prefiero no decirlo']);
         Gender::create(['name' => 'Hombre']); 
         Gender::create(['name' => 'Mujer']);
-        Gender::create(['name' => 'Prefiero no decirlo']);
     }
 }

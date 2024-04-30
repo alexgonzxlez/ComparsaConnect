@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { createProfile } from '../../../slices/profile/thunks';
 
-const ProfileForm = ({form}) => {
+const ProfileForm = ({ form }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { error, success } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
@@ -27,21 +27,17 @@ const ProfileForm = ({form}) => {
             <div className=''>
                 <h2>Crear perfil</h2>
                 <form className="table" onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
-                    <div className="table-row">
-                        <div className="table-cell">
-                            <label htmlFor="gender">¿Cómo te identificas?</label>
-                        </div>
-                        <div className="table-cell mb-3">
-                            <select id="gender" className={`form-control ${errors.gender ? "is-invalid" : ""}`} {...register("gender", { required: true })}>
-                                <option value="">Selecciona un género</option>
-                                {form.genders.map(gender => (
-                                    <option key={gender.id} value={gender.id}>{gender.name}</option>
-                                ))}
-                            </select>
-                            {errors.gender && errors.gender.type === "required" && (
-                                <span className="invalid-feedback">Campo obligatorio</span>
-                            )}
-                        </div>
+                    <div className="form-group mb-3">
+                        <label htmlFor="gender">¿Cómo te identificas?</label>
+                        <select id="gender" className={`form-control ${errors.gender ? "is-invalid" : ""}`} {...register("gender", { required: true })}>
+                            <option value="">Selecciona un género</option>
+                            {form.genders.map(gender => (
+                                <option key={gender.id} value={gender.id}>{gender.name}</option>
+                            ))}
+                        </select>
+                        {errors.gender && errors.gender.type === "required" && (
+                            <span className="invalid-feedback">Campo obligatorio</span>
+                        )}
                     </div>
 
                     <div className='form-group mb-3'>
@@ -75,11 +71,8 @@ const ProfileForm = ({form}) => {
                         )}
                     </div>
 
-                    <div className="table-row mb-3">
-                        <div className="table-cell">
+                    <div className="form-group mb-3">
                             <label htmlFor="gender_pref">¿Tienes alguna preferencia en cuanto a género?</label>
-                        </div>
-                        <div className="table-cell">
                             <select id="gender_pref" className={`form-control ${errors.birthdate ? "is-invalid" : ""}`}
                                 {...register("gender_pref", { required: true })}>
                                 <option value="">Selecciona una preferencia de género</option>
@@ -87,7 +80,10 @@ const ProfileForm = ({form}) => {
                                     <option key={gender.id} value={gender.id}>{gender.name}</option>
                                 ))}
                             </select>
-                        </div>
+                            {errors.gender_pref && errors.gender_pref.type === "required" && (
+                            <span className="invalid-feedback">Campo obligatorio</span>
+                        )}
+
                     </div>
 
                     <div className='form-group mb-3'>
@@ -95,13 +91,17 @@ const ProfileForm = ({form}) => {
                         <select
                             id='bandera'
                             className={`form-control ${errors.birthdate ? "is-invalid" : ""}`}
-                            {...register("bandera", { required: true})}
+                            {...register("bandera", { required: true })}
                         >
                             <option value=''>Selecciona una preferencia de Bandera</option>
                             {form.banderas.map(bandera => (
                                 <option key={bandera.id} value={bandera.id}>{bandera.name}</option>
                             ))}
                         </select>
+                        {errors.bandera && errors.bandera.type === "required" && (
+                            <span className="invalid-feedback">Campo obligatorio</span>
+                        )}
+
                     </div>
 
                     <div className='form-group mb-3'>
@@ -110,7 +110,7 @@ const ProfileForm = ({form}) => {
                             type='file'
                             id='upload'
                             className={`form-control ${errors.upload ? "is-invalid" : ""}`}
-                            {...register("upload", {required:true})}
+                            {...register("upload", { required: true })}
                         />
                         {errors.upload && (
                             <span className="invalid-feedback">Por favor selecciona una imagen válida</span>

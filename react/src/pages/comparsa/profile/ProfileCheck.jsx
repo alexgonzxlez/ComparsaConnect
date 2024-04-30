@@ -1,22 +1,23 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { user } from '../../../slices/auth/thunks';
 import Profile from './Profile';
 import ProfileForm from './ProfileForm';
-import { profileForm } from '../../../slices/profile/thunks';
-
+import { getProfile } from '../../../slices/profile/thunks';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 const ProfileCheck = () => {
     const dispatch = useDispatch();
-    const { token, userData } = useSelector(state => state.auth);
-    const { form, refresh } = useSelector(state => state.profile);
+    const { profile, form, refresh, isLoading } = useSelector(state => state.profile);
 
     useEffect(() => {
-        dispatch(user(token));
-        dispatch(profileForm())
+        dispatch(getProfile())
     }, [refresh]);
+
+    if (isLoading) {
+        return <LoadingSpinner/>
+    }
     return (
         <div>
-            {userData && userData.profile ? <Profile userData={userData} form={form} /> : <ProfileForm form={form} />}
+            {profile && profile ? <Profile profile={profile} form={form} /> : <ProfileForm form={form} />}
         </div>
     );
 }

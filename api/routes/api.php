@@ -12,7 +12,7 @@ Route::middleware('guest')->post('/login', [TokenController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [TokenController::class, 'logout']);
 Route::middleware('auth:sanctum')->get('/user', [TokenController::class, 'user']);
 Route::middleware('auth:sanctum')->post('/account', [UserController::class, 'update']);
-Route::middleware('auth:sanctum')->get('/profile-form', [ProfileController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/profile', [ProfileController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/profile', [ProfileController::class, 'store']);
 Route::middleware('auth:sanctum')->post('/profile/{id}', [ProfileController::class, 'update']);
 Route::middleware('auth:sanctum')->delete('/profile', [ProfileController::class, 'destroy']);

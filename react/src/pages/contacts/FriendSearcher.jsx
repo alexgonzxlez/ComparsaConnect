@@ -50,7 +50,9 @@ const FriendSearcher = () => {
                                     <td>{new Date(user.created_at).toLocaleDateString()}</td>
                                     <td>
                                         <Button variant="primary" className="btn">
-                                            {user.is_friend ? "Remove Friend" : "Add Friend"}
+                                            {user.friend_status === 'accepted' ? "Eliminar amigo" :
+                                                user.friend_status === 'pending' ? "Aceptar solicitud" :
+                                                    "Enviar solicitud"}
                                         </Button>
                                     </td>
                                 </tr>
@@ -62,7 +64,8 @@ const FriendSearcher = () => {
                 <div className="search-results">
                     <p>No se encontraron resultados.</p>
                 </div>
-            ) : null}        </Layout>
+            ) : null}
+        </Layout>
     );
 };
 

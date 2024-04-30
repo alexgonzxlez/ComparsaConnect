@@ -22,19 +22,23 @@ class FriendshipController extends Controller
                      ->select('id', 'name', 'username', 'created_at')
                      ->get();
     
-        // Añade si es amigo o no
+        // estado de amistad
         $usersmod = $users->map(function ($user) use ($userId) {
-            $isFriend = Friendship::where(function ($query) use ($user, $userId) {
+            $friendship = Friendship::where(function ($query) use ($user, $userId) {
                 $query->where('user_id', $userId)
-                      ->where('friend_id', $user->id)
-                      ->where('status', 'accepted');
+                      ->where('friend_id', $user->id);
             })->orWhere(function ($query) use ($user, $userId) {
                 $query->where('user_id', $user->id)
-                      ->where('friend_id', $userId)
-                      ->where('status', 'accepted');
-            })->exists();
+                      ->where('friend_id', $userId);
+            })->first();
     
-            $user->is_friend = $isFriend;
+            if ($friendship) {
+                    $friendStatus = $friendship->status;
+            } else {
+                $friendStatus = 'none';
+            }
+    
+            $user->friend_status = $friendStatus;
     
             return $user;
         });
@@ -44,7 +48,7 @@ class FriendshipController extends Controller
             'data'    => $usersmod,
         ], 200);
     }
-    
+        
     
     public function sendFriendRequest(User $recipient)
     {
@@ -81,4 +85,18 @@ class FriendshipController extends Controller
     
         return response()->json(['success' => true, 'message' => 'Solicitud de amistad aceptada.'], 200);
     }
+    public function cancelFriendRequest(User $recipient)
+    {
+        $existingRequest = auth()->user()->friendships()->where('friend_id', $recipient->id)->first();
+
+        if (!$existingRequest) {
+            return response()->json(['error' => 'No tienes una solicitud de amistad pendiente con este usuario.'], 400);
+        }
+
+        // Eliminar la solicitud de amistad
+        $existingRequest->delete();
+
+        return response()->json(['success' => true, 'message' => 'Solicitud de amistad cancelada.'], 200);
+    }
+
 }

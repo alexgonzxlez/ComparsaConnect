@@ -2,23 +2,23 @@ import React, { useEffect, useState } from 'react';
 import Layout from '../../../components/Layout';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateProfile, delProfile, profileForm } from '../../../slices/profile/thunks';
+import { updateProfile, delProfile } from '../../../slices/profile/thunks';
 
-const Profile = ({ userData, form }) => {
+const Profile = ({ profile, form }) => {
     const { register, handleSubmit, setValue, formState: { errors }, watch } = useForm();
     const dispatch = useDispatch();
     const [currentImage, setCurrentImage] = useState(null);
     const watchUpload = watch("upload");
+    const { userData } = useSelector(state => state.auth);
 
     useEffect(() => {
-        dispatch(profileForm())
-        if (userData.profile) {
-            setValue('gender', userData.profile.gender);
-            setValue('description', userData.profile.description);
-            setValue('birthdate', userData.profile.birthdate);
-            setValue('gender_pref', userData.profile.gender_pref);
-            setValue('bandera', userData.profile.bandera);
-            // setValue('upload', userData.profile.upload);
+        if (profile) {
+            setValue('gender', profile.gender);
+            setValue('description', profile.description);
+            setValue('birthdate', profile.birthdate);
+            setValue('gender_pref', profile.gender_pref);
+            setValue('bandera', profile.bandera);
+            // setValue('upload', profile.upload);
         }
 
     }, []);
@@ -147,8 +147,8 @@ const Profile = ({ userData, form }) => {
                         {currentImage ? (
                             <img src={URL.createObjectURL(currentImage)} alt="Imagen actual" />
                         ) : (
-                            userData.profile.file && userData.profile.file.filepath && (
-                                <img src={process.env.API_STORAGE + userData.profile.file.filepath} alt="Imagen actual" />
+                            profile.file && profile.file.filepath && (
+                                <img src={process.env.API_STORAGE + profile.file.filepath} alt="Imagen actual" />
                             )
                         )}
                     </div>

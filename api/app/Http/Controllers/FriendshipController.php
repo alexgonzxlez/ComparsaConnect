@@ -33,7 +33,10 @@ class FriendshipController extends Controller
             })->first();
     
             if ($friendship) {
-                    $friendStatus = $friendship->status;
+                $friendStatus = $friendship->status;
+                if ($friendship->user_id === $userId) {
+                    $friendStatus = 'sended';
+                }        
             } else {
                 $friendStatus = 'none';
             }

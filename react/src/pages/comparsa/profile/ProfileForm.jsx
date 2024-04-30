@@ -29,7 +29,7 @@ const ProfileForm = ({form}) => {
                 <form className="table" onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
                     <div className="table-row">
                         <div className="table-cell">
-                            <label htmlFor="gender">Sexo</label>
+                            <label htmlFor="gender">¿Cómo te identificas?</label>
                         </div>
                         <div className="table-cell mb-3">
                             <select id="gender" className={`form-control ${errors.gender ? "is-invalid" : ""}`} {...register("gender", { required: true })}>
@@ -45,7 +45,7 @@ const ProfileForm = ({form}) => {
                     </div>
 
                     <div className='form-group mb-3'>
-                        <label htmlFor='description'>Descripción</label>
+                        <label htmlFor='description'>Cuéntanos sobre ti</label>
                         <textarea
                             id='description'
                             className={`form-control ${errors.description ? "is-invalid" : ""}`}
@@ -77,7 +77,7 @@ const ProfileForm = ({form}) => {
 
                     <div className="table-row mb-3">
                         <div className="table-cell">
-                            <label htmlFor="gender_pref">Preferencia de género</label>
+                            <label htmlFor="gender_pref">¿Tienes alguna preferencia en cuanto a género?</label>
                         </div>
                         <div className="table-cell">
                             <select id="gender_pref" className={`form-control ${errors.birthdate ? "is-invalid" : ""}`}
@@ -91,7 +91,7 @@ const ProfileForm = ({form}) => {
                     </div>
 
                     <div className='form-group mb-3'>
-                        <label htmlFor='bandera'>Bandera a elegir</label>
+                        <label htmlFor='bandera'>¿Tienes alguna preferencia a la hora de elegir una bandera?</label>
                         <select
                             id='bandera'
                             className={`form-control ${errors.birthdate ? "is-invalid" : ""}`}

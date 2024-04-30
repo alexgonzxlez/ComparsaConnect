@@ -53,11 +53,10 @@ const Profile = ({ profile, form }) => {
                 <form className="table" onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
                     <div className="table-row">
                         <div className="table-cell">
-                            <label htmlFor="gender">Sexo</label>
+                            <label htmlFor="gender">Identidad de genero</label>
                         </div>
                         <div className="table-cell mb-3">
                             <select id="gender" className={`form-control ${errors.gender ? "is-invalid" : ""}`} {...register("gender", { required: true })}>
-                                <option value="">Selecciona un género</option>
                                 {form.genders.map(gender => (
                                     <option key={gender.id} value={gender.id}>{gender.name}</option>
                                 ))}
@@ -69,7 +68,7 @@ const Profile = ({ profile, form }) => {
                     </div>
 
                     <div className='form-group mb-3'>
-                        <label htmlFor='description'>Descripción</label>
+                        <label htmlFor='description'>Descripción sobre ti</label>
                         <textarea
                             id='description'
                             className={`form-control ${errors.description ? "is-invalid" : ""}`}
@@ -102,12 +101,11 @@ const Profile = ({ profile, form }) => {
 
                     <div className="table-row mb-3">
                         <div className="table-cell">
-                            <label htmlFor="gender_pref">Preferencia de género</label>
+                            <label htmlFor="gender_pref">Preferencia en cuanto a género</label>
                         </div>
                         <div className="table-cell">
                             <select id="gender_pref" className={`form-control ${errors.birthdate ? "is-invalid" : ""}`}
                                 {...register("gender_pref", { required: true })}>
-                                <option value="">Selecciona una preferencia de género</option>
                                 {form.genders.map(gender => (
                                     <option key={gender.id} value={gender.id}>{gender.name}</option>
                                 ))}
@@ -116,13 +114,12 @@ const Profile = ({ profile, form }) => {
                     </div>
 
                     <div className='form-group mb-3'>
-                        <label htmlFor='bandera'>Bandera a elegir</label>
+                        <label htmlFor='bandera'>Preferencia a la hora de elegir una bandera</label>
                         <select
                             id='bandera'
                             className={`form-control ${errors.birthdate ? "is-invalid" : ""}`}
                             {...register("bandera", { required: true })}
                         >
-                            <option value=''>Selecciona una preferencia de Bandera</option>
                             {form.banderas.map(bandera => (
                                 <option key={bandera.id} value={bandera.id}>{bandera.name}</option>
                             ))}

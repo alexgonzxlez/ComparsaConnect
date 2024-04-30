@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Layout from '../../components/Layout';
 import { Button } from 'react-bootstrap';
@@ -11,9 +11,19 @@ const FriendSearcher = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const dispatch = useDispatch();
     const { searchdata } = useSelector(state => state.friendship);
+    const [searchTerm, setSearchTerm] = useState('');
+
     const onSubmit = (data) => {
         dispatch(searchUsers(data.filter))
         reset()
+    };
+
+    const handleChange = (e) => {
+        const value = e.target.value;
+        setSearchTerm(value);
+        if (value.length % 2 === 0 || value.length === searchTerm.length - 2) {
+            dispatch(searchUsers(value));
+        }
     };
 
     return (
@@ -25,13 +35,15 @@ const FriendSearcher = () => {
                         type="text"
                         placeholder="Buscar usuarios..."
                         {...register('filter', { required: true })}
+                        value={searchTerm}
+                        onChange={handleChange}
                     />
                     <Button variant="primary" type="submit">
                         <Search size={21} />
                     </Button>
                 </div>
             </form>
-            {searchdata && searchdata.length > 0 ? (
+            {searchTerm && searchdata && searchdata.length > 0 ? (
                 <div className="search-results">
                     <table className="table">
                         <thead>
@@ -60,7 +72,7 @@ const FriendSearcher = () => {
                         </tbody>
                     </table>
                 </div>
-            ) : searchdata ? (
+            ) : searchTerm ? (
                 <div className="search-results">
                     <p>No se encontraron resultados.</p>
                 </div>

@@ -10,6 +10,7 @@ import Account from './pages/auth/Account';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Bootstrap JS
 import NotFound from './components/NotFound';
 import ProfileCheck from './pages/comparsa/profile/ProfileCheck';
+import FriendSearcher from './pages/contacts/FriendSearcher';
 
 function App() {
 
@@ -30,6 +31,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/account" element={<Account />} />
           <Route path="/profile" element={<ProfileCheck />} />
+          <Route path="/contacts" element={<FriendSearcher />} />
+
         </Routes>
       ) : (
         <Routes>

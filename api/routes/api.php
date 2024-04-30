@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\ProfileController; 
+use App\Http\Controllers\UserController; 
 
 Route::middleware('guest')->post('/register', [TokenController::class, 'register']);
 Route::middleware('guest')->post('/login', [TokenController::class, 'login']);

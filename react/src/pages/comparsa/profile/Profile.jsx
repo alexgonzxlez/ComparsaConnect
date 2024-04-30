@@ -1,12 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../../../components/Layout';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateProfile, delProfile, profileForm } from '../../../slices/profile/thunks';
 
 const Profile = ({ userData, form }) => {
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+    const { register, handleSubmit, setValue, formState: { errors }, watch } = useForm();
     const dispatch = useDispatch();
+    const [currentImage, setCurrentImage] = useState(null);
+    const watchUpload = watch("upload");
+
     useEffect(() => {
         dispatch(profileForm())
         if (userData.profile) {
@@ -20,6 +23,12 @@ const Profile = ({ userData, form }) => {
 
     }, []);
 
+    useEffect(() => {
+        if (watchUpload) {
+            setCurrentImage(watchUpload[0]);
+        }
+    }, [watchUpload]);
+
     const onSubmit = (data) => {
         const formData = new FormData();
         formData.append('gender', data.gender);
@@ -27,11 +36,12 @@ const Profile = ({ userData, form }) => {
         formData.append('birthdate', data.birthdate);
         formData.append('gender_pref', data.gender_pref);
         formData.append('bandera', data.bandera);
-        if (data.upload.lenght > 0) {
+        if (data.upload.length > 0) {
             formData.append('upload', data.upload[0]);
         }
         dispatch(updateProfile(formData, userData.id));
     };
+
     const handleDelProfile = () => {
         dispatch(delProfile())
     }
@@ -124,11 +134,22 @@ const Profile = ({ userData, form }) => {
                         <input
                             type='file'
                             id='upload'
+                            // onChange={uploadChange}
                             className={`form-control ${errors.upload ? "is-invalid" : ""}`}
                             {...register("upload")}
                         />
                         {errors.upload && (
                             <span className="invalid-feedback">Por favor selecciona una imagen válida</span>
+                        )}
+                    </div>
+                    <div className='form-group mb-3'>
+                        <p>Imagen actual</p>
+                        {currentImage ? (
+                            <img src={URL.createObjectURL(currentImage)} alt="Imagen actual" />
+                        ) : (
+                            userData.profile.file && userData.profile.file.filepath && (
+                                <img src={process.env.API_STORAGE + userData.profile.file.filepath} alt="Imagen actual" />
+                            )
                         )}
                     </div>
                     <div className='text-center '>

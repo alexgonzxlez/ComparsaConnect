@@ -7,6 +7,7 @@ export default defineConfig(({ command, mode }) => {
   return {
     define: {
       'process.env.API_URL': JSON.stringify(env.API_URL),
+      'process.env.API_STORAGE': JSON.stringify(env.API_STORAGE),
       // If you want to exposes all env variables, which is not recommended
       // 'process.env': env
     },

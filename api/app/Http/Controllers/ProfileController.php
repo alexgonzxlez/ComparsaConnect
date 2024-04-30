@@ -105,6 +105,59 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    // public function update(UpdateProfileRequest $request)
+    // {
+    //     $user = Auth::user();
+    //     $profile = $user->profile;
+
+    //     if (!$profile) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'El usuario no tiene un perfil.'
+    //         ], 404);
+    //     }
+
+    //     if ($profile->user_id !== $user->id) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'No tienes permiso para actualizar este perfil.'
+    //         ], 403);
+    //     }
+
+    //     $profile->fill($request->only(['gender', 'description', 'birthdate', 'gender_pref', 'bandera']));
+
+    //     if ($request->hasFile('upload')) {
+    //         $upload = $request->file('upload');
+    //         $fileName = $upload->getClientOriginalName();
+    //         $fileSize = $upload->getSize();
+        
+    //         $uploadName = time() . '_' . $fileName;
+    //         $filePath = $upload->storeAs(
+    //             'uploads',
+    //             $uploadName,
+    //             'public'
+    //         );
+        
+    //         if (Storage::disk('public')->exists($filePath)) {
+    //             $file = File::create([
+    //                 'filepath' => $filePath,
+    //                 'filesize' => $fileSize,
+    //             ]);
+        
+    //             // Eliminar archivos anteriores si es necesario
+    //             $profile->files()->delete();
+        
+    //             $profile->files()->save($file);
+    //         }
+    //     }        
+
+    //     $profile->save();
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'data' => $profile,
+    //     ], 200);
+    // }
     public function update(UpdateProfileRequest $request)
     {
         $user = Auth::user();
@@ -131,27 +184,17 @@ class ProfileController extends Controller
         $profile->bandera = $request->bandera;
 
         if ($request->hasFile('upload')) {
-            foreach ($request->file('upload') as $upload) {
-                $fileName = $upload->getClientOriginalName();
-                $fileSize = $upload->getSize();
-        
-                $uploadName = time() . '_' . $fileName;
-                $filePath = $upload->storeAs(
-                    'uploads',
-                    $uploadName,
-                    'public'
-                );
-        
-                if (Storage::disk('public')->exists($filePath)) {
-                    $file = File::create([
-                        'filepath' => $filePath,
-                        'filesize' => $fileSize,
-                    ]);
-        
-                    $profile->files()->attach($file->id);
-                }
-            }
-        }        
+            Storage::disk('public')->delete($profile->file->filepath);
+
+            $newFile = $request->file('upload');
+            $newFileName = time() . '_' . $newFile->getClientOriginalName();
+            $newFilePath = $newFile->storeAs('uploads', $newFileName, 'public');
+
+            $profile->file->update([
+                'filesize' => $newFile->getSize(),
+                'filepath' => $newFilePath,
+            ]);
+        }  
 
         $profile->save();
 

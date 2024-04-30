@@ -7,7 +7,6 @@ import { updateProfile, delProfile } from '../../../slices/profile/thunks';
 const Profile = ({ profile, form }) => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const dispatch = useDispatch();
-
     useEffect(() => {
         if (profile) {
             setValue('gender', profile.gender);
@@ -21,16 +20,16 @@ const Profile = ({ profile, form }) => {
     }, []);
 
     const onSubmit = (data) => {
-        const jsonData = {
-            gender: data.gender,
-            description: data.description,
-            birthdate: data.birthdate,
-            gender_pref: data.gender_pref,
-            bandera: data.bandera,
-            upload: data.upload[0]
-        };
-        console.log(jsonData)
-        dispatch(updateProfile(jsonData));
+        const formData = new FormData();
+        formData.append('gender', data.gender);
+        formData.append('description', data.description);
+        formData.append('birthdate', data.birthdate);
+        formData.append('gender_pref', data.gender_pref);
+        formData.append('bandera', data.bandera);
+        if (data.upload.lenght > 0) {
+            formData.append('upload', data.upload[0]);
+        }
+        dispatch(updateProfile(formData, userData.id));
     };
     const handleDelProfile = () => {
         dispatch(delProfile())

@@ -4,7 +4,7 @@ import Layout from '../../components/Layout';
 import { Button } from 'react-bootstrap';
 import { Search } from 'react-bootstrap-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchUsers } from '../../slices/friendship/thunks';
+import { searchUsers, sendFriendRequest, cancelFriendRequest } from '../../slices/friendship/thunks';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
 const FriendSearcher = () => {
@@ -26,6 +26,19 @@ const FriendSearcher = () => {
         }
     };
 
+    const handleAcceptFriendRequest = (id) => {
+        // dispatch(acceptFriendRequest(id))
+    }
+
+    const handleSendFriendRequest = (id) => {
+        dispatch(sendFriendRequest(id))
+    }
+
+    const handleCancelFriendRequest = (id) => {
+        dispatch(cancelFriendRequest(id))
+    }
+
+    console.log(searchdata)
     return (
         <Layout>
             <form className="m-3 mx-auto" onSubmit={handleSubmit(onSubmit)} style={{ maxWidth: '550px' }}>
@@ -61,11 +74,23 @@ const FriendSearcher = () => {
                                     <td>@{user.username}</td>
                                     <td>{new Date(user.created_at).toLocaleDateString()}</td>
                                     <td>
-                                        <Button variant="primary" className="btn">
-                                            {user.friend_status === 'accepted' ? "Eliminar amigo" :
-                                                user.friend_status === 'pending' ? "Aceptar solicitud" :
-                                                    "Enviar solicitud"}
-                                        </Button>
+                                        {user.friend_status === 'accepted' ? (
+                                            <Button onClick={() => handleCancelFriendRequest(user.id)} variant="danger" className="btn">
+                                                Eliminar amigo
+                                            </Button>
+                                        ) : user.friend_status === 'sended' ? (
+                                            <Button variant="primary" className="btn" disabled>
+                                                Solicitud enviada
+                                            </Button>
+                                        ) : user.friend_status === 'pending' ? (
+                                            <Button onClick={() => handleAcceptFriendRequest(user.id)} variant="success" className="btn">
+                                                Aceptar solicitud
+                                            </Button>
+                                        ) : (
+                                            <Button onClick={() => handleSendFriendRequest(user.id)} variant="primary" className="btn">
+                                                Enviar solicitud
+                                            </Button>
+                                        )}
                                     </td>
                                 </tr>
                             ))}

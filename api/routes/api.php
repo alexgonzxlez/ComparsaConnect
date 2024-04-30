@@ -17,5 +17,7 @@ Route::middleware('auth:sanctum')->post('/profile', [ProfileController::class, '
 Route::middleware('auth:sanctum')->post('/profile/{id}', [ProfileController::class, 'update']);
 Route::middleware('auth:sanctum')->delete('/profile', [ProfileController::class, 'destroy']);
 Route::middleware('auth:sanctum')->get('/users/search', [FriendshipController::class, 'search']);
-Route::middleware('auth:sanctum')->post('/users/{recipient}/friend-request', [FriendshipController::class, 'sendFriendRequest']);
-Route::middleware('auth:sanctum')->put('/friend-requests/{friendship}/accept', [FriendshipController::class, 'acceptFriendRequest']);
+Route::middleware('auth:sanctum')->post('/send-friend/{recipient}', [FriendshipController::class, 'sendFriendRequest']);
+Route::middleware('auth:sanctum')->post('/accept-friend/{friend}', [FriendshipController::class, 'acceptFriendRequest']);
+Route::middleware('auth:sanctum')->delete('/cancel-friend/{friend}', [FriendshipController::class, 'cancelFriendRequest']);
+Route::middleware('auth:sanctum')->delete('/delete-friend/{friend}', [FriendshipController::class, 'removeFriend']);

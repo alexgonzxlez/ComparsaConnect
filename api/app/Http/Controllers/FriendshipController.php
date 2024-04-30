@@ -70,10 +70,14 @@ class FriendshipController extends Controller
         return response()->json(['success' => true, 'message' => 'Solicitud de amistad enviada.'], 201);
     }
     
-    public function acceptFriendRequest(Friendship $friendship)
+    public function acceptFriendRequest(User $friend)
     {
-        if ($friendship->friend_id !== auth()->id()) {
-            return response()->json(['error' => 'No tienes permiso para aceptar esta solicitud de amistad.'], 403);
+        $friendship = Friendship::where('user_id', $friend->id)
+                                ->where('friend_id', auth()->id())
+                                ->first();
+    
+        if (!$friendship) {
+            return response()->json(['error' => 'No tienes una solicitud de amistad pendiente de este usuario.'], 400);
         }
     
         if ($friendship->status === 'accepted') {
@@ -85,18 +89,36 @@ class FriendshipController extends Controller
     
         return response()->json(['success' => true, 'message' => 'Solicitud de amistad aceptada.'], 200);
     }
-    public function cancelFriendRequest(User $recipient)
-    {
-        $existingRequest = auth()->user()->friendships()->where('friend_id', $recipient->id)->first();
 
+    public function cancelFriendRequest(User $friend)
+    {
+        $existingRequest = Friendship::where('user_id', auth()->id())
+                                      ->where('friend_id', $friend->id)
+                                      ->first();
+    
         if (!$existingRequest) {
             return response()->json(['error' => 'No tienes una solicitud de amistad pendiente con este usuario.'], 400);
         }
-
+    
         // Eliminar la solicitud de amistad
         $existingRequest->delete();
-
+    
         return response()->json(['success' => true, 'message' => 'Solicitud de amistad cancelada.'], 200);
     }
+    public function removeFriend(User $friend)
+    {
+        $friendship = Friendship::where('user_id', auth()->id())
+                                ->where('friend_id', $friend->id)
+                                ->first();
 
+        if (!$friendship) {
+            return response()->json(['error' => 'No tienes una amistad con este usuario.'], 400);
+        }
+
+        $friendship->delete();
+
+        return response()->json(['success' => true, 'message' => 'Amistad eliminada.'], 200);
+    }
+
+    
 }

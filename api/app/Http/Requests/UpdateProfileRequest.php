@@ -27,8 +27,7 @@ class UpdateProfileRequest extends FormRequest
             'birthdate'     => 'required|date',
             'gender_pref'   => 'required|integer|exists:genders,id',
             'bandera'       => 'required|exists:banderas,id',
-            // 'upload'        => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'upload.*'      => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'upload'        => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }

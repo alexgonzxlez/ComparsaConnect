@@ -45,23 +45,19 @@ export const profileForm = () => {
     };
 };
 
-export const updateProfile = (formData) => {
+export const updateProfile = (formData, id) => {
     return async (dispatch, getState) => {
-        console.log(formData)
         const { token } = getState().auth;
         try {
-            const data = await fetch(process.env.API_URL + "profile", {
+            const data = await fetch(process.env.API_URL + "profile/" + id, {
                 headers: {
                     Accept: "application/json",
                     Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json"
-
                 },
-                method: "PUT",
-                body: JSON.stringify(formData)
+                method: "POST",
+                body: formData
             });
             const resposta = await data.json();
-            console.log(resposta);
             if (resposta.success) {
                 dispatch(refresh())
             }

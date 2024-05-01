@@ -47,7 +47,7 @@ export const getProfile = () => {
     };
 };
 
-export const updateProfile = (formData, id) => {
+export const updateProfile = (formData, id, displayNotification) => {
     return async (dispatch, getState) => {
         const { token } = getState().auth;
         try {
@@ -61,7 +61,11 @@ export const updateProfile = (formData, id) => {
             });
             const resposta = await data.json();
             if (resposta.success) {
-                dispatch(refresh())
+                displayNotification({
+                    message: "Se ha actualizado el perfil correctamente",
+                    type: "success"
+                });
+        
             }
         } catch (error) {
             // dispatch(setError("Error de conexión"));
@@ -70,7 +74,7 @@ export const updateProfile = (formData, id) => {
     };
 };
 
-export const delProfile = () => {
+export const delProfile = (displayNotification) => {
     return async (dispatch, getState) => {
         const { token } = getState().auth;
         try {
@@ -85,6 +89,11 @@ export const delProfile = () => {
             console.log(resposta)
             if (resposta.success) {
                 dispatch(refresh())
+                displayNotification({
+                    message: "Se ha eliminado el perfil correctamente",
+                    type: "success"
+                });
+
             }
         } catch (error) {
             // dispatch(setError("Error de conexión"));

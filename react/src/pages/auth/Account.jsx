@@ -2,24 +2,29 @@ import React, { useEffect } from 'react';
 import Layout from '../../components/Layout';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { updateAccount } from '../../slices/auth/thunks';
+import { updateAccount, user } from '../../slices/auth/thunks';
 import { Link, useNavigate } from 'react-router-dom';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const Account = () => {
-    const { userData } = useSelector(state => state.auth);
+    const { token, userData, isLoading } = useSelector(state => state.auth);
     const { register, handleSubmit, setError, formState: { errors }, setValue } = useForm();
     const dispatch = useDispatch();
     const { error, success, errs } = useSelector((state) => state.auth);
-    const navigate = useNavigate();
 
+    
     useEffect(() => {
-        if (userData) {
+        dispatch(user(token))
+    }, []);
+    
+    useEffect(() => {
+        if (userData && !isLoading) {
             setValue('name', userData.name);
             setValue('username', userData.username);
             setValue('email', userData.email);
         }
-    }, [userData, setValue]);
-
+    }, [userData, isLoading, setValue]);
+    
     useEffect(() => {
         if (errs) {
           Object.entries(errs).forEach(([key, errArr]) => {
@@ -42,6 +47,11 @@ const Account = () => {
         console.log(data);
         dispatch(updateAccount({ name: data.name, email: data.email, username: data.username }));
     };
+
+    if (isLoading) {
+        return <LoadingSpinner/>
+    }
+
     return (
         <Layout>
             <div className=''>

@@ -21,11 +21,11 @@ const FriendSearcher = () => {
     const handleChange = (e) => {
         const value = e.target.value;
         setSearchTerm(value);
-        if (value.length % 2 === 0 || value.length === searchTerm.length - 2) {
+        if (value.length >= 3) {
             dispatch(searchUsers(value));
         }
     };
-
+    
     const handleAcceptFriendRequest = (id) => {
         // dispatch(acceptFriendRequest(id))
     }

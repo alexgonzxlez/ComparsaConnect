@@ -1,4 +1,4 @@
-import { setToken, setUserData, setError, setErrors, removeAuthToken, setSuccess } from "./authSlice";
+import { setToken, setUserData, setError, setErrors, removeAuthToken, setSuccess, startLoading } from "./authSlice";
 import { createSession, destroySession } from "../../services/Cookies/SessionService";
 
 export const doLogin = (dades) => {
@@ -58,6 +58,7 @@ export const doRegister = (dades) => {
 
 export const user = (token) => {
     return async (dispatch) => {
+        dispatch(startLoading())
         try {
             const data = await fetch(process.env.API_URL + "user", {
                 headers: {

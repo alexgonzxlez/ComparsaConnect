@@ -1,14 +1,33 @@
-import React, { useEffect } from 'react';
-import Layout from '../../../components/Layout';
+import React, { useEffect, useState } from 'react';
+import Layout from '../../components/Layout';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { createProfile } from '../../../slices/profile/thunks';
+import { updateProfile, delProfile } from '../../slices/profile/thunks';
 
-const ProfileForm = ({ form }) => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const { error, success } = useSelector((state) => state.auth);
+const Profile = ({ profile, form }) => {
+    const { register, handleSubmit, setValue, formState: { errors }, watch } = useForm();
     const dispatch = useDispatch();
+    const [currentImage, setCurrentImage] = useState(null);
+    const watchUpload = watch("upload");
+    const { userData } = useSelector(state => state.auth);
 
+    useEffect(() => {
+        if (profile) {
+            setValue('gender', profile.gender);
+            setValue('description', profile.description);
+            setValue('birthdate', profile.birthdate);
+            setValue('gender_pref', profile.gender_pref);
+            setValue('bandera', profile.bandera);
+            // setValue('upload', profile.upload);
+        }
+
+    }, []);
+
+    useEffect(() => {
+        if (watchUpload) {
+            setCurrentImage(watchUpload[0]);
+        }
+    }, [watchUpload]);
 
     const onSubmit = (data) => {
         const formData = new FormData();
@@ -17,20 +36,24 @@ const ProfileForm = ({ form }) => {
         formData.append('birthdate', data.birthdate);
         formData.append('gender_pref', data.gender_pref);
         formData.append('bandera', data.bandera);
-        formData.append('upload', data.upload[0]);
-
-        dispatch(createProfile(formData))
+        if (data.upload.length > 0) {
+            formData.append('upload', data.upload[0]);
+        }
+        dispatch(updateProfile(formData, userData.id));
     };
+
+    const handleDelProfile = () => {
+        dispatch(delProfile())
+    }
 
     return (
         <Layout>
             <div className=''>
-                <h2>Crear perfil</h2>
+                <h2>Perfil</h2>
                 <form className="table" onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
                     <div className="form-group mb-3">
-                        <label htmlFor="gender">¿Cómo te identificas?</label>
+                        <label htmlFor="gender">Identidad de genero</label>
                         <select id="gender" className={`form-control ${errors.gender ? "is-invalid" : ""}`} {...register("gender", { required: true })}>
-                            <option value="">Selecciona un género</option>
                             {form.genders.map(gender => (
                                 <option key={gender.id} value={gender.id}>{gender.name}</option>
                             ))}
@@ -41,7 +64,7 @@ const ProfileForm = ({ form }) => {
                     </div>
 
                     <div className='form-group mb-3'>
-                        <label htmlFor='description'>Cuéntanos sobre ti</label>
+                        <label htmlFor='description'>Descripción sobre ti</label>
                         <textarea
                             id='description'
                             className={`form-control ${errors.description ? "is-invalid" : ""}`}
@@ -65,6 +88,7 @@ const ProfileForm = ({ form }) => {
                             id='birthdate'
                             className={`form-control ${errors.birthdate ? "is-invalid" : ""}`}
                             {...register("birthdate", { required: true })}
+                            readOnly disabled
                         />
                         {errors.birthdate && errors.birthdate.type === "required" && (
                             <span className="invalid-feedback">Campo obligatorio</span>
@@ -72,36 +96,26 @@ const ProfileForm = ({ form }) => {
                     </div>
 
                     <div className="form-group mb-3">
-                            <label htmlFor="gender_pref">¿Tienes alguna preferencia en cuanto a género?</label>
-                            <select id="gender_pref" className={`form-control ${errors.birthdate ? "is-invalid" : ""}`}
-                                {...register("gender_pref", { required: true })}>
-                                <option value="">Selecciona una preferencia de género</option>
-                                {form.genders.map(gender => (
-                                    <option key={gender.id} value={gender.id}>{gender.name}</option>
-                                ))}
-                            </select>
-                            {errors.gender_pref && errors.gender_pref.type === "required" && (
-                            <span className="invalid-feedback">Campo obligatorio</span>
-                        )}
-
+                        <label htmlFor="gender_pref">Preferencia en cuanto a género</label>
+                        <select id="gender_pref" className={`form-control ${errors.birthdate ? "is-invalid" : ""}`}
+                            {...register("gender_pref", { required: true })}>
+                            {form.genders.map(gender => (
+                                <option key={gender.id} value={gender.id}>{gender.name}</option>
+                            ))}
+                        </select>
                     </div>
 
                     <div className='form-group mb-3'>
-                        <label htmlFor='bandera'>¿Tienes alguna preferencia a la hora de elegir una bandera?</label>
+                        <label htmlFor='bandera'>Preferencia a la hora de elegir una bandera</label>
                         <select
                             id='bandera'
                             className={`form-control ${errors.birthdate ? "is-invalid" : ""}`}
                             {...register("bandera", { required: true })}
                         >
-                            <option value=''>Selecciona una preferencia de Bandera</option>
                             {form.banderas.map(bandera => (
                                 <option key={bandera.id} value={bandera.id}>{bandera.name}</option>
                             ))}
                         </select>
-                        {errors.bandera && errors.bandera.type === "required" && (
-                            <span className="invalid-feedback">Campo obligatorio</span>
-                        )}
-
                     </div>
 
                     <div className='form-group mb-3'>
@@ -109,26 +123,27 @@ const ProfileForm = ({ form }) => {
                         <input
                             type='file'
                             id='upload'
+                            // onChange={uploadChange}
                             className={`form-control ${errors.upload ? "is-invalid" : ""}`}
-                            {...register("upload", { required: true })}
+                            {...register("upload")}
                         />
                         {errors.upload && (
                             <span className="invalid-feedback">Por favor selecciona una imagen válida</span>
                         )}
                     </div>
-
-                    {success && (
-                        <div className='alert alert-success'>
-                            Se han aplicado los cambios correctamente
-                        </div>
-                    )}
-                    {error && (
-                        <div className="alert alert-danger">
-                            {error}
-                        </div>
-                    )}
-                    <div className='form-group text-center'>
-                        <button type='submit' className='btn btn-primary btn-block'>Crear perfil</button>
+                    <div className='form-group mb-3'>
+                        <p>Imagen actual</p>
+                        {currentImage ? (
+                            <img src={URL.createObjectURL(currentImage)} alt="Imagen actual" className='img-fluid' />
+                        ) : (
+                            profile.file && profile.file.filepath && (
+                                <img src={process.env.API_STORAGE + profile.file.filepath} alt="Imagen actual" className='img-fluid' />
+                            )
+                        )}
+                    </div>
+                    <div className='text-center '>
+                        <button type='submit' className='btn btn-secondary me-2'>Aplicar cambios</button>
+                        <button type='button' className='btn btn-danger me-2' onClick={handleDelProfile}>Eliminar perfil</button>
                     </div>
                 </form>
             </div>
@@ -136,4 +151,4 @@ const ProfileForm = ({ form }) => {
     );
 }
 
-export default ProfileForm;
+export default Profile;

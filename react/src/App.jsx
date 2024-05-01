@@ -9,7 +9,7 @@ import LoginRegister from './pages/auth/LoginRegister';
 import Account from './pages/auth/Account';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Bootstrap JS
 import NotFound from './components/NotFound';
-import ProfileCheck from './pages/comparsa/profile/ProfileCheck';
+import ProfileCheck from './pages/profile/ProfileCheck';
 import FriendSearcher from './pages/contacts/FriendSearcher';
 
 function App() {

@@ -128,9 +128,6 @@ class FriendshipController extends Controller
         $user = Auth::user();
 
         $friendships = $user->pendingfriends;
-        if ($friendships->isEmpty()) {
-            return response()->json(['success' => false, 'message' => 'No hay solicitudes de amistad.'], 404);
-        }
         
         return response()->json(['success' => true, 'friendships' => $friendships], 200);
     }

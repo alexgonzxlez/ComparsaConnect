@@ -122,8 +122,6 @@ const ProfileForm = ({ form }) => {
                             <span className="invalid-feedback">Por favor selecciona una imagen válida</span>
                         )}
                     </div>
-<<<<<<< HEAD
-=======
 
                     <div className='form-group mb-3'>
                         {currentImage && (
@@ -131,17 +129,6 @@ const ProfileForm = ({ form }) => {
                         )}
                     </div>
 
-                    {success && (
-                        <div className='alert alert-success'>
-                            Se han aplicado los cambios correctamente
-                        </div>
-                    )}
-                    {error && (
-                        <div className="alert alert-danger">
-                            {error}
-                        </div>
-                    )}
->>>>>>> d455e7e5ca0a003d6119d5061aea9f9ac991646f
                     <div className='form-group text-center'>
                         <button type='submit' className='btn btn-primary btn-block'>Crear perfil</button>
                     </div>

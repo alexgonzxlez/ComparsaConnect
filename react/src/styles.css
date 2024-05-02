@@ -10919,3 +10919,7 @@ header.masthead .bg-circle-4 {
     font-size: 4rem;
   }
 }
+.active {
+  color: var(--bs-primary);
+  font-weight: bold;
+}

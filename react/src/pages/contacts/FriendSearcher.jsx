@@ -4,7 +4,7 @@ import Layout from '../../components/Layout';
 import { Button } from 'react-bootstrap';
 import { Search } from 'react-bootstrap-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchUsers, sendFriendRequest, cancelFriendRequest } from '../../slices/friendship/thunks';
+import { searchUsers, sendFriendRequest, cancelFriendRequest, acceptFriendRequest } from '../../slices/friendship/thunks';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
 const FriendSearcher = () => {
@@ -28,7 +28,7 @@ const FriendSearcher = () => {
     };
 
     const handleAcceptFriendRequest = (id) => {
-        // dispatch(acceptFriendRequest(id))
+        dispatch(acceptFriendRequest(id))
     }
 
     const handleSendFriendRequest = (id) => {

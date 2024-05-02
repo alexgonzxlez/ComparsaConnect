@@ -87,3 +87,33 @@ export const cancelFriendRequest = (id) => {
         }
     };
 };
+
+export const acceptFriendRequest = (id) => {
+    return async (dispatch, getState) => {
+        const { token } = getState().auth;
+        try {
+            const data = await fetch(process.env.API_URL + "accept-friend/" + id, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                method: "POST",
+            });
+            const resposta = await data.json();
+            if (resposta.success) {
+                const searchdata = getState().friendship.searchdata;
+                const updatedSearchData = searchdata.map(user => {
+                    if (user.id === id) {
+                        return { ...user, friend_status: 'accepted' };
+                    }
+                    return user;
+                });
+                dispatch(setSearchdata(updatedSearchData));
+            }
+        } catch (error) {
+            console.error(error);
+            // Maneja el error aquí
+        }
+    };
+}

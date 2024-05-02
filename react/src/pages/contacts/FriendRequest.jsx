@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import Layout from '../../components/Layout';
 import { useSelector, useDispatch } from 'react-redux';
 import { listFriendRequest } from '../../slices/friendship/thunks';
 import TimeAgo from "react-timeago";
@@ -9,6 +8,7 @@ import { Card, Button } from 'react-bootstrap';
 import { acceptFriendRequest, cancelFriendRequest } from '../../slices/friendship/thunks';
 import { CheckCircle, XCircle } from 'react-bootstrap-icons';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import ContactsLayout from './ContactsLayout'
 
 const FriendRequest = () => {
     const { requestsList, isLoading } = useSelector(state => state.friendship);
@@ -29,10 +29,8 @@ const FriendRequest = () => {
         return <LoadingSpinner/>
     }
 
-    console.log(requestsList)
-
     return (
-        <Layout>
+        <ContactsLayout>
             <div>
                 <h2>Solicitudes de amistad</h2>
                 {requestsList ? (
@@ -65,7 +63,7 @@ const FriendRequest = () => {
                     <p>No hay solicitudes de amistad.</p>
                 )}
             </div>
-        </Layout>
+        </ContactsLayout>
     );
 };
 

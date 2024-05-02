@@ -7,8 +7,8 @@ const ContactsLayout = ({ children }) => {
         <Layout>
             <div className='navbar navbar-expand-lg navbar-light d-flex justify-content-center'>
                 <NavLink to="/contacts" className="nav-link mx-2">Amigos</NavLink>
-                <NavLink to="/posts/grid" className="nav-link mx-2" >Buscar</NavLink>
-                <NavLink to="/friends-request" className="nav-link mx-2" >Solicitudes (1)</NavLink>
+                <NavLink to="/friend-search" className="nav-link mx-2" >Buscar</NavLink>
+                <NavLink to="/friend-request" className="nav-link mx-2" >Solicitudes (1)</NavLink>
             </div>
             {children}
         </Layout>

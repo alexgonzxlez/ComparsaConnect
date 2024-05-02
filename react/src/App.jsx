@@ -11,7 +11,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Bootstrap JS
 import NotFound from './components/NotFound';
 import ProfileCheck from './pages/profile/ProfileCheck';
 import FriendSearcher from './pages/contacts/FriendSearcher';
-import FriendRequest from './pages/notifications/FriendRequest';
+import FriendRequest from './pages/contacts/FriendRequest';
 
 function App() {
 
@@ -32,7 +32,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/account" element={<Account />} />
           <Route path="/profile" element={<ProfileCheck />} />
-          <Route path="/contacts" element={<FriendSearcher />} />
+          <Route path="/friend-search" element={<FriendSearcher />} />
           <Route path="/friend-request" element={<FriendRequest />} />
         </Routes>
       ) : (

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Layout from '../../components/Layout';
 import { Button } from 'react-bootstrap';
 import { Search } from 'react-bootstrap-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchUsers, sendFriendRequest, cancelFriendRequest, acceptFriendRequest } from '../../slices/friendship/thunks';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import ContactsLayout from './ContactsLayout'
 
 const FriendSearcher = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -40,7 +40,7 @@ const FriendSearcher = () => {
     }
 
     return (
-        <Layout>
+        <ContactsLayout>
             <form className="m-3 mx-auto" onSubmit={handleSubmit(onSubmit)} style={{ maxWidth: '550px' }}>
                 <div className="input-group">
                     <input
@@ -102,7 +102,7 @@ const FriendSearcher = () => {
                     <p>No se encontraron resultados.</p>
                 </div>
             ) : null}
-        </Layout>
+        </ContactsLayout>
     );
 };
 

@@ -22,3 +22,4 @@ Route::middleware('auth:sanctum')->post('/accept-friend/{friend}', [FriendshipCo
 Route::middleware('auth:sanctum')->delete('/cancel-friend/{friend}', [FriendshipController::class, 'cancelFriendRequest']);
 Route::middleware('auth:sanctum')->delete('/delete-friend/{friend}', [FriendshipController::class, 'removeFriend']);
 Route::middleware('auth:sanctum')->get('/friend-request', [FriendshipController::class, 'getFriendRequest']);
+Route::middleware('auth:sanctum')->get('/friends', [FriendshipController::class, 'getfriends']);

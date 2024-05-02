@@ -34,10 +34,13 @@ export const friendshipSlice = createSlice({
             state.requestsList = action.payload;
             state.isLoading = false
         },
+        stopLoading: (state) => {
+            state.isLoading = false
+        },
     }
 });
 
 // Action creators are generated for each case reducer function
-export const { startLoading, setSearchdata, updateSearchData, setRequestList } = friendshipSlice.actions
+export const { startLoading, setSearchdata, updateSearchData, setRequestList, stopLoading } = friendshipSlice.actions
 
 export const friendshipReducer = friendshipSlice.reducer

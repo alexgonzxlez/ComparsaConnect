@@ -52,7 +52,7 @@ class FriendshipController extends Controller
         ], 200);
     }
         
-    
+
     public function sendFriendRequest(User $recipient)
     {
         if ($recipient->id === auth()->id()) {
@@ -133,6 +133,15 @@ class FriendshipController extends Controller
         }
         
         return response()->json(['success' => true, 'friendships' => $friendships], 200);
+    }
+    public function getFriends()
+    {
+        $user = Auth::user();
+
+        $friendships = $user->friends;
+
+        
+        return response()->json(['success' => true, 'friends' => $friendships], 200);
     }
 
 }

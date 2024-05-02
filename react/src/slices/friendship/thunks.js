@@ -1,4 +1,4 @@
-import { setSearchdata, startLoading, updateSearchData, setRequestList } from "./friendshipSlice";
+import { setSearchdata, startLoading, updateSearchData, setRequestList, stopLoading } from "./friendshipSlice";
 
 export const searchUsers = (filter) => {
     return async (dispatch, getState) => {
@@ -136,6 +136,7 @@ export const listFriendRequest = () => {
             if (resposta.success) {
                 dispatch(setRequestList(resposta.friendships));
             }
+            dispatch(stopLoading())
         } catch (error) {
             console.error(error);
             // Maneja el error aquí

@@ -1,5 +1,6 @@
 import { setToken, setUserData, setError, setErrors, removeAuthToken, setSuccess, startLoading } from "./authSlice";
 import { createSession, destroySession } from "../../services/Cookies/SessionService";
+import { NotificationActions } from "../../components/Notifications/notificationSlice";
 
 export const doLogin = (dades) => {
     return async (dispatch) => {
@@ -76,7 +77,11 @@ export const user = (token) => {
                 dispatch(setUserData(resposta.data.user))
             }
         } catch (error) {
-            dispatch(setError("Error de conexión"));
+            dispatch(NotificationActions.addNotification({
+                timeout: null,
+                message: "Error de conexión",
+                type: "error"
+            }));        
         }
     }
 }
@@ -125,12 +130,19 @@ export const updateAccount = (dades) => {
                 dispatch(setErrors(resposta.errors));
             }
             if (resposta.success) {
-                dispatch(setSuccess())
+                dispatch(NotificationActions.addNotification({
+                    message: "Se ha actualizado tu cuenta correctamente",
+                    type: "info"
+                }));        
                 dispatch(setUserData(resposta.data))
             }
         } catch (error) {
-            dispatch(setError("Error de conexión"));
-        }
+            dispatch(NotificationActions.addNotification({
+                timeout: null,
+                message: "Error de conexión",
+                type: "error"
+            }));        
+    }
     };
 };
 

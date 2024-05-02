@@ -6,7 +6,6 @@ import { createProfile } from '../../slices/profile/thunks';
 
 const ProfileForm = ({ form }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const { error, success } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
 
@@ -116,17 +115,6 @@ const ProfileForm = ({ form }) => {
                             <span className="invalid-feedback">Por favor selecciona una imagen válida</span>
                         )}
                     </div>
-
-                    {success && (
-                        <div className='alert alert-success'>
-                            Se han aplicado los cambios correctamente
-                        </div>
-                    )}
-                    {error && (
-                        <div className="alert alert-danger">
-                            {error}
-                        </div>
-                    )}
                     <div className='form-group text-center'>
                         <button type='submit' className='btn btn-primary btn-block'>Crear perfil</button>
                     </div>

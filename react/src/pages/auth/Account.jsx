@@ -10,7 +10,7 @@ const Account = () => {
     const { token, userData, isLoading } = useSelector(state => state.auth);
     const { register, handleSubmit, setError, formState: { errors }, setValue } = useForm();
     const dispatch = useDispatch();
-    const { error, success, errs } = useSelector((state) => state.auth);
+    const { errs } = useSelector((state) => state.auth);
 
     
     useEffect(() => {
@@ -117,16 +117,6 @@ const Account = () => {
                                 <input type="date" id="created_at" value={formatDate(userData.created_at)} readOnly disabled className="form-control" />
                             </div>
                         </div>
-                        {success && (
-                            <div className="alert alert-success">
-                                Se han aplicado los cambios correctamente
-                            </div>
-                        )}
-                        {error && (
-                            <div className="alert alert-danger">
-                                {error}
-                            </div>
-                        )}
                         <div className="mt-3 text-center">
                             <button type="submit" className="btn btn-primary btn-block">Aplicar cambios</button>
                         </div>

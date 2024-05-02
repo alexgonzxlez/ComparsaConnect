@@ -16,10 +16,25 @@ export const createProfile = (formData) => {
             const resposta = await data.json();
             if (resposta.success) {
                 dispatch(refresh())
+                dispatch(NotificationActions.addNotification({
+                    message: "Se ha creado tu perfil correctamente",
+                    type: "success"
+                }));
+
+            } else {
+                dispatch(NotificationActions.addNotification({
+                    timeout: null,
+                    message: resposta.message,
+                    type: "error"
+                }));
+
             }
-            console.log(resposta)
         } catch (error) {
-            // dispatch(setError("Error de conexión"));
+            dispatch(NotificationActions.addNotification({
+                timeout: null,
+                message: "Error de conexión",
+                type: "error"
+            }));
             console.error(error)
         }
     };
@@ -42,7 +57,11 @@ export const getProfile = () => {
                 dispatch(setProfile(resposta.profile))
             }
         } catch (error) {
-            // dispatch(setError("Error de conexión"));
+            dispatch(NotificationActions.addNotification({
+                timeout: null,
+                message: "Error de conexión",
+                type: "error"
+            }));
             console.error(error)
         }
     };
@@ -64,11 +83,15 @@ export const updateProfile = (formData, id) => {
             if (resposta.success) {
                 dispatch(NotificationActions.addNotification({
                     message: "Se ha actualizado el perfil correctamente",
-                    type: "success"
-                }));        
+                    type: "info"
+                }));
             }
         } catch (error) {
-            // dispatch(setError("Error de conexión"));
+            dispatch(NotificationActions.addNotification({
+                timeout: null,
+                message: "Error de conexión",
+                type: "error"
+            }));
             console.error(error)
         }
     };
@@ -90,14 +113,19 @@ export const delProfile = () => {
             if (resposta.success) {
                 dispatch(refresh())
                 dispatch(NotificationActions.addNotification({
-                    message: "Se ha actualizado el perfil correctamente",
+                    message: "Se ha eliminado el perfil correctamente",
                     type: "success"
-                }));        
+                }));
 
             }
         } catch (error) {
-            // dispatch(setError("Error de conexión"));
             console.error(error)
+            dispatch(NotificationActions.addNotification({
+                timeout: null,
+                message: "Error de conexión",
+                type: "error"
+            }));
+
         }
     };
 };

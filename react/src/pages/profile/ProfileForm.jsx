@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { createProfile } from '../../slices/profile/thunks';
 
 const ProfileForm = ({ form }) => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, watch } = useForm();
     const { error, success } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
-
+    const [currentImage, setCurrentImage] = useState(null);
+    const watchUpload = watch("upload");
 
     const onSubmit = (data) => {
         const formData = new FormData();
@@ -21,6 +22,12 @@ const ProfileForm = ({ form }) => {
 
         dispatch(createProfile(formData))
     };
+
+    useEffect(() => {
+        if (watchUpload) {
+            setCurrentImage(watchUpload[0]);
+        }
+    }, [watchUpload]);
 
     return (
         <Layout>
@@ -72,15 +79,15 @@ const ProfileForm = ({ form }) => {
                     </div>
 
                     <div className="form-group mb-3">
-                            <label htmlFor="gender_pref">¿Tienes alguna preferencia en cuanto a género?</label>
-                            <select id="gender_pref" className={`form-control ${errors.birthdate ? "is-invalid" : ""}`}
-                                {...register("gender_pref", { required: true })}>
-                                <option value="">Selecciona una preferencia de género</option>
-                                {form.genders.map(gender => (
-                                    <option key={gender.id} value={gender.id}>{gender.name}</option>
-                                ))}
-                            </select>
-                            {errors.gender_pref && errors.gender_pref.type === "required" && (
+                        <label htmlFor="gender_pref">¿Tienes alguna preferencia en cuanto a género?</label>
+                        <select id="gender_pref" className={`form-control ${errors.birthdate ? "is-invalid" : ""}`}
+                            {...register("gender_pref", { required: true })}>
+                            <option value="">Selecciona una preferencia de género</option>
+                            {form.genders.map(gender => (
+                                <option key={gender.id} value={gender.id}>{gender.name}</option>
+                            ))}
+                        </select>
+                        {errors.gender_pref && errors.gender_pref.type === "required" && (
                             <span className="invalid-feedback">Campo obligatorio</span>
                         )}
 
@@ -114,6 +121,12 @@ const ProfileForm = ({ form }) => {
                         />
                         {errors.upload && (
                             <span className="invalid-feedback">Por favor selecciona una imagen válida</span>
+                        )}
+                    </div>
+
+                    <div className='form-group mb-3'>
+                        {currentImage && (
+                            <img src={URL.createObjectURL(currentImage)} alt="Imagen actual" className='img-fluid' />
                         )}
                     </div>
 

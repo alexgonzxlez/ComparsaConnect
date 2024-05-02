@@ -12,6 +12,7 @@ const FriendSearcher = () => {
     const dispatch = useDispatch();
     const { searchdata } = useSelector(state => state.friendship);
     const [searchTerm, setSearchTerm] = useState('');
+    const [buttonText, setButtonText] = useState('Solicitud enviada');
 
     const onSubmit = (data) => {
         dispatch(searchUsers(data.filter))
@@ -25,7 +26,7 @@ const FriendSearcher = () => {
             dispatch(searchUsers(value));
         }
     };
-    
+
     const handleAcceptFriendRequest = (id) => {
         // dispatch(acceptFriendRequest(id))
     }
@@ -38,7 +39,6 @@ const FriendSearcher = () => {
         dispatch(cancelFriendRequest(id))
     }
 
-    console.log(searchdata)
     return (
         <Layout>
             <form className="m-3 mx-auto" onSubmit={handleSubmit(onSubmit)} style={{ maxWidth: '550px' }}>
@@ -79,8 +79,8 @@ const FriendSearcher = () => {
                                                 Eliminar amigo
                                             </Button>
                                         ) : user.friend_status === 'sended' ? (
-                                            <Button variant="primary" className="btn" disabled>
-                                                Solicitud enviada
+                                            <Button onMouseOver={() => setButtonText('Cancelar')} onMouseOut={() => setButtonText('Solicitud enviada')} onClick={() => handleCancelFriendRequest(user.id)} variant="primary" className="btn">
+                                                {buttonText}
                                             </Button>
                                         ) : user.friend_status === 'pending' ? (
                                             <Button onClick={() => handleAcceptFriendRequest(user.id)} variant="success" className="btn">

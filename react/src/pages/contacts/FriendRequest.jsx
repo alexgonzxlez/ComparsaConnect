@@ -37,7 +37,7 @@ const FriendRequest = () => {
         <ContactsLayout>
             <div>
                 <h2>Solicitudes de amistad</h2>
-                {requestsList ? (
+                {requestsList && requestsList.length > 0 ? (
                     <div>
                         {requestsList.map((request, index) => (
                             <Card key={index} className="my-2">

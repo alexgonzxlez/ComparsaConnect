@@ -1,4 +1,4 @@
-import { setSearchdata, startLoading, updateSearchData } from "./friendshipSlice";
+import { setSearchdata, startLoading, updateSearchData, setRequestList } from "./friendshipSlice";
 
 export const searchUsers = (filter) => {
     return async (dispatch, getState) => {
@@ -60,6 +60,7 @@ export const sendFriendRequest = (id) => {
 
 export const cancelFriendRequest = (id) => {
     return async (dispatch, getState) => {
+        console.log(id)
         const { token } = getState().auth;
         try {
             const data = await fetch(process.env.API_URL + "cancel-friend/" + id, {
@@ -71,15 +72,16 @@ export const cancelFriendRequest = (id) => {
                 method: "DELETE",
             });
             const resposta = await data.json();
+            console.log(resposta)
             if (resposta.success) {
-                const searchdata = getState().friendship.searchdata;
-                const updatedSearchData = searchdata.map(user => {
-                    if (user.id === id) {
-                        return { ...user, friend_status: null };
-                    }
-                    return user;
-                });
-                dispatch(setSearchdata(updatedSearchData));
+                // const searchdata = getState().friendship.searchdata;
+                // const updatedSearchData = searchdata.map(user => {
+                //     if (user.id === id) {
+                //         return { ...user, friend_status: null };
+                //     }
+                //     return user;
+                // });
+                // dispatch(setSearchdata(updatedSearchData));
             }
         } catch (error) {
             console.error(error);
@@ -102,14 +104,38 @@ export const acceptFriendRequest = (id) => {
             });
             const resposta = await data.json();
             if (resposta.success) {
-                const searchdata = getState().friendship.searchdata;
-                const updatedSearchData = searchdata.map(user => {
-                    if (user.id === id) {
-                        return { ...user, friend_status: 'accepted' };
-                    }
-                    return user;
-                });
-                dispatch(setSearchdata(updatedSearchData));
+                // const searchdata = getState().friendship.searchdata;
+                // const updatedSearchData = searchdata.map(user => {
+                //     if (user.id === id) {
+                //         return { ...user, friend_status: 'accepted' };
+                //     }
+                //     return user;
+                // });
+                // dispatch(setSearchdata(updatedSearchData));
+            }
+        } catch (error) {
+            console.error(error);
+            // Maneja el error aquí
+        }
+    };
+}
+
+export const listFriendRequest = () => {
+    return async (dispatch, getState) => {
+        dispatch(startLoading())
+        const { token } = getState().auth;
+        try {
+            const data = await fetch(process.env.API_URL + "friend-request", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                method: "GET",
+            });
+            const resposta = await data.json();
+            if (resposta.success) {
+                dispatch(setRequestList(resposta.friendships));
             }
         } catch (error) {
             console.error(error);

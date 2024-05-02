@@ -3,7 +3,6 @@ import Layout from '../../components/Layout';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateProfile, delProfile } from '../../slices/profile/thunks';
-import { useNotification } from '../../components/Notifications/useNotification';
 
 const Profile = ({ profile, form }) => {
     const { register, handleSubmit, setValue, formState: { errors }, watch } = useForm();
@@ -11,7 +10,6 @@ const Profile = ({ profile, form }) => {
     const [currentImage, setCurrentImage] = useState(null);
     const watchUpload = watch("upload");
     const { userData } = useSelector(state => state.auth);
-    const { displayNotification } = useNotification();
 
     useEffect(() => {
         if (profile) {
@@ -41,11 +39,11 @@ const Profile = ({ profile, form }) => {
         if (data.upload.length > 0) {
             formData.append('upload', data.upload[0]);
         }
-        dispatch(updateProfile(formData, userData.id, displayNotification));
+        dispatch(updateProfile(formData, userData.id));
     };
 
     const handleDelProfile = () => {
-        dispatch(delProfile(displayNotification))
+        dispatch(delProfile())
     }
 
     return (

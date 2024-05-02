@@ -1,3 +1,4 @@
+import { NotificationActions } from "../../components/Notifications/notificationSlice";
 import { refresh, setProfile, setform, startLoading } from "./profileSlice";
 
 export const createProfile = (formData) => {
@@ -47,7 +48,7 @@ export const getProfile = () => {
     };
 };
 
-export const updateProfile = (formData, id, displayNotification) => {
+export const updateProfile = (formData, id) => {
     return async (dispatch, getState) => {
         const { token } = getState().auth;
         try {
@@ -61,11 +62,10 @@ export const updateProfile = (formData, id, displayNotification) => {
             });
             const resposta = await data.json();
             if (resposta.success) {
-                displayNotification({
+                dispatch(NotificationActions.addNotification({
                     message: "Se ha actualizado el perfil correctamente",
                     type: "success"
-                });
-        
+                }));        
             }
         } catch (error) {
             // dispatch(setError("Error de conexión"));
@@ -74,7 +74,7 @@ export const updateProfile = (formData, id, displayNotification) => {
     };
 };
 
-export const delProfile = (displayNotification) => {
+export const delProfile = () => {
     return async (dispatch, getState) => {
         const { token } = getState().auth;
         try {
@@ -89,10 +89,10 @@ export const delProfile = (displayNotification) => {
             console.log(resposta)
             if (resposta.success) {
                 dispatch(refresh())
-                displayNotification({
-                    message: "Se ha eliminado el perfil correctamente",
+                dispatch(NotificationActions.addNotification({
+                    message: "Se ha actualizado el perfil correctamente",
                     type: "success"
-                });
+                }));        
 
             }
         } catch (error) {

@@ -16,6 +16,11 @@ const Notification = () => {
       open={notification.open}
       autoHideDuration={notification.timeout}
       onClose={handleClose}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'center',
+      }}
+
     >
       <Alert
         variant="filled"

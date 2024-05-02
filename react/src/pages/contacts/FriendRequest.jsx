@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { listFriendRequest } from '../../slices/friendship/thunks';
+import { listFriendRequest, acceptFriendRequest, cancelFriendRequest } from '../../slices/friendship/thunks';
 import TimeAgo from "react-timeago";
 import spanishStrings from "react-timeago/lib/language-strings/es";
 import buildFormatter from "react-timeago/lib/formatters/buildFormatter";
 import { Card, Button } from 'react-bootstrap';
-import { acceptFriendRequest, cancelFriendRequest } from '../../slices/friendship/thunks';
 import { CheckCircle, XCircle } from 'react-bootstrap-icons';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import ContactsLayout from './ContactsLayout'
+import ContactsLayout from './ContactsLayout';
 
 const FriendRequest = () => {
     const { requestsList, isLoading } = useSelector(state => state.friendship);
@@ -16,15 +15,20 @@ const FriendRequest = () => {
 
     useEffect(() => {
         dispatch(listFriendRequest());
-    }, []);
+    }, [dispatch]);
 
     const handleAccept = (id) => {
-        dispatch(acceptFriendRequest(id))
+        dispatch(acceptFriendRequest(id)).then(() => {
+            dispatch(listFriendRequest());
+        });
     };
 
     const handleReject = (id) => {
-        dispatch(cancelFriendRequest(id))
+        dispatch(cancelFriendRequest(id)).then(() => {
+            dispatch(listFriendRequest());
+        });
     };
+
     if (isLoading) {
         return <LoadingSpinner/>
     }

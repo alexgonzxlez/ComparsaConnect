@@ -72,16 +72,15 @@ export const cancelFriendRequest = (id) => {
                 method: "DELETE",
             });
             const resposta = await data.json();
-            console.log(resposta)
             if (resposta.success) {
-                // const searchdata = getState().friendship.searchdata;
-                // const updatedSearchData = searchdata.map(user => {
-                //     if (user.id === id) {
-                //         return { ...user, friend_status: null };
-                //     }
-                //     return user;
-                // });
-                // dispatch(setSearchdata(updatedSearchData));
+                const searchdata = getState().friendship.searchdata;
+                const updatedSearchData = searchdata.map(user => {
+                    if (user.id === id) {
+                        return { ...user, friend_status: null };
+                    }
+                    return user;
+                });
+                dispatch(setSearchdata(updatedSearchData));
             }
         } catch (error) {
             console.error(error);
@@ -104,14 +103,14 @@ export const acceptFriendRequest = (id) => {
             });
             const resposta = await data.json();
             if (resposta.success) {
-                // const searchdata = getState().friendship.searchdata;
-                // const updatedSearchData = searchdata.map(user => {
-                //     if (user.id === id) {
-                //         return { ...user, friend_status: 'accepted' };
-                //     }
-                //     return user;
-                // });
-                // dispatch(setSearchdata(updatedSearchData));
+                const searchdata = getState().friendship.searchdata;
+                const updatedSearchData = searchdata.map(user => {
+                    if (user.id === id) {
+                        return { ...user, friend_status: 'accepted' };
+                    }
+                    return user;
+                });
+                dispatch(setSearchdata(updatedSearchData));
             }
         } catch (error) {
             console.error(error);

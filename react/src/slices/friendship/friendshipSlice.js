@@ -4,7 +4,9 @@ import { act } from 'react';
 const initialState = {
     searchdata: null,
     isLoading: false,
-    requestsList: null
+    requestsList: null,
+    pendingList: null,
+    friends: null
 };
 
 export const friendshipSlice = createSlice({
@@ -34,6 +36,14 @@ export const friendshipSlice = createSlice({
             state.requestsList = action.payload;
             state.isLoading = false
         },
+        setPendingList: (state, action) => {
+            state.pendingList = action.payload;
+            state.isLoading = false
+        },
+        setFriends: (state, action) => {
+            state.friends = action.payload;
+            state.isLoading = false
+        },
         stopLoading: (state) => {
             state.isLoading = false
         },
@@ -41,6 +51,6 @@ export const friendshipSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { startLoading, setSearchdata, updateSearchData, setRequestList, stopLoading } = friendshipSlice.actions
+export const { startLoading, setSearchdata, updateSearchData, setRequestList, stopLoading, setPendingList, setFriends } = friendshipSlice.actions
 
 export const friendshipReducer = friendshipSlice.reducer

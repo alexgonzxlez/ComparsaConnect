@@ -95,19 +95,20 @@ class FriendshipController extends Controller
 
     public function cancelFriendRequest(User $friend)
     {
-        $existingRequest = Friendship::where('user_id', $friend->id)
-                                      ->where('friend_id', auth()->id())
-                                      ->first();
-    
+        $existingRequest = Friendship::where('user_id', auth()->id())
+                                    ->where('friend_id', $friend->id)
+                                    ->first();
+
         if (!$existingRequest) {
             return response()->json(['error' => 'No tienes una solicitud de amistad pendiente con este usuario.'], 400);
         }
-    
+
         // Eliminar la solicitud de amistad
         $existingRequest->delete();
-    
+
         return response()->json(['success' => true, 'message' => 'Solicitud de amistad cancelada.'], 200);
     }
+
     public function removeFriend(User $friend)
     {
         $friendship = Friendship::where('user_id', auth()->id())
@@ -131,14 +132,22 @@ class FriendshipController extends Controller
         
         return response()->json(['success' => true, 'friendships' => $friendships], 200);
     }
+
     public function getFriends()
     {
         $user = Auth::user();
 
-        $friendships = $user->friends;
+        $friendships = $user->friends->concat($user->friends2);
 
-        
         return response()->json(['success' => true, 'friends' => $friendships], 200);
     }
 
+    public function getPendingRequest()
+    {
+        $user = Auth::user();
+
+        $pendingfriendships = $user->pendingrequests;
+        
+        return response()->json(['success' => true, 'friendships' => $pendingfriendships], 200);
+    }
 }

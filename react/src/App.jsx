@@ -12,6 +12,8 @@ import NotFound from './components/NotFound';
 import ProfileCheck from './pages/profile/ProfileCheck';
 import FriendSearcher from './pages/contacts/FriendSearcher';
 import FriendRequest from './pages/contacts/FriendRequest';
+import PendingRequest from './pages/contacts/PendingRequest';
+import Friends from './pages/contacts/Friends';
 
 function App() {
 
@@ -34,6 +36,8 @@ function App() {
           <Route path="/profile" element={<ProfileCheck />} />
           <Route path="/friend-search" element={<FriendSearcher />} />
           <Route path="/friend-request" element={<FriendRequest />} />
+          <Route path="/pending-request" element={<PendingRequest />} />
+          <Route path="/contacts" element={<Friends />} />
         </Routes>
       ) : (
         <Routes>

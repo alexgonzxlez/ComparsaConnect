@@ -50,6 +50,7 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class);
     }
+
     public function friendships()
     {
         return $this->hasMany(Friendship::class);
@@ -58,12 +59,25 @@ class User extends Authenticatable
     public function friends()
     {
         return $this->belongsToMany(User::class, 'friendships', 'user_id', 'friend_id')
-                    ->wherePivot('status', 'accepted');
+            ->wherePivot('user_id', auth()->id());
     }
+
+    public function friends2()
+    {
+        return $this->belongsToMany(User::class, 'friendships', 'friend_id', 'user_id')
+            ->wherePivot('friend_id', auth()->id());
+    }
+
     public function pendingfriends()
     {
         return $this->belongsToMany(User::class, 'friendships', 'friend_id')
                     ->withPivot('status')
+                    ->wherePivot('status', 'pending');
+    }
+
+    public function pendingrequests()
+    {
+        return $this->belongsToMany(User::class, 'friendships', 'user_id', 'friend_id')
                     ->wherePivot('status', 'pending');
     }
 

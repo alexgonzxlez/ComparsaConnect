@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from 'react-bootstrap';
 import { Search } from 'react-bootstrap-icons';
@@ -13,19 +13,10 @@ const FriendSearcher = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { searchdata } = useSelector(state => state.friendship);
-    const [searchTerm, setSearchTerm] = useState('');
 
     const onSubmit = (data) => {
         dispatch(searchUsers(data.filter))
         reset()
-    };
-
-    const handleChange = (e) => {
-        const value = e.target.value;
-        setSearchTerm(value);
-        // if (value.length >= 3) {
-        //     dispatch(searchUsers(value));
-        // }
     };
 
     const handleSendFriendRequest = (id) => {
@@ -41,8 +32,6 @@ const FriendSearcher = () => {
                         type="text"
                         placeholder="Buscar usuarios..."
                         {...register('filter', { required: true })}
-                        value={searchTerm}
-                        onChange={handleChange}
                     />
                     <Button variant="primary" type="submit">
                         <Search size={21} />
@@ -50,7 +39,7 @@ const FriendSearcher = () => {
                 </div>
             </form>
 
-            {searchTerm && searchdata ? (
+            {searchdata ? (
                 searchdata.length > 0 ? (
                     <div className="search-results">
                         <table className="table">

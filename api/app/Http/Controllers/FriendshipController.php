@@ -31,12 +31,14 @@ class FriendshipController extends Controller
                 $query->where('user_id', $user->id)
                       ->where('friend_id', $userId);
             })->first();
-    
+            
             if ($friendship) {
-                $friendStatus = $friendship->status;
-                if ($friendship->user_id === $userId) {
-                    $friendStatus = 'sended';
-                }        
+                if ($friendship->status === 'accepted') {
+                    $friendStatus = 'accepted';
+                } else {
+                    // Verificar si el usuario actual envió la solicitud
+                    $friendStatus = ($friendship->user_id === $userId) ? 'sended' : 'received';
+                }
             } else {
                 $friendStatus = 'none';
             }

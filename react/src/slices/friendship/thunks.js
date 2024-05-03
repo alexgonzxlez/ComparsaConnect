@@ -42,14 +42,14 @@ export const sendFriendRequest = (id) => {
             });
             const resposta = await data.json();
             if (resposta.success) {
-                const searchdata = getState().friendship.searchdata;
-                const updatedSearchData = searchdata.map(user => {
-                    if (user.id === id) {
-                        return { ...user, friend_status: 'sended' };
-                    }
-                    return user;
-                });
-                dispatch(setSearchdata(updatedSearchData));
+                // const searchdata = getState().friendship.searchdata;
+                // const updatedSearchData = searchdata.map(user => {
+                //     if (user.id === id) {
+                //         return { ...user, friend_status: 'sended' };
+                //     }
+                //     return user;
+                // });
+                // dispatch(setSearchdata(updatedSearchData));
             }
         } catch (error) {
             console.error(error);
@@ -100,10 +100,11 @@ export const acceptFriendRequest = (id) => {
                 const searchdata = getState().friendship.searchdata;
                 const updatedSearchData = searchdata.map(user => {
                     if (user.id === id) {
-                        return { ...user, friend_status: 'acepted' };
+                        return { ...user, friend_status: 'accepted' };
                     }
                     return user;
                 });
+                dispatch(setSearchdata(updatedSearchData));
             }
         } catch (error) {
             console.error(error);

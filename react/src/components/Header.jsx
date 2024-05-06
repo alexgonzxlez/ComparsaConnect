@@ -29,8 +29,8 @@ const Header = () => {
                                 </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink className="nav-link" to="/friend-request" >
-                                    Contactos
+                                <NavLink className="nav-link" to="/friends" >
+                                    Amigos
                                 </NavLink>
                             </li>
 

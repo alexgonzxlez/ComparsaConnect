@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Profile;
 use Carbon\Carbon;
+use App\Models\User;
 
 class MatchController extends Controller
 {
@@ -113,5 +114,25 @@ class MatchController extends Controller
             'success' => true,
             'data' => $perfilesConPorcentaje,
         ]);
+    }
+
+    public function like(User $recipient)
+    {
+        if ($recipient->id === auth()->id()) {
+            return response()->json(['error' => 'No puedes hacer match contigo mismo.'], 400);
+        }
+    
+        $existingRequest = $recipient->matches()->where('user2_id', auth()->id())->first();
+        if ($existingRequest) {
+            return response()->json(['error' => 'Ya tienes una solicitud de match pendiente a este usuario.'], 400);
+        }
+    
+        // Crear la solicitud de amistad
+        auth()->user()->matches()->create([
+            'user2_id' => $recipient->id,
+            'status' => 'pending',
+        ]);
+    
+        return response()->json(['success' => true, 'message' => 'Solicitud de match enviada.'], 201);
     }
 }

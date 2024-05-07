@@ -76,7 +76,8 @@ class MatchController extends Controller
             $query->where('bandera', $bandera);
         }
 
-        $otrosPerfiles = $query->get();
+        // $otrosPerfiles = $query->get();
+        $otrosPerfiles = $query->with('gender', 'gender_pref', 'bandera')->get();
 
         $perfilesConPorcentaje = [];
 
@@ -104,14 +105,13 @@ class MatchController extends Controller
 
             $perfilesConPorcentaje[] = [
                 'perfil' => $perfil,
-                'porcentaje' => $coincidencias
+                'porcentaje' => $coincidencias,
             ];
         }
 
         return response()->json([
             'success' => true,
             'data' => $perfilesConPorcentaje,
-            'edad' => $diferenciaEdad
         ]);
     }
 }

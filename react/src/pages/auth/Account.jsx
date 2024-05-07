@@ -1,22 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { updateAccount, user } from '../../slices/auth/thunks';
+import { delUser, updateAccount, user } from '../../slices/auth/thunks';
 import { Link, useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 const Account = () => {
     const { token, userData, isLoading } = useSelector(state => state.auth);
     const { register, handleSubmit, setError, formState: { errors }, setValue } = useForm();
     const dispatch = useDispatch();
     const { errs } = useSelector((state) => state.auth);
+    const [show, setShow] = useState(false);
 
-    
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     useEffect(() => {
         dispatch(user(token))
     }, []);
-    
+
     useEffect(() => {
         if (userData && !isLoading) {
             setValue('name', userData.name);
@@ -24,17 +29,17 @@ const Account = () => {
             setValue('email', userData.email);
         }
     }, [userData, isLoading, setValue]);
-    
+
     useEffect(() => {
         if (errs) {
-          Object.entries(errs).forEach(([key, errArr]) => {
-            errArr.forEach(err => {
-              setError(key, { type: 'custom', message: err })
+            Object.entries(errs).forEach(([key, errArr]) => {
+                errArr.forEach(err => {
+                    setError(key, { type: 'custom', message: err })
+                });
             });
-          });
         }
-      }, [errs]);
-    
+    }, [errs]);
+
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const year = date.getFullYear();
@@ -48,8 +53,12 @@ const Account = () => {
         dispatch(updateAccount({ name: data.name, email: data.email, username: data.username }));
     };
 
+    const handleDelAccount = () => {
+        dispatch(delUser())
+    }
+
     if (isLoading) {
-        return <LoadingSpinner/>
+        return <LoadingSpinner />
     }
 
     return (
@@ -118,13 +127,30 @@ const Account = () => {
                             </div>
                         </div>
                         <div className="mt-3 text-center">
-                            <button type="submit" className="btn btn-primary btn-block">Aplicar cambios</button>
+                            <button type="submit" className="btn btn-primary btn-block me-2">Aplicar cambios</button>
+                            <button type="button" className="btn btn-danger me-2" onClick={handleShow}>Eliminar cuenta</button>
                         </div>
                     </form>
+
                 ) : (
                     <p>No hay datos disponibles</p>
                 )}
             </div>
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirmación</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>¿Estás seguro de que deseas eliminar tu cuenta?</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="light" onClick={handleClose}>
+                        Cancelar
+                    </Button>
+                    <Button variant="danger" onClick={handleDelAccount}>
+                        Eliminar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
         </Layout>
     );
 }

@@ -34,10 +34,11 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/account" element={<Account />} />
           <Route path="/profile" element={<ProfileCheck />} />
-          <Route path="/friend-search" element={<FriendSearcher />} />
-          <Route path="/friend-request" element={<FriendRequest />} />
-          <Route path="/pending-request" element={<PendingRequest />} />
-          <Route path="/contacts" element={<Friends />} />
+          <Route path="/friends" element={<Navigate to="/friends/list" />} />
+          <Route path="/friends/search" element={<FriendSearcher />} />
+          <Route path="/friends/friend-request" element={<FriendRequest />} />
+          <Route path="/friends/pending-request" element={<PendingRequest />} />
+          <Route path="/friends/list" element={<Friends />} />
         </Routes>
       ) : (
         <Routes>

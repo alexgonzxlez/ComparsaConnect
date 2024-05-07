@@ -24,3 +24,4 @@ Route::middleware('auth:sanctum')->delete('/delete-friend/{friend}', [Friendship
 Route::middleware('auth:sanctum')->get('/friend-request', [FriendshipController::class, 'getFriendRequest']);
 Route::middleware('auth:sanctum')->get('/friends', [FriendshipController::class, 'getfriends']);
 Route::middleware('auth:sanctum')->get('/pending-request', [FriendshipController::class, 'getPendingRequest']);
+Route::middleware('auth:sanctum')->delete('/user', [UserController::class, 'destroy']);

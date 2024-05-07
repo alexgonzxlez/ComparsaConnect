@@ -81,7 +81,7 @@ export const user = (token) => {
                 timeout: null,
                 message: "Error de conexión",
                 type: "error"
-            }));        
+            }));
         }
     }
 }
@@ -133,7 +133,7 @@ export const updateAccount = (dades) => {
                 dispatch(NotificationActions.addNotification({
                     message: "Se ha actualizado tu cuenta correctamente",
                     type: "info"
-                }));        
+                }));
                 dispatch(setUserData(resposta.data))
             }
         } catch (error) {
@@ -141,8 +141,40 @@ export const updateAccount = (dades) => {
                 timeout: null,
                 message: "Error de conexión",
                 type: "error"
-            }));        
-    }
+            }));
+        }
     };
 };
+export const delUser = () => {
+    return async (dispatch,getState) => {
+        const { token } = getState().auth;
+        try {
+            const data = await fetch(process.env.API_URL + "user", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                method: "DELETE",
+            });
+            const resposta = await data.json();
+            if (resposta.success) {
+                dispatch(removeAuthToken())
+                destroySession();
+            } else {
+                dispatch(NotificationActions.addNotification({
+                    timeout: null,
+                    message: resposta.message,
+                    type: "error"
+                }));
 
+            }
+        } catch (error) {
+            dispatch(NotificationActions.addNotification({
+                timeout: null,
+                message: "Error de conexión",
+                type: "error"
+            }));
+        }
+    }
+}

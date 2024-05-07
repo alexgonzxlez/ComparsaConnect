@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import Hammer from 'hammerjs'; // Asegúrate de haber instalado esta dependencia
 import './Comparsas.css';
 import 'font-awesome/css/font-awesome.min.css';
-import Layout from '../../components/Layout';
 import Header from '../../components/Header';
 
 const Comparsa = () => {

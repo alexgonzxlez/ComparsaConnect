@@ -68,8 +68,9 @@ class MatchController extends Controller
 
         if ($genderPref != 1) {
             $query->where('gender', $genderPref);
-            $query->where('gender_pref', $profile->gender);
         }
+
+        $query->where('gender_pref', $profile->gender);
 
         if ($bandera != 1) {
             $query->where('bandera', $bandera);
@@ -83,11 +84,11 @@ class MatchController extends Controller
 
         foreach ($otrosPerfiles as $perfil) {
 
-            if ($profile->gender == $perfil->gender) {
+            if ($genderPref == $perfil->gender) {
                 $coincidencias += 33;
             }
 
-            if ($profile->bandera == $perfil->bandera) {
+            if ($bandera == $perfil->bandera) {
                 $coincidencias += 33;
             }
 
@@ -98,6 +99,8 @@ class MatchController extends Controller
             if ($diferenciaEdad <= 5) {
                 $coincidencias += 33;
             }
+
+            $user = $perfil->user;
 
             $perfilesConPorcentaje[] = [
                 'perfil' => $perfil,

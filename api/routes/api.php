@@ -27,3 +27,4 @@ Route::middleware('auth:sanctum')->get('/friends', [FriendshipController::class,
 Route::middleware('auth:sanctum')->get('/pending-request', [FriendshipController::class, 'getPendingRequest']);
 Route::middleware('auth:sanctum')->delete('/user', [UserController::class, 'destroy']);
 Route::middleware('auth:sanctum')->get('/find-match', [MatchController::class, 'matches']);
+Route::middleware('auth:sanctum')->post('/send-like/{recipient}', [MatchController::class, 'like']);

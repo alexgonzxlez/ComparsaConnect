@@ -88,4 +88,8 @@ class User extends Authenticatable
                     ->wherePivot('status', 'pending');
     }
 
+    public function matches()
+    {
+        return $this->hasMany(Matches::class);
+    }
 }

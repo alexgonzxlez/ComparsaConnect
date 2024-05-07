@@ -4,9 +4,10 @@ import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { createProfile } from '../../slices/profile/thunks';
 
-const ProfileForm = ({ form }) => {
+const ProfileForm = () => {
     const { register, handleSubmit, formState: { errors }, watch } = useForm();
     const dispatch = useDispatch();
+    const { form } = useSelector(state => state.profile);
     const [currentImage, setCurrentImage] = useState(null);
     const watchUpload = watch("upload");
 

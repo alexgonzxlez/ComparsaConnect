@@ -17,7 +17,7 @@ const ProfileCheck = () => {
     }
     return (
         <div>
-            {profile && profile ? <Profile profile={profile} form={form} /> : <ProfileForm form={form} />}
+            {profile && profile ? <Profile profile={profile} form={form} /> : <ProfileForm/>}
         </div>
     );
 }

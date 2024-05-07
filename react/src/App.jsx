@@ -14,6 +14,7 @@ import FriendSearcher from './pages/contacts/FriendSearcher';
 import FriendRequest from './pages/contacts/FriendRequest';
 import PendingRequest from './pages/contacts/PendingRequest';
 import Friends from './pages/contacts/Friends';
+import Comparsas from './pages/comparsa/Comparsas';
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
           <Route path="/friends/friend-request" element={<FriendRequest />} />
           <Route path="/friends/pending-request" element={<PendingRequest />} />
           <Route path="/friends/list" element={<Friends />} />
+          <Route path="/comparsas" element={<Comparsas />} />
         </Routes>
       ) : (
         <Routes>

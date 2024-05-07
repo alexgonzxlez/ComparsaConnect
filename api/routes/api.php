@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TokenController;
+use App\Http\Controllers\MatchController;
 use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\ProfileController; 
 use App\Http\Controllers\UserController; 
@@ -25,3 +26,4 @@ Route::middleware('auth:sanctum')->get('/friend-request', [FriendshipController:
 Route::middleware('auth:sanctum')->get('/friends', [FriendshipController::class, 'getfriends']);
 Route::middleware('auth:sanctum')->get('/pending-request', [FriendshipController::class, 'getPendingRequest']);
 Route::middleware('auth:sanctum')->delete('/user', [UserController::class, 'destroy']);
+Route::middleware('auth:sanctum')->get('/find-match', [MatchController::class, 'matches']);

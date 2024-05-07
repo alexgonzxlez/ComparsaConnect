@@ -21,12 +21,30 @@ class Profile extends Model
     
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->select('id', 'name', 'username');
     }
 
     public function file()
     {
         return $this->belongsTo(File::class);
+    }
+
+    public function gender()
+    {
+        // return $this->belongsTo(Gender::class, 'gender');
+        return $this->belongsTo(Gender::class, 'gender')->select('id', 'name');
+    }
+
+    public function gender_pref()
+    {
+        // return $this->belongsTo(Bandera::class, 'bandera');
+        return $this->belongsTo(Gender::class, 'gender_pref')->select('id', 'name');
+    }
+
+    public function bandera()
+    {
+        // return $this->belongsTo(Bandera::class, 'bandera');
+        return $this->belongsTo(Bandera::class, 'bandera')->select('id', 'name');
     }
 
 }

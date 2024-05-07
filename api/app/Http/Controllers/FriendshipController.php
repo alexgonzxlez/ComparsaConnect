@@ -139,7 +139,8 @@ class FriendshipController extends Controller
     {
         $user = Auth::user();
 
-        $friendships = $user->friends->concat($user->friends2);
+        // $friendships = $user->friends->concat($user->friends2);
+        $friendships = $user->friends()->with(['profile.file'])->get()->merge($user->friends2()->with(['profile.file'])->get());
 
         return response()->json(['success' => true, 'friends' => $friendships], 200);
     }

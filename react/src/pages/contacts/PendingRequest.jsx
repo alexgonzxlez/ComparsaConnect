@@ -26,7 +26,6 @@ const PendingRequest = () => {
             dispatch(checkPendingRequest());
         });
     };
-    console.log(pendingList)
 
     return (
         <ContactsLayout>

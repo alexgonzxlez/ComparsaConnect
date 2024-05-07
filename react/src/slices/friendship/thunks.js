@@ -40,6 +40,7 @@ export const sendFriendRequest = (id) => {
                 },
                 method: "POST",
             });
+            console.log(data)
             const resposta = await data.json();
             if (resposta.success) {
                 // const searchdata = getState().friendship.searchdata;

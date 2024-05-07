@@ -1,18 +1,13 @@
-*, *:before, *:after {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
+/* 
 body {
   background: #CCFBFE;
   overflow: hidden;
   font-family: sans-serif;
-}
+} */
 
 .tinder {
   width: 100vw;
-  height: 100vh;
+  height: 90vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -63,6 +58,7 @@ body {
   justify-content: center;
   align-items: flex-end;
   z-index: 1;
+  border: 1px solid black;
 }
 
 .tinder--card {
@@ -80,6 +76,7 @@ body {
   cursor: -webkit-grab;
   cursor: -moz-grab;
   cursor: grab;
+  border: 1px solid black;
 }
 
 .moving.tinder--card {
@@ -112,6 +109,7 @@ body {
   flex: 0 0 100px;
   text-align: center;
   padding-top: 20px;
+  border: 1px solid black;
 }
 
 .tinder--buttons button {
@@ -122,6 +120,7 @@ body {
   background: #FFFFFF;
   display: inline-block;
   margin: 0 8px;
+  border: 1px solid black;
 }
 
 .tinder--buttons button:focus {

@@ -3,6 +3,7 @@ import Hammer from 'hammerjs'; // Asegúrate de haber instalado esta dependencia
 import './Comparsas.css';
 import 'font-awesome/css/font-awesome.min.css';
 import Layout from '../../components/Layout';
+import Header from '../../components/Header';
 
 const Comparsa = () => {
   useEffect(() => {
@@ -35,7 +36,6 @@ const Comparsa = () => {
       hammertime.on('pan', (event) => {
         if (event.deltaX === 0) return;
         if (event.center.x === 0 && event.center.y === 0) return;
-
         tinderContainer.classList.toggle('tinder_love', event.deltaX > 0);
         tinderContainer.classList.toggle('tinder_nope', event.deltaX < 0);
 
@@ -68,6 +68,12 @@ const Comparsa = () => {
           const rotate = xMulti * yMulti;
 
           event.target.style.transform = `translate(${toX}px, ${toY + event.deltaY}px) rotate(${rotate}deg)`;
+          if (event.deltaX > 0) {
+            console.log("LIKE"); // Acción de "like"
+          } else {
+            console.log("DISLIKE"); // Acción de "dislike"
+          }
+      
           initCards();
         }
       });
@@ -86,8 +92,10 @@ const Comparsa = () => {
 
         if (love) {
           card.style.transform = `translate(${moveOutWidth}px, -100px) rotate(-30deg)`;
+          console.log("love")
         } else {
           card.style.transform = `translate(-${moveOutWidth}px, -100px) rotate(30deg)`;
+          console.log("discard")
         }
 
         initCards();
@@ -109,6 +117,8 @@ const Comparsa = () => {
   }, []);
 
   return (
+    <>
+    <Header/>
     <div className="tinder">
       <div className="tinder--status">
         <i className="fa fa-remove"></i>
@@ -117,27 +127,27 @@ const Comparsa = () => {
 
       <div className="tinder--cards">
         <div className="tinder--card">
-          <img src="https://placeimg.com/600/300/people" alt="Demo card 1" />
+          <img src="http://127.0.0.1:8000/storage/uploads/1715099986_03.jpg" alt="Demo card 1" />
           <h3>Demo card 1</h3>
           <p>This is a demo for Tinder like swipe cards</p>
         </div>
         <div className="tinder--card">
-          <img src="https://placeimg.com/600/300/animals" alt="Demo card 2" />
+          <img src="http://127.0.0.1:8000/storage/uploads/1715099986_03.jpg" alt="Demo card 2" />
           <h3>Demo card 2</h3>
           <p>This is a demo for Tinder like swipe cards</p>
         </div>
         <div className="tinder--card">
-          <img src="https://placeimg.com/600/300/nature" alt="Demo card 3" />
+          <img src="http://127.0.0.1:8000/storage/uploads/1715099986_03.jpg" alt="Demo card 3" />
           <h3>Demo card 3</h3>
           <p>This is a demo for Tinder like swipe cards</p>
         </div>
         <div className="tinder--card">
-          <img src="https://placeimg.com/600/300/tech" alt="Demo card 4" />
+          <img src="http://127.0.0.1:8000/storage/uploads/1715099986_03.jpg" alt="Demo card 4" />
           <h3>Demo card 4</h3>
           <p>This is a demo for Tinder like swipe cards</p>
         </div>
         <div className="tinder--card">
-          <img src="https://placeimg.com/600/300/arch" alt="Demo card 5" />
+          <img src="http://127.0.0.1:8000/storage/uploads/1715099986_03.jpg" alt="Demo card 5" />
           <h3>Demo card 5</h3>
           <p>This is a demo for Tinder like swipe cards</p>
         </div>
@@ -148,6 +158,7 @@ const Comparsa = () => {
         <button id="love"><i className="fa fa-heart"></i></button>
       </div>
     </div>
+    </>
   );
 };
 

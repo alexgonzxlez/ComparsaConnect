@@ -67,7 +67,7 @@ const FriendSearcher = () => {
                                                     Solicitud enviada
                                                 </Button>
                                             ) : user.friend_status === 'pending' ? (
-                                                <Button onClick={() => navigate("/friend-request")} variant="success" className="btn">
+                                                <Button onClick={() => navigate("/friends/friend-request")} variant="success" className="btn">
                                                     Aceptar solicitud
                                                 </Button>
                                             ) : (

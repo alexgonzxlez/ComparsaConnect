@@ -37,7 +37,7 @@ class FriendshipController extends Controller
                     $friendStatus = 'accepted';
                 } else {
                     // Verificar si el usuario actual envió la solicitud
-                    $friendStatus = ($friendship->user_id === $userId) ? 'sended' : 'received';
+                    $friendStatus = ($friendship->user_id === $userId) ? 'sended' : 'pending';
                 }
             } else {
                 $friendStatus = 'none';

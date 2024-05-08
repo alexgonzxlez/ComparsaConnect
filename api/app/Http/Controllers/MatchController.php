@@ -87,6 +87,7 @@ class MatchController extends Controller
 
             $existingMatch = Matches::where('user_id', $userId)
                                     ->where('user2_id', $perfil->user_id)
+                                    ->orWhere('status', 'accepted')
                                     ->exists();
     
             if (!$existingMatch) {

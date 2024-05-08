@@ -78,7 +78,7 @@ class MatchController extends Controller
         }
 
         // $otrosPerfiles = $query->get();
-        $otrosPerfiles = $query->with('gender', 'gender_pref', 'bandera')->get();
+        $otrosPerfiles = $query->with('gender', 'gender_pref', 'bandera', 'file')->get();
 
         $perfilesConPorcentaje = [];
 
@@ -104,7 +104,7 @@ class MatchController extends Controller
 
             $user = $perfil->user;
 
-            $perfilesConPorcentaje[] = [
+            $perfilesConPorcentaje = [
                 'perfil' => $perfil,
                 'porcentaje' => $coincidencias,
             ];

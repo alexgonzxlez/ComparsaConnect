@@ -14,7 +14,6 @@ import FriendSearcher from './pages/contacts/FriendSearcher';
 import FriendRequest from './pages/contacts/FriendRequest';
 import PendingRequest from './pages/contacts/PendingRequest';
 import Friends from './pages/contacts/Friends';
-import Comparsas from './pages/comparsa/Comparsas';
 import Comparsa from './pages/comparsa/Comparsa';
 
 function App() {

@@ -1,3 +1,4 @@
+import { NotificationActions } from "../../components/Notifications/notificationSlice";
 import { setSuitors, startLoading, stopLoading } from "./matchSlice";
 
 export const getSuitors = () => {
@@ -26,12 +27,11 @@ export const getSuitors = () => {
     };
 };
 
-export const like = (id) => {
-    return async (getState) => {
+export const match = (id) => {
+    return async (dispatch, getState) => {
         const { token } = getState().auth;
-
         try {
-            const data = await fetch(process.env.API_URL + "send-like" + id, {
+            const data = await fetch(process.env.API_URL + "send-like/" + id, {
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
@@ -40,11 +40,20 @@ export const like = (id) => {
                 method: "POST",
             });
             const resposta = await data.json();
+            console.log(resposta)
             if (resposta.success) {
-                console.log("Like aceptado")
+            } else {
+                dispatch(NotificationActions.addNotification({
+                    message: resposta.message,
+                    type: "error"
+                }));
             }
         } catch (error) {
-            // dispatch(setError(error));
+            dispatch(NotificationActions.addNotification({
+                timeout: null,
+                message: "Error de conexión",
+                type: "error"
+            }));
             console.error(error)
         }
     };

@@ -3,22 +3,19 @@ import Hammer from 'hammerjs'; // Asegúrate de haber instalado esta dependencia
 import './Comparsas.css';
 import 'font-awesome/css/font-awesome.min.css';
 import Header from '../../components/Header';
-import { getSuitors } from '../../slices/match/thunks';
+import { getSuitors, match } from '../../slices/match/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 const Comparsa = () => {
     const { suitors } = useSelector(state => state.match);
     const dispatch = useDispatch();
-    const fakeData = [
-        { id: 7, imageUrl: "http://127.0.0.1:8000/storage/uploads/1715099986_03.jpg", title: "Alex Gonzalez", description: "This is a demo for Tinder like swipe cards" },
-        { id: 2, imageUrl: "http://127.0.0.1:8000/storage/uploads/1715099986_03.jpg", title: "Demo card 2", description: "This is a demo for Tinder like swipe cards" },
-        { id: 3, imageUrl: "http://127.0.0.1:8000/storage/uploads/1715099986_03.jpg", title: "Demo card 3", description: "This is a demo for Tinder like swipe cards" },
-        { id: 4, imageUrl: "http://127.0.0.1:8000/storage/uploads/1715099986_03.jpg", title: "Demo card 4", description: "This is a demo for Tinder like swipe cards" },
-        { id: 5, imageUrl: "http://127.0.0.1:8000/storage/uploads/1715099986_03.jpg", title: "Demo card 5", description: "This is a demo for Tinder like swipe cards" }
-    ];
-
     useEffect(() => {
         dispatch(getSuitors())
     }, []);
+    
+    const handleMatch = (id) => {
+        dispatch(match(id))
+    }
+
     console.log(suitors)
 
     useEffect(() => {
@@ -87,7 +84,7 @@ const Comparsa = () => {
                     if (event.deltaX > 0) {
                         // ACCION DE LIKE EN DESPLAZAMIENTO A LA DERECHA
                         const userId = el.getAttribute('data-user-id');
-                        console.log(userId);
+                        handleMatch(userId)
                     } else {
                         // ACCION DE LIKE EN DESPLAZAMIENTO A LA IZQUIERDA
                         console.log("DISLIKE");
@@ -113,7 +110,7 @@ const Comparsa = () => {
                     // ACCION DE LIKE EN BOTON
                     card.style.transform = `translate(${moveOutWidth}px, -100px) rotate(-30deg)`;
                     const userId = card.getAttribute('data-user-id');
-                    console.log(userId)
+                    handleMatch(userId)
                 } else {
                     // ACCION DE DISLIKE EN BOTON
                     card.style.transform = `translate(-${moveOutWidth}px, -100px) rotate(30deg)`;
@@ -149,7 +146,7 @@ const Comparsa = () => {
 
                 <div className="tinder--cards">
                     {suitors && suitors.map((suitor) => (
-                        <div key={suitor.perfil.id} className="tinder--card" data-user-id={suitor.perfil.id}>
+                        <div key={suitor.perfil.id} className="tinder--card" data-user-id={suitor.perfil.user.id}>
                             <img src={process.env.API_STORAGE + suitor.perfil.file.filepath} alt={suitor.perfil.user.name} />
                             <h3>{suitor.perfil.user.name}</h3>
                             <p>{suitor.perfil.gender.name} - {suitor.perfil.description}</p>

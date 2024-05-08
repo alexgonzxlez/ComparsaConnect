@@ -3,8 +3,11 @@ import Hammer from 'hammerjs'; // Asegúrate de haber instalado esta dependencia
 import './Comparsas.css';
 import 'font-awesome/css/font-awesome.min.css';
 import Header from '../../components/Header';
-
+import { getSuitors } from '../../slices/match/thunks';
+import { useSelector, useDispatch } from 'react-redux';
 const Comparsa = () => {
+    const { suitors } = useSelector(state => state.match);
+    const dispatch = useDispatch();
     const fakeData = [
         { id: 7, imageUrl: "http://127.0.0.1:8000/storage/uploads/1715099986_03.jpg", title: "Alex Gonzalez", description: "This is a demo for Tinder like swipe cards" },
         { id: 2, imageUrl: "http://127.0.0.1:8000/storage/uploads/1715099986_03.jpg", title: "Demo card 2", description: "This is a demo for Tinder like swipe cards" },
@@ -12,6 +15,11 @@ const Comparsa = () => {
         { id: 4, imageUrl: "http://127.0.0.1:8000/storage/uploads/1715099986_03.jpg", title: "Demo card 4", description: "This is a demo for Tinder like swipe cards" },
         { id: 5, imageUrl: "http://127.0.0.1:8000/storage/uploads/1715099986_03.jpg", title: "Demo card 5", description: "This is a demo for Tinder like swipe cards" }
     ];
+
+    useEffect(() => {
+        dispatch(getSuitors())
+    }, []);
+    console.log(suitors)
 
     useEffect(() => {
         const tinderContainer = document.querySelector('.tinder');
@@ -128,7 +136,7 @@ const Comparsa = () => {
             nope.removeEventListener('click', nopeListener);
             love.removeEventListener('click', loveListener);
         };
-    }, []);
+    }, [suitors]);
 
     return (
         <>
@@ -140,11 +148,11 @@ const Comparsa = () => {
                 </div>
 
                 <div className="tinder--cards">
-                    {fakeData.map((card) => (
-                        <div key={card.id} className="tinder--card" data-user-id={card.id}>
-                            <img src={card.imageUrl} alt={card.title} />
-                            <h3>{card.title}</h3>
-                            <p>{card.description}</p>
+                    {suitors && suitors.map((suitor) => (
+                        <div key={suitor.perfil.id} className="tinder--card" data-user-id={suitor.perfil.id}>
+                            <img src={process.env.API_STORAGE + suitor.perfil.file.filepath} alt={suitor.perfil.user.name} />
+                            <h3>{suitor.perfil.user.name}</h3>
+                            <p>{suitor.perfil.gender.name} - {suitor.perfil.description}</p>
                         </div>
                     ))}
                 </div>

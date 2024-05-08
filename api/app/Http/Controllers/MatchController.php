@@ -118,6 +118,13 @@ class MatchController extends Controller
 
     public function like(User $recipient)
     {
+        $userId = Auth::id();
+        $profile = Profile::where("user_id", $userId)->first();
+
+        if (!$profile) {
+            return response()->json(['error' => 'No tienes perfil'], 404);
+        }
+        
         if ($recipient->id === auth()->id()) {
             return response()->json(['error' => 'No puedes hacer match contigo mismo.'], 400);
         }

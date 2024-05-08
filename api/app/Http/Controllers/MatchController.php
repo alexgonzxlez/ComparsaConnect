@@ -121,18 +121,31 @@ class MatchController extends Controller
         if ($recipient->id === auth()->id()) {
             return response()->json(['error' => 'No puedes hacer match contigo mismo.'], 400);
         }
-    
-        $existingRequest = $recipient->matches()->where('user2_id', auth()->id())->first();
+
+        $existingRequest = auth()->user()->matches()->where('user2_id', $recipient->id)->first();
         if ($existingRequest) {
             return response()->json(['error' => 'Ya tienes una solicitud de match pendiente a este usuario.'], 400);
         }
-    
-        // Crear la solicitud de amistad
-        auth()->user()->matches()->create([
+
+        $pendingRequest = $recipient->matches()->where('user2_id', auth()->id())->first();
+        if ($pendingRequest) {
+            if ($pendingRequest->status === 'accepted') {
+                return response()->json(['success' => true, 'message' => 'Ya hay un match aceptado con este usuario.'], 200);
+            }
+            $pendingRequest->update(['status' => 'accepted']);
+            return response()->json(['success' => true, 'message' => 'Match realizado.'], 200);
+        }
+        
+        $match = auth()->user()->matches()->create([
+            'user_id' => auth()->id(),
             'user2_id' => $recipient->id,
             'status' => 'pending',
         ]);
-    
+
+        if (!$match) {
+            return response()->json(['error' => 'No se pudo crear la solicitud de match.'], 500);
+        }
+
         return response()->json(['success' => true, 'message' => 'Solicitud de match enviada.'], 201);
     }
 }

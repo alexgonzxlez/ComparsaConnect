@@ -104,7 +104,7 @@ class MatchController extends Controller
 
             $user = $perfil->user;
 
-            $perfilesConPorcentaje = [
+            $perfilesConPorcentaje[] = [
                 'perfil' => $perfil,
                 'porcentaje' => $coincidencias,
             ];

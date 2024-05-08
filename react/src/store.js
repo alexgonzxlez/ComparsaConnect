@@ -4,6 +4,7 @@ import { comparsaReducer } from './slices/comparsa/comparsaSlice'
 import { profileReducer } from './slices/profile/profileSlice'
 import { friendshipReducer } from './slices/friendship/friendshipSlice'
 import { NotificationReducer } from './components/Notifications/notificationSlice'
+import { matchReducer } from './slices/match/matchSlice'
 
 export const store = configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
         comparsa: comparsaReducer,
         profile: profileReducer,
         friendship: friendshipReducer,
-        notification: NotificationReducer
+        notification: NotificationReducer,
+        match: matchReducer,
     },
 })

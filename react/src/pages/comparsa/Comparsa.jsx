@@ -3,19 +3,19 @@ import Hammer from 'hammerjs'; // Asegúrate de haber instalado esta dependencia
 import './Comparsas.css';
 import 'font-awesome/css/font-awesome.min.css';
 import Header from '../../components/Header';
-import { getSuitors, match } from '../../slices/match/thunks';
+import { getSuitors, match, rejectMatch } from '../../slices/match/thunks';
 import { useSelector, useDispatch } from 'react-redux';
+import { removeSuitor } from '../../slices/match/matchSlice';
 const Comparsa = () => {
-    const { suitors } = useSelector(state => state.match);
+    const { suitors, page } = useSelector(state => state.match);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getSuitors())
-    }, []);
-    
+    }, [page]);
+
     const handleMatch = (id) => {
         dispatch(match(id))
     }
-
     console.log(suitors)
 
     useEffect(() => {
@@ -81,13 +81,14 @@ const Comparsa = () => {
                     const rotate = xMulti * yMulti;
 
                     event.target.style.transform = `translate(${toX}px, ${toY + event.deltaY}px) rotate(${rotate}deg)`;
+                    const userId = el.getAttribute('data-user-id');
                     if (event.deltaX > 0) {
                         // ACCION DE LIKE EN DESPLAZAMIENTO A LA DERECHA
-                        const userId = el.getAttribute('data-user-id');
                         handleMatch(userId)
                     } else {
-                        // ACCION DE LIKE EN DESPLAZAMIENTO A LA IZQUIERDA
-                        console.log("DISLIKE");
+                        // ACCION DE RECHAZAR EN DESPLAZAMIENTO A LA IZQUIERDA
+                        dispatch(rejectMatch(userId))
+                        console.log("RECHAZAR");
                     }
 
                     initCards();
@@ -105,15 +106,16 @@ const Comparsa = () => {
                 const card = cards[0];
 
                 card.classList.add('removed');
+                const userId = card.getAttribute('data-user-id');
 
                 if (love) {
                     // ACCION DE LIKE EN BOTON
                     card.style.transform = `translate(${moveOutWidth}px, -100px) rotate(-30deg)`;
-                    const userId = card.getAttribute('data-user-id');
                     handleMatch(userId)
                 } else {
                     // ACCION DE DISLIKE EN BOTON
                     card.style.transform = `translate(-${moveOutWidth}px, -100px) rotate(30deg)`;
+                    dispatch(rejectMatch(userId))
                     console.log("discard")
                 }
 
@@ -145,13 +147,19 @@ const Comparsa = () => {
                 </div>
 
                 <div className="tinder--cards">
-                    {suitors && suitors.map((suitor) => (
-                        <div key={suitor.perfil.id} className="tinder--card" data-user-id={suitor.perfil.user.id}>
-                            <img src={process.env.API_STORAGE + suitor.perfil.file.filepath} alt={suitor.perfil.user.name} />
-                            <h3>{suitor.perfil.user.name}</h3>
-                            <p>{suitor.perfil.gender.name} - {suitor.perfil.description}</p>
+                    {suitors && suitors.length > 0 ? (
+                        suitors.map((suitor) => (
+                            <div key={suitor.id} className="tinder--card" data-user-id={suitor.user.id}>
+                                <img src={process.env.API_STORAGE + suitor.file.filepath} alt={suitor.user.name} />
+                                <h3>{suitor.user.name}</h3>
+                                <p>{suitor.gender.name} - {suitor.description}</p>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="">
+                            No hay más usuarios disponibles.
                         </div>
-                    ))}
+                    )}
                 </div>
 
                 <div className="tinder--buttons">

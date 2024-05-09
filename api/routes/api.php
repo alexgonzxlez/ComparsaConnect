@@ -7,6 +7,7 @@ use App\Http\Controllers\MatchController;
 use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\ProfileController; 
 use App\Http\Controllers\UserController; 
+use App\Http\Controllers\AdminController; 
 
 Route::middleware('guest')->post('/register', [TokenController::class, 'register']);
 Route::middleware('guest')->post('/login', [TokenController::class, 'login']);
@@ -28,3 +29,7 @@ Route::middleware('auth:sanctum')->get('/pending-request', [FriendshipController
 Route::middleware('auth:sanctum')->delete('/user', [UserController::class, 'destroy']);
 Route::middleware('auth:sanctum')->get('/find-match', [MatchController::class, 'matches']);
 Route::middleware('auth:sanctum')->post('/send-like/{recipient}', [MatchController::class, 'like']);
+Route::middleware('auth:sanctum')->get('/moderate-users', [AdminController::class, 'getUsers']);
+Route::middleware('auth:sanctum')->post('/ban-user/{id}', [AdminController::class, 'banUser']);
+Route::middleware('auth:sanctum')->delete('/unban-user/{id}', [AdminController::class, 'unbanUser']);
+Route::middleware('auth:sanctum')->get('/moderate-banned-users', [AdminController::class, 'getBanedUsers']);

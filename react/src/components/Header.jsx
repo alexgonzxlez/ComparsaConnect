@@ -44,6 +44,9 @@ const Header = () => {
                                     {userData && userData.username}
                                 </Link>
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    {userData && userData.role == 1 && (
+                                        <li><Link className="dropdown-item" to="/moderate-users">Moderar usuarios</Link></li>
+                                    )}
                                     <li><Link className="dropdown-item" to="/profile">Perfil</Link></li>
                                     <li><Link className="dropdown-item" to="/account">Cuenta</Link></li>
                                     <li><hr className="dropdown-divider" /></li>

@@ -28,7 +28,8 @@ Route::middleware('auth:sanctum')->get('/friends', [FriendshipController::class,
 Route::middleware('auth:sanctum')->get('/pending-request', [FriendshipController::class, 'getPendingRequest']);
 Route::middleware('auth:sanctum')->delete('/user', [UserController::class, 'destroy']);
 Route::middleware('auth:sanctum')->get('/find-match', [MatchController::class, 'matches']);
-Route::middleware('auth:sanctum')->post('/send-like/{recipient}', [MatchController::class, 'like']);
+Route::middleware('auth:sanctum')->post('/send-match/{recipient}', [MatchController::class, 'match']);
+Route::middleware('auth:sanctum')->post('/reject-match/{recipient}', [MatchController::class, 'rejectMatch']);
 Route::middleware('auth:sanctum')->get('/moderate-users', [AdminController::class, 'getUsers']);
 Route::middleware('auth:sanctum')->post('/ban-user/{id}', [AdminController::class, 'banUser']);
 Route::middleware('auth:sanctum')->delete('/unban-user/{id}', [AdminController::class, 'unbanUser']);

@@ -5,6 +5,7 @@ import { profileReducer } from './slices/profile/profileSlice'
 import { friendshipReducer } from './slices/friendship/friendshipSlice'
 import { NotificationReducer } from './components/Notifications/notificationSlice'
 import { matchReducer } from './slices/match/matchSlice'
+import { adminReducer } from './slices/admin/adminSlice'
 
 export const store = configureStore({
     reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
         friendship: friendshipReducer,
         notification: NotificationReducer,
         match: matchReducer,
+        admin: adminReducer
     },
 })

@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import Hammer from 'hammerjs'; // Asegúrate de haber instalado esta dependencia
+import Hammer from 'hammerjs';
 import './Comparsas.css';
 import 'font-awesome/css/font-awesome.min.css';
 import Header from '../../components/Header';
 import { getSuitors, match, rejectMatch } from '../../slices/match/thunks';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeSuitor } from '../../slices/match/matchSlice';
+
 const Comparsa = () => {
     const { suitors, page } = useSelector(state => state.match);
     const dispatch = useDispatch();
@@ -137,6 +137,16 @@ const Comparsa = () => {
         };
     }, [suitors]);
 
+    const calculateAge = (birthdate) => {
+        const today = new Date();
+        const birthDate = new Date(birthdate);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const month = today.getMonth() - birthDate.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    }
     return (
         <>
             <Header />
@@ -151,9 +161,11 @@ const Comparsa = () => {
                         suitors.map((suitor) => (
                             <div key={suitor.id} className="tinder--card" data-user-id={suitor.user.id}>
                                 <img src={process.env.API_STORAGE + suitor.file.filepath} alt={suitor.user.name} />
-                                <h3>{suitor.user.name}</h3>
-                                <p>{suitor.gender.name} - {suitor.description}</p>
-                            </div>
+                                    <h3>{suitor.user.name}</h3>
+                                    <p>{suitor.gender.name} - {calculateAge(suitor.birthdate)}</p>
+                                    <p>{suitor.bandera.name}</p>
+                                    <p>{suitor.description}</p>
+                                </div>
                         ))
                     ) : (
                         <div className="">

@@ -13,14 +13,19 @@ const FriendSearcher = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { searchdata } = useSelector(state => state.friendship);
+    const [filter, setFilter] = useState('');
 
     const onSubmit = (data) => {
         dispatch(searchUsers(data.filter))
+        setFilter(data.filter)
         reset()
     };
 
     const handleSendFriendRequest = (id) => {
-        dispatch(sendFriendRequest(id))
+        // dispatch(sendFriendRequest(id))
+        dispatch(sendFriendRequest(id)).then(() => {
+            dispatch(searchUsers(filter));
+        });
     }
 
     return (

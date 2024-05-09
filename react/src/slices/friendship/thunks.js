@@ -1,4 +1,5 @@
 import { setSearchdata, startLoading, updateSearchData, setRequestList, stopLoading, setPendingList, setFriends } from "./friendshipSlice";
+import { NotificationActions } from "../../components/Notifications/notificationSlice";
 
 export const searchUsers = (filter) => {
     return async (dispatch, getState) => {
@@ -43,14 +44,10 @@ export const sendFriendRequest = (id) => {
             console.log(data)
             const resposta = await data.json();
             if (resposta.success) {
-                // const searchdata = getState().friendship.searchdata;
-                // const updatedSearchData = searchdata.map(user => {
-                //     if (user.id === id) {
-                //         return { ...user, friend_status: 'sended' };
-                //     }
-                //     return user;
-                // });
-                // dispatch(setSearchdata(updatedSearchData));
+                dispatch(NotificationActions.addNotification({
+                    message: resposta.message,
+                    type: "success"
+                }));
             }
         } catch (error) {
             console.error(error);

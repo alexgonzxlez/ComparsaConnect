@@ -18,6 +18,7 @@ import Friends from './pages/contacts/Friends';
 import ComparsaCheck from './pages/comparsa/ComparsaCheck';
 import UsersList from './pages/admin/UsersList';
 import UsersBannedList from './pages/admin/UsersBannedList';
+import ChatBox from './pages/chat/ChatBox';
 
 function App() {
 
@@ -46,6 +47,7 @@ function App() {
           <Route path="/comparsas" element={<ComparsaCheck />} />
           <Route path="/moderate-users" element={<UsersList />} />
           <Route path="/moderate-banned-users" element={<UsersBannedList />} />
+          <Route path="/chat" element={<ChatBox/>} />
         </Routes>
       ) : (
         <Routes>

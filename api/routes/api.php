@@ -9,6 +9,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController; 
 use App\Http\Controllers\AdminController; 
 
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\HomeController;
+
 Route::middleware('guest')->post('/register', [TokenController::class, 'register']);
 Route::middleware('guest')->post('/login', [TokenController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [TokenController::class, 'logout']);
@@ -34,3 +37,7 @@ Route::middleware('auth:sanctum')->get('/moderate-users', [AdminController::clas
 Route::middleware('auth:sanctum')->post('/ban-user/{id}', [AdminController::class, 'banUser']);
 Route::middleware('auth:sanctum')->delete('/unban-user/{id}', [AdminController::class, 'unbanUser']);
 Route::middleware('auth:sanctum')->get('/moderate-banned-users', [AdminController::class, 'getBanedUsers']);
+
+Route::middleware('auth:sanctum')->get('/home', [HomeController::class, 'index'])->name('home');
+Route::middleware('auth:sanctum')->get('/messages', [HomeController::class, 'messages'])->name('messages');
+Route::middleware('auth:sanctum')->post('/message', [HomeController::class, 'message'])->name('message');

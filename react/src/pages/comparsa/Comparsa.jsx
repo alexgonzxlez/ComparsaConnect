@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Hammer from 'hammerjs';
 import './Comparsas.css';
 import 'font-awesome/css/font-awesome.min.css';
@@ -8,12 +8,19 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const Comparsa = () => {
     const { suitors, page } = useSelector(state => state.match);
+    const [actionTaken, setActionTaken] = useState(false);
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getSuitors())
     }, [page]);
 
+    useEffect(() => {
+        setActionTaken(false);
+    }, [suitors]);
+
     const handleMatch = (id) => {
+        setActionTaken(true);
         dispatch(match(id))
     }
     console.log(suitors)
@@ -82,16 +89,18 @@ const Comparsa = () => {
 
                     event.target.style.transform = `translate(${toX}px, ${toY + event.deltaY}px) rotate(${rotate}deg)`;
                     const userId = el.getAttribute('data-user-id');
-                    if (event.deltaX > 0) {
-                        // ACCION DE LIKE EN DESPLAZAMIENTO A LA DERECHA
-                        handleMatch(userId)
-                    } else {
-                        // ACCION DE RECHAZAR EN DESPLAZAMIENTO A LA IZQUIERDA
-                        dispatch(rejectMatch(userId))
-                        console.log("RECHAZAR");
+                    if (!actionTaken) { 
+                        if (event.deltaX > 0) {
+                            // ACCION DE LIKE EN DESPLAZAMIENTO A LA DERECHA
+                            handleMatch(userId);
+                        } else {
+                            // ACCION DE RECHAZAR EN DESPLAZAMIENTO A LA IZQUIERDA
+                            dispatch(rejectMatch(userId));
+                            console.log("RECHAZAR " + userId);
+                        }
+                        setActionTaken(true);
+                        initCards();
                     }
-
-                    initCards();
                 }
             });
         });
@@ -112,6 +121,7 @@ const Comparsa = () => {
                     // ACCION DE LIKE EN BOTON
                     card.style.transform = `translate(${moveOutWidth}px, -100px) rotate(-30deg)`;
                     handleMatch(userId)
+                    setActionTaken(true);
                 } else {
                     // ACCION DE DISLIKE EN BOTON
                     card.style.transform = `translate(-${moveOutWidth}px, -100px) rotate(30deg)`;
@@ -161,11 +171,11 @@ const Comparsa = () => {
                         suitors.map((suitor) => (
                             <div key={suitor.id} className="tinder--card" data-user-id={suitor.user.id}>
                                 <img src={process.env.API_STORAGE + suitor.file.filepath} alt={suitor.user.name} />
-                                    <h3>{suitor.user.name}</h3>
-                                    <p>{suitor.gender.name} - {calculateAge(suitor.birthdate)}</p>
-                                    <p>{suitor.bandera.name}</p>
-                                    <p>{suitor.description}</p>
-                                </div>
+                                <h3>{suitor.user.name}</h3>
+                                <p>{suitor.gender.name} - {calculateAge(suitor.birthdate)}</p>
+                                <p>{suitor.bandera.name}</p>
+                                <p>{suitor.description}</p>
+                            </div>
                         ))
                     ) : (
                         <div className="">

@@ -14,7 +14,8 @@ import FriendSearcher from './pages/contacts/FriendSearcher';
 import FriendRequest from './pages/contacts/FriendRequest';
 import PendingRequest from './pages/contacts/PendingRequest';
 import Friends from './pages/contacts/Friends';
-import Comparsa from './pages/comparsa/Comparsa';
+// import Comparsa from './pages/comparsa/Comparsa';
+import ComparsaCheck from './pages/comparsa/ComparsaCheck';
 import UsersList from './pages/admin/UsersList';
 import UsersBannedList from './pages/admin/UsersBannedList';
 
@@ -42,7 +43,7 @@ function App() {
           <Route path="/friends/friend-request" element={<FriendRequest />} />
           <Route path="/friends/pending-request" element={<PendingRequest />} />
           <Route path="/friends/list" element={<Friends />} />
-          <Route path="/comparsas" element={<Comparsa />} />
+          <Route path="/comparsas" element={<ComparsaCheck />} />
           <Route path="/moderate-users" element={<UsersList />} />
           <Route path="/moderate-banned-users" element={<UsersBannedList />} />
         </Routes>

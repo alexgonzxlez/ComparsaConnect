@@ -1,0 +1,29 @@
+.heart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Evita que los corazones afecten a los eventos del mouse */
+    z-index: 9999; /* Asegura que esté por encima de otros elementos */
+  }
+  
+  .heart-container {
+    position: absolute;
+  }
+  
+  .heart-icon {
+    font-size: 5rem; /* Tamaño del corazón */
+    color: #f385ce;
+    animation: float 3s linear; /* Animación de subida */
+  }
+  
+  @keyframes float {
+    from {
+      transform: translateY(100vh); /* Comienza desde la parte inferior de la pantalla */
+    }
+    to {
+      transform: translateY(-100px); /* Sube 100px */
+    }
+  }
+  

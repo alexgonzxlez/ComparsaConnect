@@ -5,6 +5,7 @@ const initialState = {
     isLoading: false,
     page: 1,
     meta: null,
+    heart: false,
 };
 
 export const matchSlice = createSlice({
@@ -35,11 +36,14 @@ export const matchSlice = createSlice({
             }
     
         },
+        setHeart: (state,action) => {
+            state.heart = action.payload
+        }
 
     }
 });
 
 // Action creators are generated for each case reducer function
-export const { setSuitors, startLoading, stopLoading, setPage, setMeta, removeSuitor } = matchSlice.actions
+export const { setSuitors, startLoading, stopLoading, setPage, setMeta, removeSuitor, setHeart } = matchSlice.actions
 
 export const matchReducer = matchSlice.reducer

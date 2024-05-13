@@ -1,5 +1,5 @@
 import { NotificationActions } from "../../components/Notifications/notificationSlice";
-import { removeSuitor, setMeta, setSuitors, startLoading, stopLoading } from "./matchSlice";
+import { removeSuitor, setHeart, setMeta, setSuitors, startLoading, stopLoading } from "./matchSlice";
 
 export const getSuitors = (page = 0) => {
     return async (dispatch, getState) => {
@@ -58,11 +58,11 @@ export const match = (id) => {
                 }));
             }
             if (resposta.match) {
-                dispatch(NotificationActions.addNotification({
-                    message: "Tu y el otro usuario habeis hecho match",
-                    type: "success"
-                }));
-
+                // dispatch(NotificationActions.addNotification({
+                //     message: "Tu y el otro usuario habeis hecho match",
+                //     type: "success"
+                // }));
+                dispatch(setHeart(true))
             }
         } catch (error) {
             dispatch(NotificationActions.addNotification({

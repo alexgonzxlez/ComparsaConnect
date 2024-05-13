@@ -5,9 +5,10 @@ import 'font-awesome/css/font-awesome.min.css';
 import Header from '../../components/Header';
 import { getSuitors, match, rejectMatch } from '../../slices/match/thunks';
 import { useSelector, useDispatch } from 'react-redux';
+import Heart from './Heart';
 
 const Comparsa = () => {
-    const { suitors, page } = useSelector(state => state.match);
+    const { suitors, page, heart } = useSelector(state => state.match);
     const [actionTaken, setActionTaken] = useState(false);
 
     const dispatch = useDispatch();
@@ -160,6 +161,7 @@ const Comparsa = () => {
     return (
         <>
             <Header />
+            {heart && <Heart />}
             <div className="tinder">
                 <div className="tinder--status">
                     <i className="fa fa-remove"></i>

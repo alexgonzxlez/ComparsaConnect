@@ -5,10 +5,15 @@ import 'font-awesome/css/font-awesome.min.css';
 import Header from '../../components/Header';
 import { getSuitors, match, rejectMatch } from '../../slices/match/thunks';
 import { useSelector, useDispatch } from 'react-redux';
+import Button from 'react-bootstrap/Button';
+import { Plus, Dash } from 'react-bootstrap-icons';
+import Modal from 'react-bootstrap/Modal';
 
 const Comparsa = () => {
     const { suitors, page } = useSelector(state => state.match);
     const [actionTaken, setActionTaken] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedSuitor, setSelectedSuitor] = useState(null);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -23,7 +28,16 @@ const Comparsa = () => {
         setActionTaken(true);
         dispatch(match(id))
     }
-    console.log(suitors)
+
+    const handleToggleDescription = (suitorId) => {
+        setSelectedSuitor(suitorId);
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+        setSelectedSuitor(null);
+    };
 
     useEffect(() => {
         const tinderContainer = document.querySelector('.tinder');
@@ -89,7 +103,7 @@ const Comparsa = () => {
 
                     event.target.style.transform = `translate(${toX}px, ${toY + event.deltaY}px) rotate(${rotate}deg)`;
                     const userId = el.getAttribute('data-user-id');
-                    if (!actionTaken) { 
+                    if (!actionTaken) {
                         if (event.deltaX > 0) {
                             // ACCION DE LIKE EN DESPLAZAMIENTO A LA DERECHA
                             handleMatch(userId);
@@ -168,22 +182,49 @@ const Comparsa = () => {
 
                 <div className="tinder--cards">
                     {suitors && suitors.length > 0 ? (
-                        suitors.map((suitor) => (
-                            <div key={suitor.id} className="tinder--card" data-user-id={suitor.user.id}>
-                                <img src={process.env.API_STORAGE + suitor.file.filepath} alt={suitor.user.name} />
-                                <h3>{suitor.user.name}</h3>
-                                <p>{suitor.gender.name} - {calculateAge(suitor.birthdate)}</p>
-                                <p>{suitor.bandera.name}</p>
-                                <p>{suitor.description}</p>
-                            </div>
-                        ))
+                        <>
+                            {suitors.map((suitor) => (
+                                <div key={suitor.id} className="tinder--card" data-user-id={suitor.user.id}>
+                                    <img src={process.env.API_STORAGE + suitor.file.filepath} alt={suitor.user.name} />
+                                    <h3>{suitor.user.name}</h3>
+                                    <p>{suitor.gender.name} - {calculateAge(suitor.birthdate)}</p>
+                                    <p>{suitor.bandera.name}</p>
+                                    <p>{suitor.description.length > 100 ? `${suitor.description.substring(0, 97)}...` : suitor.description}</p>
+                                    <Button variant='secondary' onClick={() => handleToggleDescription(suitor.id)}>
+                                        <Plus />
+                                    </Button>
+                                </div>
+                            ))}
+                            <Modal show={showModal} onHide={handleCloseModal}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Información del usuario</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    {selectedSuitor && suitors.map((suitor) => (
+                                        suitor.id === selectedSuitor && (
+                                            <div key={suitor.id}>
+                                                <p>Nombre: {suitor.user.name}</p>
+                                                <p>Género: {suitor.gender.name}</p>
+                                                <p>Edad: {calculateAge(suitor.birthdate)}</p>
+                                                <p>Bandera: {suitor.bandera.name}</p>
+                                                <p>Descripción: {suitor.description}</p>
+                                            </div>
+                                        )
+                                    ))}
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Button variant="secondary" onClick={handleCloseModal}>
+                                        Cerrar
+                                    </Button>
+                                </Modal.Footer>
+                            </Modal>
+                        </>
                     ) : (
                         <div className="">
                             No hay más usuarios disponibles.
                         </div>
                     )}
                 </div>
-
                 <div className="tinder--buttons">
                     <button id="nope"><i className="fa fa-remove"></i></button>
                     <button id="love"><i className="fa fa-heart"></i></button>

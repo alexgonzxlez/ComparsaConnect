@@ -34,3 +34,4 @@ Route::middleware('auth:sanctum')->get('/moderate-users', [AdminController::clas
 Route::middleware('auth:sanctum')->post('/ban-user/{id}', [AdminController::class, 'banUser']);
 Route::middleware('auth:sanctum')->delete('/unban-user/{id}', [AdminController::class, 'unbanUser']);
 Route::middleware('auth:sanctum')->get('/moderate-banned-users', [AdminController::class, 'getBanedUsers']);
+Route::middleware('auth:sanctum')->get('/contact-info', [FriendshipController::class, 'getTotalCounts']);

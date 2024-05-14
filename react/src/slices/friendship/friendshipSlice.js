@@ -6,7 +6,8 @@ const initialState = {
     isLoading: false,
     requestsList: null,
     pendingList: null,
-    friends: null
+    friends: null,
+    totalCount: null
 };
 
 export const friendshipSlice = createSlice({
@@ -44,6 +45,10 @@ export const friendshipSlice = createSlice({
             state.friends = action.payload;
             state.isLoading = false
         },
+        setTotalCount: (state, action) => {
+            state.totalCount = action.payload;
+            state.isLoading = false
+        },
         stopLoading: (state) => {
             state.isLoading = false
         },
@@ -51,6 +56,6 @@ export const friendshipSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { startLoading, setSearchdata, updateSearchData, setRequestList, stopLoading, setPendingList, setFriends } = friendshipSlice.actions
+export const { startLoading, setSearchdata, updateSearchData, setRequestList, stopLoading, setPendingList, setFriends, setTotalCount } = friendshipSlice.actions
 
 export const friendshipReducer = friendshipSlice.reducer

@@ -43,6 +43,12 @@ class TokenController extends Controller
                 ], 401);
             }
         }
+        if ($user->isBanned) {
+            return response()->json([
+                "success" => false,
+                "message" => "El usuario esta bloqueado y no puede iniciar"
+            ], 401);
+        }
     
         $user->tokens()->delete();
         $token = $user->createToken("token")->plainTextToken;

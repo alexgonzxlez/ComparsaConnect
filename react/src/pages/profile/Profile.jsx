@@ -14,6 +14,8 @@ const Profile = () => {
     const watchUpload = watch("upload");
     const { userData } = useSelector(state => state.auth);
     const { profile, form } = useSelector(state => state.profile);
+    const [selectedGenderName, setSelectedGenderName] = useState('');
+    const [selectedBanderaName, setSelectedBanderaName] = useState('');
 
 
     useEffect(() => {
@@ -61,8 +63,26 @@ const Profile = () => {
         return age;
     }
 
+    const watchGender = watch('gender');
+    const watchBandera = watch('bandera');
 
-    console.log(profile)
+    useEffect(() => {
+        let number = parseInt(watch('gender'));
+        if (number) {
+            const selected = form.genders.find(gender => gender.id === number);
+            setSelectedGenderName(selected)
+        }
+    }, [watchGender]);
+
+    useEffect(() => {
+        let number = parseInt(watch('bandera'));
+        if (number) {
+            const selected = form.banderas.find(bandera => bandera.id === number);
+            setSelectedBanderaName(selected)
+        }
+    }, [watchBandera]);
+
+
     return (
         <Layout>
             <div className='row'>
@@ -163,12 +183,9 @@ const Profile = () => {
                                 <img src={profile.file ? `${process.env.API_STORAGE}${profile.file.filepath}` : ''} alt={profile.name} />
                             )}
                             <h3>{userData && userData.name}</h3>
-                            <p>
-                                {profile.gender.name}  -{' '}
-                                {calculateAge(profile.birthdate)}
-                            </p>
-                            <p>{profile.bandera.name}</p>
-                            <p>{profile.description}</p>
+                            <p>{selectedGenderName && selectedGenderName.name} {' - '} {calculateAge(watch('birthdate'))}</p>
+                            <p>{selectedBanderaName && selectedBanderaName.name}</p>
+                            <p>{watch('description')}</p>
                         </div>
                     </div>
                 </div>

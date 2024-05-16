@@ -181,4 +181,30 @@ class MatchController extends Controller
         return response()->json(['success' => true, 'message' => 'Solicitud de match rechazada.'], 200);
     }
 
+    public function getAcceptedMatces()
+    {
+        $userId = Auth::id();
+        $profile = Profile::where("user_id", $userId)->first();
+    
+        if (!$profile) {
+            return response()->json(['error' => 'No tienes perfil'], 404);
+        }
+
+        $matchesUser1 = Matches::where('user_id', $userId)
+            ->where('status', 'accepted')
+            ->with('user2.profile.file')
+            ->get();
+
+        $matchesUser2 = Matches::where('user2_id', $userId)
+            ->where('status', 'accepted')
+            ->with('user.profile.file')
+            ->get();
+
+        $acceptedMatches = $matchesUser1->merge($matchesUser2);
+
+        return response()->json([
+            'success' => true,
+            'matches' => $acceptedMatches,
+        ], 200);
+    }
 }

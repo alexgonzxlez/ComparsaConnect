@@ -1,5 +1,5 @@
 import { NotificationActions } from "../../components/Notifications/notificationSlice";
-import { removeSuitor, setHeart, setMeta, setSuitors, startLoading, stopLoading } from "./matchSlice";
+import { removeSuitor, setHeart, setMeta, setSuitors, startLoading, stopLoading, setAccepted } from "./matchSlice";
 
 export const getSuitors = (page = 0) => {
     return async (dispatch, getState) => {
@@ -104,6 +104,32 @@ export const rejectMatch = (id) => {
                 type: "error"
             }));
             console.error(error)
+        }
+    };
+};
+
+export const getAcceptedMatch = () => {
+    return async (dispatch, getState) => {
+        dispatch(startLoading())
+        const { token } = getState().auth;
+
+        try {
+            const data = await fetch(process.env.API_URL + "accepted-match", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                method: "GET",
+            });
+            const resposta = await data.json();
+            if (resposta.success) {
+                dispatch(setAccepted(resposta.matches))
+            }
+        } catch (error) {
+            // dispatch(setError(error));
+            console.error(error)
+            dispatch(stopLoading())
         }
     };
 };

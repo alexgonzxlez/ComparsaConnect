@@ -35,3 +35,4 @@ Route::middleware('auth:sanctum')->post('/ban-user/{id}', [AdminController::clas
 Route::middleware('auth:sanctum')->delete('/unban-user/{id}', [AdminController::class, 'unbanUser']);
 Route::middleware('auth:sanctum')->get('/moderate-banned-users', [AdminController::class, 'getBanedUsers']);
 Route::middleware('auth:sanctum')->get('/contact-info', [FriendshipController::class, 'getTotalCounts']);
+Route::middleware('auth:sanctum')->get('/accepted-match', [MatchController::class, 'getAcceptedMatces']);

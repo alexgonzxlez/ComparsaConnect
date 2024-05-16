@@ -176,13 +176,13 @@ const Comparsa = () => {
         <>
             <Header />
             {heart && <Heart />}
-            <div className="tinder">
+            <div className="tinder vh-100">
                 <div className="tinder--status">
                     <i className="fa fa-remove"></i>
                     <i className="fa fa-heart"></i>
                 </div>
 
-                <div className="tinder--cards">
+                <div className="tinder--cards align-items-center">
                     {suitors && suitors.length > 0 ? (
                         <>
                             {suitors.map((suitor) => (

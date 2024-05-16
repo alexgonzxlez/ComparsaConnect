@@ -124,11 +124,17 @@ export const getAcceptedMatch = () => {
             });
             const resposta = await data.json();
             if (resposta.success) {
-                dispatch(setAccepted(resposta.matches))
+                dispatch(setAccepted(resposta.matches));
+                if (resposta.matches.length === 0) {
+                    dispatch(NotificationActions.addNotification({
+                        message: "No hay ningún match aceptado",
+                        type: "info"
+                    }));
+                }
             }
         } catch (error) {
             // dispatch(setError(error));
-            console.error(error)
+            console.log("vacio")
             dispatch(stopLoading())
         }
     };

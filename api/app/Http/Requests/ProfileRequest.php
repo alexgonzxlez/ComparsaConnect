@@ -30,4 +30,13 @@ class ProfileRequest extends FormRequest
             'upload' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($this->input('gender') == 1 && $this->input('gender_pref') != 1) {
+                $validator->errors()->add('gender_pref', 'No puedes seleccionar una preferencia de género si prefieres no decir tu género.');
+            }
+        });
+    }
+
 }

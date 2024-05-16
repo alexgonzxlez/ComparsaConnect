@@ -10,6 +10,7 @@ const ProfileCheck = () => {
 
     useEffect(() => {
         dispatch(getProfile())
+        document.title = 'ComparsaConnect - Perfil';
     }, [refresh]);
 
     if (isLoading) {

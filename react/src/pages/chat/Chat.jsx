@@ -25,6 +25,7 @@ const Chat = () => {
 
     useEffect(() => {
         dispatch(getAcceptedMatch())
+        document.title = 'ComparsaConnect - Chats';
     }, []);
 
     const [selectedUser, setSelectedUser] = useState(null);
@@ -32,8 +33,6 @@ const Chat = () => {
     const handleUserClick = (user) => {
         setSelectedUser(user);
     }
-
-    console.log(accepted)
 
     return (
         <Layout>

@@ -20,6 +20,7 @@ const Account = () => {
 
     useEffect(() => {
         dispatch(user(token))
+        document.title = 'ComparsaConnect - Cuenta';
     }, []);
 
     useEffect(() => {

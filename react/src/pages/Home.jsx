@@ -4,6 +4,8 @@ import image1 from '../assets/img/01.png';
 import image2 from '../assets/img/02.jpg'; 
 import image3 from '../assets/img/03.jpg'; 
 const Home = () => {
+    document.title = 'ComparsaConnect';
+
   return (
     <>
       <Header/>

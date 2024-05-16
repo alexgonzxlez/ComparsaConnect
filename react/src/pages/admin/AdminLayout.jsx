@@ -5,6 +5,7 @@ import Layout from '../../components/Layout';
 
 const AdminLayout = ({ children }) => {
     const { userData } = useSelector(state => state.auth);
+    document.title = 'ComparsaConnect - Administrador';
 
     return (
         <Layout>

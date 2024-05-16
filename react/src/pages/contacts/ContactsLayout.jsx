@@ -3,6 +3,8 @@ import Layout from '../../components/Layout'
 import { NavLink } from 'react-router-dom'
 
 const ContactsLayout = ({ children }) => {
+    document.title = 'ComparsaConnect - Contactos';
+
     return (
         <Layout>
             <div className='navbar navbar-expand-lg navbar-light d-flex justify-content-center'>

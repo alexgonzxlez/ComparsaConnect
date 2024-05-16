@@ -19,6 +19,7 @@ const Comparsa = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getSuitors())
+        document.title = 'ComparsaConnect - Comparsa';
     }, [page]);
 
     useEffect(() => {

@@ -1,4 +1,4 @@
-import { setSearchdata, startLoading, updateSearchData, setRequestList, stopLoading, setPendingList, setFriends } from "./friendshipSlice";
+import { setSearchdata, startLoading, updateSearchData, setRequestList, stopLoading, setPendingList, setFriends, setTotalCount } from "./friendshipSlice";
 import { NotificationActions } from "../../components/Notifications/notificationSlice";
 
 export const searchUsers = (filter) => {
@@ -177,6 +177,31 @@ export const listFriends = () => {
             const resposta = await data.json();
             if (resposta.success) {
                 dispatch(setFriends(resposta.friends));
+            }
+            dispatch(stopLoading())
+        } catch (error) {
+            console.error(error);
+            // Maneja el error aquí
+        }
+    };
+}
+
+export const getTotalCount = () => {
+    return async (dispatch, getState) => {
+        dispatch(startLoading())
+        const { token } = getState().auth;
+        try {
+            const data = await fetch(process.env.API_URL + "contact-info", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                method: "GET",
+            });
+            const resposta = await data.json();
+            if (resposta.success) {
+                dispatch(setTotalCount(resposta));
             }
             dispatch(stopLoading())
         } catch (error) {

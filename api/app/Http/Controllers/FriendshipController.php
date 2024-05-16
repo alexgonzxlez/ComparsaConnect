@@ -153,4 +153,20 @@ class FriendshipController extends Controller
         
         return response()->json(['success' => true, 'friendships' => $pendingfriendships], 200);
     }
+
+    public function getTotalCounts()
+    {
+        $user = Auth::user();
+
+        $friendsCount = $user->friends->count() + $user->friends2->count();
+        $pendingRequestsCount = $user->pendingrequests->count();
+        $sentRequestsCount = $user->pendingfriends->count();
+
+        return response()->json([
+            'success' => true,
+            'total_friends' => $friendsCount,
+            'total_pending_requests' => $pendingRequestsCount,
+            'total_sent_requests' => $sentRequestsCount
+        ], 200);
+    }
 }

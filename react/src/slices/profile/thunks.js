@@ -83,8 +83,15 @@ export const updateProfile = (formData, id) => {
             if (resposta.success) {
                 dispatch(NotificationActions.addNotification({
                     message: "Se ha actualizado el perfil correctamente",
-                    type: "info"
+                    type: "success"
                 }));
+                dispatch(setProfile(resposta.data))
+            } else {
+                dispatch(NotificationActions.addNotification({
+                    message: resposta.message,
+                    type: "error"
+                }));
+
             }
         } catch (error) {
             dispatch(NotificationActions.addNotification({

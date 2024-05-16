@@ -1,0 +1,62 @@
+/* Add a container for the profile and cards */
+.profile-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+/* Define styles for the profile form */
+.profile-form {
+    flex: 1;
+    margin-right: 20px;
+}
+
+/* Define styles for the profile cards */
+.profile--cards-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile--cards {
+    padding-top: 40px;
+    text-align: center;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 1;
+  }
+  
+.profile--card {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    background: white;
+    padding-bottom: 40px;
+    border-radius: 8px;
+    overflow: hidden;
+    will-change: transform;
+    transition: all 0.3s ease-in-out;
+    cursor: grab;
+    border: 1px solid black;
+}
+.moving.profile--card {
+    transition: none;
+    cursor: grabbing;
+}
+
+.profile--card img {
+    max-width: 100%;
+    pointer-events: none;
+}
+
+.profile--card h3 {
+    margin-top: 32px;
+    font-size: 28px;
+    padding: 0 16px;
+    pointer-events: none;
+}
+
+.profile--card p {
+    font-size: 20px;
+    padding: 0 16px;
+    pointer-events: none;
+}

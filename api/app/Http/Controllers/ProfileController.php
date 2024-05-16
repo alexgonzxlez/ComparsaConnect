@@ -26,7 +26,11 @@ class ProfileController extends Controller
             'genders' => $genders,
             'banderas' => $banderas,
         ];
-        $profile = $user->profile()->with('file')->first();
+        $profile = $user->profile()
+        ->with('file')
+        ->with('gender')
+        ->with('bandera')
+        ->first();
 
         return response()->json([
             'success' => true,
@@ -197,10 +201,15 @@ class ProfileController extends Controller
         }  
 
         $profile->save();
+        $updatedprofile = $user->profile()
+        ->with('file')
+        ->with('gender')
+        ->with('bandera')
+        ->first();
 
         return response()->json([
             'success' => true,
-            'data' => $profile,
+            'data' => $updatedprofile,
         ], 200);
     }
 

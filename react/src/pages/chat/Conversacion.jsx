@@ -28,6 +28,7 @@ const Conversacion = ({ selectedUser }) => {
                                 alt="avatar"
                                 className="rounded-circle me-3 shadow-1-strong"
                                 width={60}
+                                height={60}
                             />
                             <p className="fw-bold mb-0 text-white">{selectedUser.name}</p>
                         </div>
@@ -39,6 +40,7 @@ const Conversacion = ({ selectedUser }) => {
                                         alt="avatar"
                                         className="rounded-circle d-flex align-self-start me-3 shadow-1-strong"
                                         width="60"
+                                        height="60"
                                     />
                                     <MDBCard className="mask-custom">
                                         <MDBCardHeader
@@ -87,6 +89,7 @@ const Conversacion = ({ selectedUser }) => {
                                         alt="avatar"
                                         className="rounded-circle d-flex align-self-start ms-3 shadow-1-strong"
                                         width="60"
+                                        height="60"
                                     />
                                 </li>
                                 <li className="d-flex justify-content-between mb-4">
@@ -95,6 +98,7 @@ const Conversacion = ({ selectedUser }) => {
                                         alt="avatar"
                                         className="rounded-circle d-flex align-self-start me-3 shadow-1-strong"
                                         width="60"
+                                        height="60"
                                     />
                                     <MDBCard className="mask-custom">
                                         <MDBCardHeader
@@ -143,6 +147,7 @@ const Conversacion = ({ selectedUser }) => {
                                         alt="avatar"
                                         className="rounded-circle d-flex align-self-start ms-3 shadow-1-strong"
                                         width="60"
+                                        height="60"
                                     />
                                 </li>
                                 <li className="d-flex justify-content-between mb-4">
@@ -151,6 +156,7 @@ const Conversacion = ({ selectedUser }) => {
                                         alt="avatar"
                                         className="rounded-circle d-flex align-self-start me-3 shadow-1-strong"
                                         width="60"
+                                        height="60"
                                     />
                                     <MDBCard className="mask-custom">
                                         <MDBCardHeader
@@ -199,6 +205,7 @@ const Conversacion = ({ selectedUser }) => {
                                         alt="avatar"
                                         className="rounded-circle d-flex align-self-start ms-3 shadow-1-strong"
                                         width="60"
+                                        height="60"
                                     />
                                 </li>
                             </MDBTypography>

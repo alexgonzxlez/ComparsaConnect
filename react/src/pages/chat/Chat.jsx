@@ -33,6 +33,8 @@ const Chat = () => {
         setSelectedUser(user);
     }
 
+    console.log(accepted)
+
     return (
         <Layout>
             <MDBContainer fluid className="py-3 gradient-custom">

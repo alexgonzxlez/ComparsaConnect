@@ -58,7 +58,7 @@ class MatchController extends Controller
         $profile = Profile::where("user_id", $userId)->first();
     
         if (!$profile) {
-            return response()->json(['error' => 'No tienes perfil'], 404);
+            return response()->json(['message' => 'No tienes perfil'], 404);
         }
     
         // $userBirthdate = Carbon::parse($profile->birthdate);
@@ -166,6 +166,14 @@ class MatchController extends Controller
         ->where('user2_id', Auth::id())
         ->first();
 
+        $existingSendRequest = Matches::where('user_id', Auth::id())
+        ->where('user2_id', $recipient->id)
+        ->first();
+
+        if ($existingSendRequest) {
+            return response()->json(['message' => 'No puedes rechazar una solicitud enviada por ti.'], 400);
+        }
+
         if (!$existingRequest) {
             // Si no existe una solicitud de match, crea una nueva y la rechaza
             $existingRequest = auth()->user()->matches()->create([
@@ -174,6 +182,10 @@ class MatchController extends Controller
                 'status' => 'rejected',
             ]);
             return response()->json(['success' => true, 'message' => 'Solicitud de match creada y rechazada.'], 200);
+        }
+
+        if ($existingRequest->status === 'rejected') {
+            return response()->json(['message' => 'La solicitud de match ya estaba rechazada.'], 400);
         }
 
         $existingRequest->update(['status' => 'rejected']);
@@ -187,7 +199,7 @@ class MatchController extends Controller
         $profile = Profile::where("user_id", $userId)->first();
     
         if (!$profile) {
-            return response()->json(['error' => 'No tienes perfil'], 404);
+            return response()->json(['message' => 'No tienes perfil'], 404);
         }
 
         $matchesUser1 = Matches::where('user_id', $userId)

@@ -4,6 +4,7 @@ import { NotificationActions } from "../../components/Notifications/notification
 
 export const doLogin = (dades) => {
     return async (dispatch) => {
+        dispatch(startLoading())
         const { username, password, rememberMe } = dades;
         try {
             const data = await fetch(process.env.API_URL + "login", {
@@ -33,6 +34,7 @@ export const doLogin = (dades) => {
 
 export const doRegister = (dades) => {
     return async (dispatch) => {
+        dispatch(startLoading())
         const { name, email, username, password } = dades;
         try {
             const data = await fetch(process.env.API_URL + "register", {

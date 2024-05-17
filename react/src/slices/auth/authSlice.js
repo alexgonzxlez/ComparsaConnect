@@ -35,9 +35,11 @@ export const authSlice = createSlice({
     },
     setError: (state, action) => {
       state.error = action.payload;
+      state.isLoading = false;
     },
     setErrors: (state, action) => {
       state.errs = action.payload;
+      state.isLoading = false;
     },
     removeAuthToken: (state,action) => {
       state.token = null;
@@ -45,6 +47,7 @@ export const authSlice = createSlice({
     },
     setSuccess: (state) => { 
       state.success = true;
+      state.isLoading = false;
     },
   }
 })

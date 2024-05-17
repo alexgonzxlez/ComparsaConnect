@@ -22,7 +22,7 @@ class ProfileFactory extends Factory
             'birthdate' => $this->faker->date,
             'gender_pref' => $this->faker->randomElement([1, 2, 3]), // Assuming gender preference is an enum
             'file_id' => null, // Assuming the default value for file_id is null
-            'bandera' => $this->faker->randomElement([1, 2, 3]) // Assuming the default value for bandera is null
+            'bandera' => $this->faker->randomElement([1, 2, 3, 4, 5, 6, 7, 8, 9]) // Assuming the default value for bandera is null
         ];
     }
 }

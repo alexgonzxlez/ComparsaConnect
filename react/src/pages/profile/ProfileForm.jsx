@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { createProfile } from '../../slices/profile/thunks';
 
 const ProfileForm = () => {
-    const { register, handleSubmit, getValues, formState: { errors }, watch } = useForm();
+    const { register, handleSubmit, setValue, formState: { errors }, watch } = useForm();
     const dispatch = useDispatch();
     const { userData } = useSelector(state => state.auth);
     const { form } = useSelector(state => state.profile);
@@ -13,6 +13,7 @@ const ProfileForm = () => {
     const watchUpload = watch("upload");
     const [selectedGenderName, setSelectedGenderName] = useState('');
     const [selectedBanderaName, setSelectedBanderaName] = useState('');
+    const [isGenderPrefDisabled, setIsGenderPrefDisabled] = useState(false);
 
     const onSubmit = (data) => {
         const formData = new FormData();
@@ -53,6 +54,13 @@ const ProfileForm = () => {
         if (number) {
             const selected = form.genders.find(gender => gender.id === number);
             setSelectedGenderName(selected)
+        }
+        if (number === 1) {
+            setValue('gender_pref', 1);  
+            setIsGenderPrefDisabled(true);
+        } else {
+            setIsGenderPrefDisabled(false);
+            setValue('gender_pref', null);
         }
     }, [watchGender]);
 
@@ -118,7 +126,7 @@ const ProfileForm = () => {
                         <div className="form-group mb-3">
                             <label htmlFor="gender_pref">¿Tienes alguna preferencia en cuanto a género?</label>
                             <select id="gender_pref" className={`form-control ${errors.birthdate ? "is-invalid" : ""}`}
-                                {...register("gender_pref", { required: true })}>
+                                {...register("gender_pref", { required: true })} disabled={isGenderPrefDisabled}>
                                 <option value="">Selecciona una preferencia de género</option>
                                 {form.genders.map(gender => (
                                     <option key={gender.id} value={gender.id}>{gender.name}</option>

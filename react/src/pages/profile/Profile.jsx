@@ -16,6 +16,7 @@ const Profile = () => {
     const { profile, form } = useSelector(state => state.profile);
     const [selectedGenderName, setSelectedGenderName] = useState('');
     const [selectedBanderaName, setSelectedBanderaName] = useState('');
+    const [isGenderPrefDisabled, setIsGenderPrefDisabled] = useState(false);
 
 
     useEffect(() => {
@@ -36,6 +37,7 @@ const Profile = () => {
         }
     }, [watchUpload]);
 
+    console.log(profile)
     const onSubmit = (data) => {
         const formData = new FormData();
         formData.append('gender', data.gender);
@@ -71,6 +73,13 @@ const Profile = () => {
         if (number) {
             const selected = form.genders.find(gender => gender.id === number);
             setSelectedGenderName(selected)
+        }
+        if (number === 1) {
+            console.log("entra")
+            setValue('gender_pref', 1);  
+            setIsGenderPrefDisabled(true);
+        } else {
+            setIsGenderPrefDisabled(false);
         }
     }, [watchGender]);
 
@@ -136,7 +145,7 @@ const Profile = () => {
                         <div className="form-group mb-3">
                             <label htmlFor="gender_pref">Preferencia en cuanto a género</label>
                             <select id="gender_pref" className={`form-control ${errors.gender_pref ? "is-invalid" : ""}`}
-                                {...register("gender_pref", { required: true })}>
+                                {...register("gender_pref", { required: true })} disabled={isGenderPrefDisabled}>
                                 {form.genders.map(gender => (
                                     <option key={gender.id} value={gender.id}>{gender.name}</option>
                                 ))}

@@ -8,7 +8,7 @@ const Login = ({ setSwap }) => {
   const { register, handleSubmit, setError,setValue, formState: { errors } } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { error } = useSelector((state) => state.auth);
+  const { error,isLoading } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (error) {
@@ -74,7 +74,9 @@ const Login = ({ setSwap }) => {
                 {error && <div className="alert alert-danger">{error}</div>}
 
                 <div className="form-group text-center">
-                  <button type="submit" className="btn btn-primary btn-block">Iniciar sesión</button>
+                <button type="submit" className="btn btn-primary btn-block" disabled={isLoading}>
+                    {isLoading ? "Cargando..." : "Iniciar sesión"}
+                  </button>
                 </div>
               </form>
             </div>

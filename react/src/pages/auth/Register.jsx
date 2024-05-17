@@ -8,7 +8,7 @@ const Register = ({ setSwap }) => {
   const { register, handleSubmit, setError, formState: { errors, isSubmitting }, watch } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { error, errs, success } = useSelector((state) => state.auth);
+  const { error, errs, success, isLoading } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (errs) {
@@ -141,7 +141,9 @@ const Register = ({ setSwap }) => {
                 )}
 
                 <div className="form-group text-center">
-                  <button type="submit" className="btn btn-primary btn-block">Registrarse</button>
+                <button type="submit" className="btn btn-primary btn-block" disabled={isLoading}>
+                    {isLoading ? "Registrando..." : "Registrarse"}
+                  </button>
                 </div>
               </form>
             </div>

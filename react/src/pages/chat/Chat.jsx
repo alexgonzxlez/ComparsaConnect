@@ -54,6 +54,7 @@ const Chat = () => {
                                                         alt="avatar"
                                                         className="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
                                                         width="60"
+                                                        height="60"
                                                     />
                                                     <div className="pt-1">
                                                         <p className="fw-bold mb-0 text-black">

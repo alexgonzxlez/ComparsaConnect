@@ -99,6 +99,8 @@ class FriendshipController extends Controller
     {
         $existingRequest = Friendship::where('user_id', auth()->id())
                                     ->where('friend_id', $friend->id)
+                                    ->orWhere('user_id', $friend->id)
+                                    ->where('friend_id', auth()->id())
                                     ->first();
 
         if (!$existingRequest) {
@@ -115,6 +117,8 @@ class FriendshipController extends Controller
     {
         $friendship = Friendship::where('user_id', auth()->id())
                                 ->where('friend_id', $friend->id)
+                                ->orWhere('user_id', $friend->id)
+                                ->where('friend_id', auth()->id())
                                 ->first();
 
         if (!$friendship) {
